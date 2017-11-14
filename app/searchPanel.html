@@ -61,23 +61,27 @@
     }
 </style>
 <head>
+    <link rel="stylesheet" href="//code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css">
+
+
     <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
     <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
-    <script src="libraries/angular/bootstrap-datetimepicker.js"></script>
+    <script src="libraries/angular/angular.js"></script>
+    <script src="js/ui-bootstrap-tpls-2.5.0.min.js"></script>
 
     <script >
       //  document.getElementById("datetimepicker1").datetimepicker('show');
 
-        $( function() {
-             $( '#glyphicon-calendar' ).datetimepicker({
-                 format: 'yyyy-mm-dd'
-             });
-        } );
+       /* $( function() {
+            $( '#datetimepicker' ).datetimepicker({
+                format: 'yyyy-mm-dd'
+            });
+        } );*/
     </script>
 </head>
 <body>
 
-<div id="mySidenav" class="sidenav">
+<div  id="mySidenav" class="sidenav">
     <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
     <a href="#">Lieu</a>
     <div class="input-group group_query">
@@ -89,8 +93,11 @@
         >
     </div>
 
-    <div class='input-group date' id='datetimepicker'>
-        <input type='text' class="datetimepicker" />
+    <div ng-controller="dateController">
+       <p class="form-group">
+            <label>Result</label>
+            <input type="text" class="form-control" uib-datepicker-popup="{{format}}" ng-model="date" />
+        </p>
     </div>
 
 
