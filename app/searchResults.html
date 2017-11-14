@@ -1,0 +1,13 @@
+<div ng-controller="searchResults">
+    <div class="jumbotron" ng-repeat="house in bddHouses" style="height:250px; padding:10px;">
+                <div class="col-md-3" style="height:100%;">
+                    <img src={{house.photo}} style="height:100%;">
+                </div>
+                <div class="col-md-9 sResultsText" style="height:100%;">
+                    <h3>{{house.name}}</h3>
+                    <p>{{house.place}}</p>
+                    <p>{{house.nbRoom}}</p>
+                    <p>{{house.shortDesc}}</p>
+                </div>
+    </div>
+</div>
