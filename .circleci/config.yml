@@ -22,5 +22,5 @@ jobs:
           name: Deploy website to S3
           command: |
             if [ "${CIRCLE_BRANCH}" == "master" ]; then
-              aws s3 sync /app/ s3://meslocationsvacances.s3-website.eu-west-2.amazonaws.com --delete
+              aws s3 sync /app/ s3://meslocationsvacances --delete
             fi
