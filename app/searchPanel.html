@@ -12,7 +12,7 @@
         left: 0;
         background-color: #111;
         overflow-x: hidden;
-        transition: 0.5s;
+        transition: 2.5s;
         padding-top: 60px;
     }
 
@@ -22,7 +22,7 @@
         font-size: 25px;
         color: #818181;
         display: block;
-        transition: 0.3s;
+        transition: 2.3s;
     }
 
     .sidenav a:hover {
@@ -33,13 +33,26 @@
         position: absolute;
         top: 0;
         right: 25px;
-        font-size: 36px;
-        margin-left: 50px;
     }
-
+    .sidenav {
+        font-size: 36px;
+        margin-left: 0px;
+        height: 100%;
+        width: 250px;
+        position: fixed;
+        z-index: 1;
+        left: 0;
+        background-color: #111;
+        overflow-x: hidden;
+        padding-top: 20px;
+    }
+    .datepicker{
+        background-color: white;!important;
+    }
     #main {
         transition: margin-left .5s;
-        padding: 16px;
+        margin-left: 250px;
+        /*padding: 16px;*/
     }
 
     @media screen and (max-height: 450px) {
@@ -47,6 +60,21 @@
         .sidenav a {font-size: 18px;}
     }
 </style>
+<head>
+    <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+    <script src="libraries/angular/bootstrap-datetimepicker.js"></script>
+
+    <script >
+      //  document.getElementById("datetimepicker1").datetimepicker('show');
+
+        $( function() {
+             $( '#glyphicon-calendar' ).datetimepicker({
+                 format: 'yyyy-mm-dd'
+             });
+        } );
+    </script>
+</head>
 <body>
 
 <div id="mySidenav" class="sidenav">
@@ -60,13 +88,21 @@
                ng-keydown="rechercher($event.keyCode)"
         >
     </div>
+
+    <div class='input-group date' id='datetimepicker'>
+        <input type='text' class="datetimepicker" />
+    </div>
+
+
     <a href="#">Date de debut</a>
+
     <input id="query3"
            type="date"
            class="form-control input-query"
            placeholder="JJ-MM-AAAA"
            ng-keydown="rechercher($event.keyCode)"
     >
+
     <a href="#">Date de fin</a>
     <input id="query2"
            type="date"
