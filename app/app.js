@@ -15,7 +15,7 @@ app.controller('searchResults', function($scope){
 app.controller('dateController', function ($scope, uibDateParser) {
     $scope.format = 'yyyy/MM/dd';
     $scope.date = new Date();
-
+});
 app.config(function($routeProvider) {
     $routeProvider
         .when('/', {
@@ -30,6 +30,5 @@ app.config(function($routeProvider) {
         .otherwise({
             templateUrl : '404.html'
         })
-});
-}
 
+});
