@@ -16,6 +16,8 @@ app.controller('dateController', function ($scope, uibDateParser) {
     $scope.format = 'yyyy/MM/dd';
     $scope.date = new Date();
 });
+
+
 app.config(function($routeProvider) {
     $routeProvider
         .when('/', {

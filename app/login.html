@@ -10,7 +10,7 @@
    <div ng-app="sample">
     <form class="form-horizontal login" name="registerForm">
         <div class="page-header ng-scope">
-            <h1>LOG IN </h1>
+            <h1>S'identifier </h1>
         </div>
         <div class="form-group" ng-class="{'has-error': registerForm.$dirty && registerForm.Email.$invalid, 'has-success': registerForm.Username.$valid}">
             <label class="col-sm-3 control-label" for="Username">Username</label>
@@ -32,10 +32,10 @@
 
         <div class="form-group">
             <div class="col-sm-offset-3 col-sm-9">
-                <input type="submit" class="btn btn-default" value="Sign Up" ng-disabled="registerForm.$invalid" />
+                <input type="submit" class="btn btn-default" value="S'authentifier" ng-disabled="registerForm.$invalid" />
 
                 <label>Vous n'avez pas encore de compte ?</label>
-                <input type="submit" class="btn btn-default" value="Register" ng-disabled="registerForm.$invalid" />
+                <input type="submit" class="btn btn-default" value="S'enregistrer" ng-disabled="registerForm.$invalid" disabled="false" />
             </div>
         </div>
     </form>
