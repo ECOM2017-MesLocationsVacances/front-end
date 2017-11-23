@@ -44,6 +44,16 @@
 
         </div>
 
+        <div class="form-group" ng-class="{'has-error': registerForm.$dirty && registerForm.ConfirmPassword.$invalid, 'has-success': registerForm.ConfirmPassword.$valid}">
+            <label class="col-sm-3 control-label" for="ConfirmPassword">Confirmer Password</label>
+            <div class="col-sm-9">
+                <input id="ConfirmPassword" type="password" class="form-control" required equals-to="registerForm.Password" name="ConfirmPassword" ng-model="ConfirmPassword" />
+            </div> <span class="text-danger col-sm-offset-3" ng-show="!registerForm.ConfirmPassword.$error.required && registerForm.ConfirmPassword.$error.equalsTo">
+                    Passwords are differents
+                </span>
+
+        </div>
+
         <div class="form-group">
             <div class="col-sm-offset-3 col-sm-9">
                 <input type="submit" class="btn btn-default" value="Enregistrer" ng-disabled="registerForm.$invalid" />
