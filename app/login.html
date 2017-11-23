@@ -1,1 +1,43 @@
-<p>coucou c'est le login ici haha</p>
+<style>
+
+    h:after {display:block; content:"\A0";}
+
+</style>
+<html>
+    <head>
+        <link rel="stylesheet" href="css/bootstrap.css">
+    </head>
+   <div ng-app="sample">
+    <form class="form-horizontal login" name="registerForm">
+        <div class="page-header ng-scope">
+            <h1>LOG IN </h1>
+        </div>
+        <div class="form-group" ng-class="{'has-error': registerForm.$dirty && registerForm.Email.$invalid, 'has-success': registerForm.Username.$valid}">
+            <label class="col-sm-3 control-label" for="Username">Username</label>
+            <div class="col-sm-9">
+                <input id="Username" type="username" class="form-control" required name="Username" ng-model="Username" />
+            </div>
+        </div>
+
+        <div class="form-group " ng-class="{'has-error': registerForm.$dirty && registerForm.Password.$invalid, 'has-success': registerForm.Password.$valid}">
+            <label class="col-sm-3 control-label" for="Password">Password</label>
+            <div class="col-sm-9">
+                <input id="Password" type="password" class="form-control" required ng-minlength="6" name="Password" ng-model="Password" />
+            </div>
+            <span class="text-danger col-sm-offset-3" ng-show="registerForm.Password.$error.minlength">
+                    Mot de passe trop court
+            </span>
+
+        </div>
+
+        <div class="form-group">
+            <div class="col-sm-offset-3 col-sm-9">
+                <input type="submit" class="btn btn-default" value="Sign Up" ng-disabled="registerForm.$invalid" />
+
+                <label>Vous n'avez pas encore de compte ?</label>
+                <input type="submit" class="btn btn-default" value="Register" ng-disabled="registerForm.$invalid" />
+            </div>
+        </div>
+    </form>
+    </div>
+</html>
