@@ -1,5 +1,6 @@
 var app = angular.module('myApp', [
-    'ngRoute'
+    'ngRoute',
+    'ui.bootstrap'
 ]);
 app.controller('searchResults', function($scope){
     $scope.bddHouses = [
@@ -11,6 +12,36 @@ app.controller('searchResults', function($scope){
     ]
    });
 
+<<<<<<< HEAD
+app.service('modalService', function($uibModal,$uibModalStack){
+    var modalService = {};
+    modalService.openModal = function(url, controller){
+        $uibModalStack.dismissAll('another modal just opened');
+        modalService.modalInstance = $uibModal.open({
+            ariaLabelledBy: 'modal-title',
+            ariaDescribedBy: 'modal-body',
+            templateUrl: url,
+            controller: controller,
+            controllerAs: '$ctrl'
+        });
+    };
+    return modalService;
+});
+
+app.controller("connexionController",function($scope,$uibModalInstance){
+    $scope.cancelModal = function(){
+        $uibModalInstance.dismiss('close');
+    };
+    $scope.connexion = function(){
+        $uibModalInstance.close('save');
+    };
+});
+
+app.service('serviceExample', function(){
+
+    this.service1 = function(){return 1;};
+
+});
 app.controller('locationPage', function($scope){
     $scope.bddHouses = [
         {photo:'32477145.png',name:'Gite du Brillant',place:'Nice',nbRoom:'5',shortDesc:'LE meilleur gite de la région'},
@@ -87,6 +118,13 @@ app.controller('dateController', function ($scope, uibDateParser) {
     $scope.date = new Date();
 });
 
+app.controller('mainController', ['$scope','modalService',function ($scope,modalService, $uibModal,$uibModalStack) {
+    $scope.open = function(url, controller) {console.log(modalService.openModal);
+        modalService.openModal(url, controller);
+    };
+}]);
+
+
 app.config(function($routeProvider) {
     $routeProvider
         .when('/', {
@@ -94,9 +132,6 @@ app.config(function($routeProvider) {
         })
         .when('/searchResults', {
             templateUrl : 'searchResults.html'
-        })
-        .when('/loginPage', {
-            templateUrl : 'login.html'
         })
         .when('/locationPage', {
             templateUrl : 'locationPage.html'
