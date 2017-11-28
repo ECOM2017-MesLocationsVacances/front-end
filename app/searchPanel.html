@@ -1,3 +1,4 @@
+<!--suppress ALL -->
 <style>
     body {
         font-family: "Lato", sans-serif;
@@ -91,7 +92,7 @@
 <body>
 
 <div  id="mySidenav" class="sidenav">
-    <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
+    <a href="javascript:void(0)" class="closebtn" ng-click="closeNav()">&times;</a>
     <a href="#">Lieu</a>
     <div class="input-group group_query">
         <input id="query"
@@ -132,81 +133,17 @@
            placeholder="JJ-MM-AAAA"
            ng-keydown="rechercher($event.keyCode)"
     > -->
-    <a href="#" onclick="query_search()">Go</a>
+    <a href="#" ng-click="query_search()">Go</a>
 </div>
 
 <div id="main">
     <h2>Sidenav Push Example</h2>
     <p>Click on the element below to open the side navigation menu, and push this content to the right.</p>
-    <span style="font-size:30px;cursor:pointer" onclick="openNav()">&#9776; open</span>
+    <span style="font-size:30px;cursor:pointer" ng-click="openNav()">&#9776; open</span>
 </div>
 
 <script>
-    function openNav() {
-        document.getElementById("mySidenav").style.width = "250px";
-        document.getElementById("main").style.marginLeft = "250px";
-    }
-
-    function closeNav() {
-        document.getElementById("mySidenav").style.width = "0";
-        document.getElementById("main").style.marginLeft= "0";
-    }
 
 
-    api_url="http://35.177.54.53";
-    //    api_url="http://localhost:8080";
-
-    function query_search(){
-
-        var xmlhttp = new XMLHttpRequest();
-        var url = api_url+"/api/search";
-        city=document.getElementById("query");
-        if (city.value!="") {
-            url=url.concat("?city=").concat(city.value);
-        }
-        //console.log(url);
-        xmlhttp.onreadystatechange = function() {
-            if (this.readyState == 4 && this.status == 200) {
-                var myArr = JSON.parse(this.responseText);
-
-                console.log(myArr);
-
-                for (var room of myArr) {
-                    console.log(room.name);
-                    console.log(room.price);
-                    console.log(room.establishment.name);
-                    console.log(room.establishment.place);
-                }
-
-            }
-        };
-
-        xmlhttp.open("GET", url, true);
-        xmlhttp.send();
-
-        //valeur en dur pour testing.
-        //[{"id":11,"version":0,"price":42.00,"establishment":{"id":10,"version":0,"name":"Boulitre","place":"Bassin","manager":null},"name":"ThePlace"}]
-        var test='[{"id":11,"version":0,"price":42.00,"establishment":{"id":10,"version":0,"name":"Boulitre","place":"Bassin","manager":null},"name":"ThePlace"}]';
-
-        var myArr = JSON.parse(test);
-
-        console.log(myArr);
-
-        bddHouses = [];
-
-        for (var room of myArr) {
-          //  {photo:'pictures/32477145.png',name:'Gite du Brillant',place:'Nice',nbRoom:'5',shortDesc:'LE meilleur gite de la région'},
-            if (room.photo == undefined) {
-                room.photo = 'pictures/32477145.png';
-            }
-            house = {photo:room.photo,name:room.establishment.name,place:room.establishment.place,place:room.establishment.place,nbRoom:'1',shortDesc:''};
-
-            console.log(room.name);
-            console.log(room.price);
-            console.log(room.establishment.name);
-            console.log(room.establishment.place);
-        }
-
-    }
 </script>
 </body>
