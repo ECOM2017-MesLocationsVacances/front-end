@@ -11,16 +11,25 @@ app.controller('searchResults', function($scope){
     ]
    });
 
+app.controller('locationPage', function($scope){
+    $scope.bddHouses = [
+        {photo:'32477145.png',name:'Gite du Brillant',place:'Nice',nbRoom:'5',shortDesc:'LE meilleur gite de la région'},
+        ]
+});
+
 app.config(function($routeProvider) {
     $routeProvider
         .when('/', {
             templateUrl : 'home.html'
         })
-        .when('/home', {
-            templateUrl : 'home.html'
+        .when('/searchResults', {
+            templateUrl : 'searchResults.html'
         })
         .when('/loginPage', {
             templateUrl : 'login.html'
+        })
+        .when('/locationPage', {
+            templateUrl : 'locationPage.html'
         })
         .otherwise({
             templateUrl : '404.html'
