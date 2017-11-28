@@ -2978,6 +2978,12 @@ select[multiple].input-lg {
   margin-right: -15px;
   margin-left: -15px;
 }
+
+.login {
+  margin-right: +300px; !important;
+  margin-left: +50px; !important;
+}
+
 @media (min-width: 768px) {
   .form-horizontal .control-label {
     padding-top: 7px;
