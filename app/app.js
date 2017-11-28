@@ -4,14 +4,15 @@ var app = angular.module('myApp', [
 ]);
 app.controller('searchResults', function($scope){
     $scope.bddHouses = [
-        {photo:'32477145.png',name:'Gite du Brillant',place:'Nice',nbRoom:'5',shortDesc:'LE meilleur gite de la région'},
-        {photo:'32477145.png',name:'Gite du Soyeux',place:'Nice',nbRoom:'3',shortDesc:'Le second meilleur gite'},
-        {photo:'32477145.png',name:'Poubelle El divina',place:'Paris',nbRoom:'1',shortDesc:'Un excellent logement dans la ville de l amour'},
-        {photo:'32477145.png',name:'Hotel de Californie',place:'Grenoble',nbRoom:'42',shortDesc:'Le fameux hotel de la chanson'},
-        {photo:'32477145.png',name:'Chez Roger le Tavernier',place:'Meylan',nbRoom:'4',shortDesc:'Bienvenue dans mon humble taverne'}
+        {photo:'pictures/32477145.png',name:'Gite du Brillant',place:'Nice',nbRoom:'5',shortDesc:'LE meilleur gite de la région'},
+        {photo:'pictures/32477145.png',name:'Gite du Soyeux',place:'Nice',nbRoom:'3',shortDesc:'Le second meilleur gite'},
+        {photo:'pictures/32477145.png',name:'Poubelle El divina',place:'Paris',nbRoom:'1',shortDesc:'Un excellent logement dans la ville de l amour'},
+        {photo:'pictures/32477145.png',name:'Hotel de Californie',place:'Grenoble',nbRoom:'42',shortDesc:'Le fameux hotel de la chanson'},
+        {photo:'pictures/32477145.png',name:'Chez Roger le Tavernier',place:'Meylan',nbRoom:'4',shortDesc:'Bienvenue dans mon humble taverne'}
     ]
    });
 
+<<<<<<< HEAD
 app.service('modalService', function($uibModal,$uibModalStack){
     var modalService = {};
     modalService.openModal = function(url, controller){
@@ -41,6 +42,12 @@ app.service('serviceExample', function(){
     this.service1 = function(){return 1;};
 
 });
+app.controller('locationPage', function($scope){
+    $scope.bddHouses = [
+        {photo:'32477145.png',name:'Gite du Brillant',place:'Nice',nbRoom:'5',shortDesc:'LE meilleur gite de la région'},
+        ]
+});
+
 
 app.controller('dateController', function ($scope, uibDateParser) {
     $scope.format = 'yyyy/MM/dd';
@@ -53,17 +60,18 @@ app.controller('mainController', ['$scope','modalService',function ($scope,modal
     };
 }]);
 
+
 app.config(function($routeProvider) {
     $routeProvider
         .when('/', {
             templateUrl : 'home.html'
         })
-        .when('/home', {
-            templateUrl : 'home.html'
+        .when('/searchResults', {
+            templateUrl : 'searchResults.html'
         })
-       /* .when('/loginPage', {
-            templateUrl : 'login.html'
-        })*/
+        .when('/locationPage', {
+            templateUrl : 'locationPage.html'
+        })
         .otherwise({
             templateUrl : '404.html'
         })
