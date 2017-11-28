@@ -31,11 +31,11 @@
     <![endif]-->
 </head>
 
-<body ng-controller="searchPanel">
+<body>
 
 <!-- Fixed navbar -->
 <div ng-include="'banner.html'"></div>
-<div ng-include="'searchPanel.html'"></div>
+<div ng-include="'searchPanel.html'" ng-controller="searchPanel"></div>
 <div class="container theme-showcase" role="main">
     <div ng-view autoscroll></div>
 
