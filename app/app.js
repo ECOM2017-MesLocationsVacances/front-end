@@ -3,11 +3,6 @@ var app = angular.module('myApp', [
     'ui.bootstrap'
 ]);
 
-// app.controller('close',function($scope,$http){
-//     console.log("heyyyy");
-//     $('#close').modal('hide');// this is bootstrap modal close button id that fire click event
-// });
-
 app.controller('searchResults', function($scope){
     $scope.bddHouses = [
         {photo:'pictures/32477145.png',name:'Gite du Brillant',place:'Nice',nbRoom:'5',shortDesc:'LE meilleur gite de la région'},
@@ -159,7 +154,7 @@ app.config(function($routeProvider) {
 
 
 var app = angular.module('sample', [])
-    .directive('equalsTo', [function () {
+      .directive('equalsTo', [function () {
         /*
          * <input type="password" ng-model="Password" />
          * <input type="password" ng-model="ConfirmPassword" equals-to="Password" />
@@ -186,3 +181,4 @@ var app = angular.module('sample', [])
             }
         };
     }]);
+
