@@ -3,6 +3,11 @@ var app = angular.module('myApp', [
     'ui.bootstrap'
 ]);
 
+// app.controller('close',function($scope,$http){
+//     console.log("heyyyy");
+//     $('#close').modal('hide');// this is bootstrap modal close button id that fire click event
+// });
+
 app.controller('searchResults', function($scope){
     $scope.bddHouses = [
         {photo:'pictures/32477145.png',name:'Gite du Brillant',place:'Nice',nbRoom:'5',shortDesc:'LE meilleur gite de la région'},
@@ -124,7 +129,7 @@ app.controller('dateController', function ($scope, uibDateParser) {
     $scope.date = new Date();
 });
 
-app.controller('mainController', ['$scope','modalService','closeService',function ($scope,modalService, $uibModal,$uibModalStack) {
+app.controller('mainController', ['$scope','modalService',function ($scope,modalService, $uibModal,$uibModalStack) {
     $scope.open = function(url, controller) {console.log(modalService.openModal);
         modalService.openModal(url, controller);
     };
@@ -153,8 +158,8 @@ app.config(function($routeProvider) {
 // to close thepopups
 
 
-var app = angular.module('sample', [])
-      .directive('equalsTo', [function () {
+var app2 = angular.module('sample', [])
+    .directive('equalsTo', [function () {
         /*
          * <input type="password" ng-model="Password" />
          * <input type="password" ng-model="ConfirmPassword" equals-to="Password" />
@@ -181,4 +186,3 @@ var app = angular.module('sample', [])
             }
         };
     }]);
-
