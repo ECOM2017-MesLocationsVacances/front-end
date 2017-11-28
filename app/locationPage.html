@@ -1,13 +1,28 @@
 <div ng-controller="locationPage">
-    <div class="jumbotron" ng-repeat="house in bddHouses" style="height:250px; padding:10px;">
-        <div class="col-md-3" style="height:100%;">
+    <div ng-repeat="house in bddHouses" style="height:250px; padding:10px;">
+        <div class="col-md-4" style="height:100%;">
             <img src={{house.photo}} style="height:100%;">
+
         </div>
-        <div class="col-md-9 sResultsText" style="height:100%;">
-            <h3>{{house.name}}</h3>
-            <p>{{house.place}}</p>
-            <p>{{house.nbRoom}}</p>
-            <p>{{house.shortDesc}}</p>
+        <div class="col-md-8 sResultsText" style="height:100%;">
+            <h3>Nom de l'établissement</h3>
+            <p>Lieu</p>
+            <p>Nombre de chambres</p>
+            <p>Nom de la chambre ou numéro :</p>
+            <ul>
+                <li>numéro x</li>
+                <li>numéro x+1</li>
+                <li>numéro (x/2)²+(y/2)²</li>
+            </ul>
+            <p>Dates de disponibilités :</p>
+            <ul>
+                <li>JJ/MM/AAAA</li>
+                <li>JJ/MM/AAAA</li>
+            </ul>
+            <p>Description :</p>
+            <div class="jumbotron">
+                This is a very good establishment with a nice view of the wall
+            </div>
         </div>
     </div>
 </div>
