@@ -171,12 +171,12 @@
 
                 console.log(myArr);
 
-                //for (var hotel in myArr) {
-                //    for (var room in hotel.establishment) {
-                //        console.log(room);
-                //    }
-                //}
-
+                for (var room of myArr) {
+                    console.log(room.name);
+                    console.log(room.price);
+                    console.log(room.establishment.name);
+                    console.log(room.establishment.place);
+                }
 
             }
         };
@@ -184,9 +184,28 @@
         xmlhttp.open("GET", url, true);
         xmlhttp.send();
 
+        //valeur en dur pour testing.
         //[{"id":11,"version":0,"price":42.00,"establishment":{"id":10,"version":0,"name":"Boulitre","place":"Bassin","manager":null},"name":"ThePlace"}]
-        //var test='[{"id":11,"version":0,"price":42.00,"establishment":{"id":10,"version":0,"name":"Boulitre","place":"Bassin","manager":null},"name":"ThePlace"}]';
-        //var myArr = JSON.parse(test);
+        var test='[{"id":11,"version":0,"price":42.00,"establishment":{"id":10,"version":0,"name":"Boulitre","place":"Bassin","manager":null},"name":"ThePlace"}]';
+
+        var myArr = JSON.parse(test);
+
+        console.log(myArr);
+
+        bddHouses = [];
+
+        for (var room of myArr) {
+          //  {photo:'pictures/32477145.png',name:'Gite du Brillant',place:'Nice',nbRoom:'5',shortDesc:'LE meilleur gite de la région'},
+            if (room.photo == undefined) {
+                room.photo = 'pictures/32477145.png';
+            }
+            house = {photo:room.photo,name:room.establishment.name,place:room.establishment.place,place:room.establishment.place,nbRoom:'1',shortDesc:''};
+
+            console.log(room.name);
+            console.log(room.price);
+            console.log(room.establishment.name);
+            console.log(room.establishment.place);
+        }
 
     }
 </script>
