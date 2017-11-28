@@ -12,7 +12,6 @@ app.controller('searchResults', function($scope){
     ]
    });
 
-<<<<<<< HEAD
 app.service('modalService', function($uibModal,$uibModalStack){
     var modalService = {};
     modalService.openModal = function(url, controller){
