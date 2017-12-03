@@ -3,10 +3,6 @@ var app = angular.module('myApp', [
     'ui.bootstrap'
 ]);
 
-// app.controller('close',function($scope,$http){
-//     console.log("heyyyy");
-//     $('#close').modal('hide');// this is bootstrap modal close button id that fire click event
-// });
 
 app.controller('searchResults', function($scope){
     $scope.bddHouses = [
@@ -131,10 +127,12 @@ app.controller('dateController', function ($scope, uibDateParser) {
 
 app.controller('mainController', ['$scope','modalService',function ($scope,modalService, $uibModal,$uibModalStack) {
     $scope.open = function(url, controller) {console.log(modalService.openModal);
-        modalService.openModal(url, controller);
+        $rootScope.modal=modalService.openModal(url, controller);
     };
-    $scope.close = function(url, controller) {console.log(modalService.closeModal);
-        closeService.closeModal(url, controller);
+    //utiliser un rootscope pour recuperer le modale
+    //pas le meme scope
+    $scope.close = function() {console.log($scope.modal);
+        $scope.modal.close();
     };
 }]);
 
@@ -157,8 +155,7 @@ app.config(function($routeProvider) {
 
 // to close thepopups
 
-
-var app2 = angular.module('sample', [])
+var app = angular.module('sample', [])
     .directive('equalsTo', [function () {
         /*
          * <input type="password" ng-model="Password" />
