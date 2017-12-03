@@ -55,6 +55,7 @@ app.controller('locationPage', function($scope){
         ]
 });
 
+
 app.controller('searchPanel', function($scope){
 
     $scope.closeNav = function() {
@@ -120,15 +121,17 @@ app.controller('dateController', function ($scope, uibDateParser) {
     $scope.date = new Date();
 });
 
+
 app.controller('mainController', ['$scope','modalService',function ($scope,modalService, $uibModal,$uibModalStack) {
     $scope.open = function(url, controller) {console.log(modalService.openModal);
-        $rootScope.modal=modalService.openModal(url, controller);
+        $scope.modal=modalService.openModal(url, controller);
     };
     //utiliser un rootscope pour recuperer le modale
     //pas le meme scope
-    $scope.close = function() {console.log($scope.modal);
-        $scope.modal.close();
-    };
+   /* $scope.close = function() {console.log($rootScope.modal);
+        $rootScope.modal.close();
+        console.log("dans close ");
+    };*/
     $scope.openNav = function() {
         document.getElementById("mySidenav").style.width = "250px";
         document.getElementById("main").style.marginLeft = "250px";
@@ -142,6 +145,9 @@ app.config(function($routeProvider) {
         })
         .when('/searchResults', {
             templateUrl : 'searchResults.html'
+        })
+        .when('/profilePage', {
+            templateUrl : 'profilePage.html'
         })
         .when('/locationPage', {
             templateUrl : 'locationPage.html'

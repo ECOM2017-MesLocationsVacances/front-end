@@ -16,10 +16,16 @@
                 <li><a href="javascript:void(0)" ng-click="openNav()">SEARCH</a></li>
 
             </ul>
-            <ul class="nav navbar-nav navbar-right">
+            <ul class="nav navbar-nav navbar-right login">
                <!-- <li><a href="#loginPage">Log in</a></li> -->
                 <button ng-click="open('login.html',connexionController)" class="btn btn-warning">S'identifier</button>
                 <button ng-click="open('registrationForm.html',connexionController)" class="btn btn-warning">creer un compte </button>
+            </ul>
+            <!-- une fois authentifié l'utilisateur devra voir cette image sur la banner et non les deux boutons login et register-->
+            <!--TODO : faire une sote de if pour afficher l'une ou l'autre des boutons -->
+            <ul class="nav navbar-nav navbar-right userD">
+                <!-- <li><a href="#loginPage">Log in</a></li> -->
+                <a href="#/profilePage" >&tfr;</a>
 
             </ul>
 
