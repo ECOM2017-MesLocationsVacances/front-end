@@ -61,11 +61,6 @@ app.controller('locationPage', function($scope){
 
 app.controller('searchPanel', function($scope){
 
-    $scope.openNav = function() {
-        document.getElementById("mySidenav").style.width = "250px";
-        document.getElementById("main").style.marginLeft = "250px";
-    }
-
     $scope.closeNav = function() {
         document.getElementById("mySidenav").style.width = "0";
         document.getElementById("main").style.marginLeft= "0";
@@ -136,6 +131,10 @@ app.controller('mainController', ['$scope','modalService',function ($scope,modal
     $scope.close = function(url, controller) {console.log(modalService.closeModal);
         closeService.closeModal(url, controller);
     };
+    $scope.openNav = function() {
+        document.getElementById("mySidenav").style.width = "250px";
+        document.getElementById("main").style.marginLeft = "250px";
+    }
 }]);
 
 app.config(function($routeProvider) {
