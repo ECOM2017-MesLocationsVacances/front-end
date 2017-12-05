@@ -26,6 +26,18 @@ app.controller("connexionController", function($scope, $uibModalInstance){
     $scope.cancelModal = function(){
         $uibModalInstance.dismiss('close');
     };
+    $scope.alerts = [
+        { type: 'danger', msg: 'Oh snap! Change a few things up and try submitting again.' },
+        { type: 'success', msg: 'Well done! You successfully read this important alert message.' }
+    ];
+    $scope.addAlert = function(message) {
+        $scope.alerts.push({msg: message});
+    };
+
+    $scope.closeAlert = function(index) {
+        $scope.alerts.splice(index, 1);
+    };
+
     $scope.connexion = function(){
         //creation d'une requete REST
         api_url=serverURL;
@@ -48,9 +60,12 @@ app.controller("connexionController", function($scope, $uibModalInstance){
                 changeBannerContent=true;
                 // une fois qu'on a tout fini on ferme la modale
                 $uibModalInstance.close('save');
+                addAlert('successfull: vous etes bien connectés !');
+
             }
             else{
-                console.log("error "+this.status+"code2="+this.readyState);
+                addAlert('erreur !');
+                //console.log("error "+this.status+"code2="+this.readyState);
             }
         };
         xmlhttp.open("GET", url, true);
@@ -185,7 +200,19 @@ app.controller('searchPanel', function($scope){
 
 
 
-app.controller('dateController', function ($scope, uibDateParser) {
+app.controller('dates', function ($scope, uibDateParser) {
+  /*  $( function() {
+        document.getElementById("datepicker1").datepicker({
+            format: 'yyyy-mm-dd'
+        });
+
+    });
+    $( function() {
+        document.getElementById("datepicker2").datepicker({
+            format: 'yyyy-mm-dd'
+        });
+
+    });*/
     $scope.format = 'yyyy/MM/dd';
     $scope.date = new Date();
 });
