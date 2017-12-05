@@ -4,6 +4,8 @@ var app = angular.module('myApp', [
 ]);
 var changeBannerContent=false;
 
+serverURL="http://35.177.136.202"
+
 app.service('modalService', function($uibModal,$uibModalStack){
     var modalService = {};
     modalService.openModal = function(url, controller){
@@ -26,7 +28,7 @@ app.controller("connexionController", function($scope, $uibModalInstance){
     };
     $scope.connexion = function(){
         //creation d'une requete REST
-        api_url="http://35.177.136.202";
+        api_url=serverURL;
         //    api_url="http://localhost:8080";
 
         var xmlhttp = new XMLHttpRequest();
@@ -61,9 +63,10 @@ app.controller("registerController",function($scope,$uibModalInstance){
         $uibModalInstance.dismiss('close');
     };
     $scope.connection = function(){
-        //creation d'une requete REST TODO make the request
-        api_url="http://35.177.136.202";
 
+        //creation d'une requete REST
+        api_url=serverURL;
+        //    api_url="http://localhost:8080";
         var xmlhttp = new XMLHttpRequest();
         var url = api_url + "/api/user";
         Nom= document.getElementById("").value;
@@ -115,11 +118,6 @@ app.controller('locationPage', function($scope){
 
 app.controller('searchPanel', function($scope){
 
-    $scope.closeNav = function() {
-        document.getElementById("mySidenav").style.width = "0";
-        document.getElementById("main").style.marginLeft= "0";
-    };
-
     $scope.query_search = function() {
 
         function addRoom(room) {
@@ -140,20 +138,29 @@ app.controller('searchPanel', function($scope){
                 '        <p>'+'short description'+'</p>\n' +
                 '    </div>\n' +
                 '    <div>\n' +
-                '        <a href="#/locationPage">test page</a>\n' +
+                '        <a href="#/locationPage">Plus de details</a>\n' +
                 '    </div>\n' +
                 '</div>'
             )
         }
 
-        api_url="http://35.177.136.202";
+
+        api_url=serverURL;
         //    api_url="http://localhost:8080";
 
         var xmlhttp = new XMLHttpRequest();
         var url = api_url + "/api/search";
-        city = document.getElementById("query");
-        if (city.value != "") {
-            url = url.concat("?city=").concat(city.value);
+        place = document.getElementById("queryPlace");
+        from = document.getElementById("datepicker1");
+        to = document.getElementById("datepicker2");
+        if (place.value != "") {
+            url = url.concat("?city=").concat(place.value);
+        }
+        if (from.value != "") {
+            url = url.concat("?datepicker1=").concat(from.value);
+        }
+        if (to.value != "") {
+            url = url.concat("?datepicker2=").concat(to.value);
         }
         //console.log(url);
         xmlhttp.onreadystatechange = function () {
@@ -162,13 +169,10 @@ app.controller('searchPanel', function($scope){
 
                 $("#searchRes").html("");
 
-                //console.log(myArr);
+                console.log(myArr);
                 for (var room of myArr) {
-                    //  {photo:'pictures/32477145.png',name:'Gite du Brillant',place:'Nice',nbRoom:'5',shortDesc:'LE meilleur gite de la région'},
 
                     addRoom(room);
-
-                    //TODO ajouter sous forme d'HTML.
                 }
             }
         };
@@ -176,14 +180,10 @@ app.controller('searchPanel', function($scope){
         xmlhttp.open("GET", url, true);
         xmlhttp.send();
 
-        //valeur en dur pour testing.
-        //[{"id":11,"version":0,"price":42.00,"establishment":{"id":10,"version":0,"name":"Boulitre","place":"Bassin","manager":null},"name":"ThePlace"}]
-        var test = '[{"id":11,"version":0,"price":42.00,"establishment":{"id":10,"version":0,"name":"Boulitre","place":"Bassin","manager":null},"name":"ThePlace"}]';
-
-        var myArr = JSON.parse(test);
-
     }
 });
+
+
 
 app.controller('dateController', function ($scope, uibDateParser) {
     $scope.format = 'yyyy/MM/dd';
@@ -206,6 +206,10 @@ app.controller('mainController', ['$scope','modalService',function ($scope,modal
         document.getElementById("mySidenav").style.width = "250px";
         document.getElementById("main").style.marginLeft = "250px";
     }
+    $scope.closeNav = function() {
+        document.getElementById("mySidenav").style.width = "0";
+        document.getElementById("main").style.marginLeft= "0";
+    };
 }]);
 
 app.config(function($routeProvider) {

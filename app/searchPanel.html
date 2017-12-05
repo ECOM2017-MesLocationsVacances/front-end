@@ -13,7 +13,7 @@
         left: 0;
         background-color: #111;
         overflow-x: hidden;
-        transition: 1.6s;
+        transition: 1.3s;
         padding-top: 60px;
     }
 
@@ -23,7 +23,7 @@
         font-size: 25px;
         color: #818181;
         display: block;
-        transition: 1.3s;
+        transition: 1.0s;
     }
 
     .sidenav a:hover {
@@ -47,11 +47,7 @@
         overflow-x: hidden;
         padding-top: 20px;
     }
-    #main {
-        transition: margin-left .5s;
-        margin-left: 250px;
-        /*padding: 16px;*/
-    }
+
 
     @media screen and (max-height: 450px) {
         .sidenav {padding-top: 15px;}
@@ -93,22 +89,22 @@
 
 <div  id="mySidenav" class="sidenav">
     <a href="javascript:void(0)" class="closebtn" ng-click="closeNav()">&times;</a>
-    <a href="#">Lieu</a>
+    <a>Lieu</a>
     <div class="input-group group_query" style="padding-left: 32px;">
-        <input id="query"
+        <input id="queryPlace"
                type="text"
                class="form-control input-query"
                placeholder="Lieu"
                ng-keydown="rechercher($event.keyCode)">
     </div>
 
-    <a href="#">Date de debut</a>
+    <a>Date de debut</a>
     <div class="input-group group_query datepicker" style="padding-left: 32px;" >
         <input  id="datepicker1"
                 placeholder="JJ-MM-AAAA"
                 class="form-control input-query"/>
     </div>
-    <a href="#">Date de fin</a>
+    <a>Date de fin</a>
     <div class="input-group group_query datepicker" style="padding-left: 32px;" >
 
         <input  id="datepicker2"
@@ -136,11 +132,5 @@
         <a href="#/searchResults" ng-click="query_search()">Go</a>
     </div>
 
-    <div id="main">
-    </div>
 
-    <script>
-
-
-    </script>
 </body>
