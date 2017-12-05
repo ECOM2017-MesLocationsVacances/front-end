@@ -115,11 +115,11 @@ app.controller('searchPanel', function($scope){
 
         var xmlhttp = new XMLHttpRequest();
         var url = api_url + "/api/search";
-        place = document.getElementById("query");
-        from = document.getElementById("query");
-        to = document.getElementById("query");
+        place = document.getElementById("queryPlace");
+        from = document.getElementById("datepicker1");
+        to = document.getElementById("datepicker2");
         if (place.value != "") {
-            url = url.concat("?city=").concat(city.value);
+            url = url.concat("?city=").concat(place.value);
         }
         if (from.value != "") {
             url = url.concat("?datepicker1=").concat(from.value);
@@ -134,7 +134,7 @@ app.controller('searchPanel', function($scope){
 
                 $("#searchRes").html("");
 
-                //console.log(myArr);
+                console.log(myArr);
                 for (var room of myArr) {
 
                     addRoom(room);
