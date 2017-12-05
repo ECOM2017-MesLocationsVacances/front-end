@@ -119,7 +119,7 @@ app.controller('searchPanel', function($scope){
         from = document.getElementById("query");
         to = document.getElementById("query");
         if (place.value != "") {
-            url = url.concat("?city=").concat(city.value);
+            url = url.concat("?city=").concat(place.value);
         }
         if (from.value != "") {
             url = url.concat("?datepicker1=").concat(from.value);
@@ -134,7 +134,7 @@ app.controller('searchPanel', function($scope){
 
                 $("#searchRes").html("");
 
-                //console.log(myArr);
+                console.log(myArr);
                 for (var room of myArr) {
 
                     addRoom(room);
