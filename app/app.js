@@ -130,12 +130,11 @@ app.controller('locationPage', function($scope){
         ]
 });
 
-
 app.controller('searchPanel', function($scope){
 
     $scope.query_search = function() {
-
-        function addEst(est) {
+      /*
+        function addRoom(room) {
 
             if (est.photo == undefined) {
                 est.photo = 'pictures/32477145.png';
@@ -159,7 +158,7 @@ app.controller('searchPanel', function($scope){
                 '</div>'
             )
         }
-
+        */
 
         api_url=serverURL;
         //    api_url="http://localhost:8080";
@@ -169,27 +168,34 @@ app.controller('searchPanel', function($scope){
         place = document.getElementById("queryPlace");
         from = document.getElementById("query3");
         to = document.getElementById("query2");
+        charToAdd='?';
         if (place.value != "") {
-            url = url.concat("?city=").concat(place.value);
+            url = url.concat(charToAdd).concat("city=").concat(place.value);
+            charToAdd='&';
         }
         if (from.value != "") {
-            url = url.concat("?from=").concat(from.value);
+            url = url.concat(charToAdd).concat("?from=").concat(from.value);
+            charToAdd='&';
         }
         if (to.value != "") {
-            url = url.concat("?to=").concat(to.value);
+            url = url.concat(charToAdd).concat("?to=").concat(to.value);
+            charToAdd='&';
         }
+
+        $("searchRes").html("");
+        resItems = [];
+
         //console.log(url);
         xmlhttp.onreadystatechange = function () {
             if (this.readyState == 4 && this.status == 200) {
                 var myArr = JSON.parse(this.responseText);
 
-                $("#searchRes").html("");
-
                 console.log(myArr);
                 for (var est of myArr) {
-
-                    addEst(est);
+                    $scope.resItems.push(est);
                 }
+
+                $scope.$apply();
             }
         };
 
@@ -287,6 +293,8 @@ app.controller('mainController', ['$scope','modalService',function ($scope,modal
         document.getElementById("mySidenav").style.width = "0";
         document.getElementById("main").style.marginLeft= "0";
     };
+
+    $scope.resItems=[];
 }]);
 
 app.config(function($routeProvider) {
@@ -306,7 +314,7 @@ app.config(function($routeProvider) {
         .otherwise({
             templateUrl : '404.html'
         })
-
+;
 });
 
 // to close thepopups
