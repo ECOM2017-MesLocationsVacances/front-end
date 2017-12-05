@@ -19,11 +19,25 @@ app.service('modalService', function($uibModal,$uibModalStack){
 });
 
 
-app.controller("connexionController",function($scope,$uibModalInstance){
+app.controller("connexionController", function($scope, $uibModalInstance){
     $scope.cancelModal = function(){
         $uibModalInstance.dismiss('close');
     };
     $scope.connexion = function(){
+        //creation d'une requete REST
+        api_url="http://35.177.54.53";
+        //    api_url="http://localhost:8080";
+
+        var xmlhttp = new XMLHttpRequest();
+        var url = api_url + "/api/search";
+        Surnom= document.getElementById("Username").value;
+        MotDePasse= document.getElementById("Password").value;
+
+        url=url.concat("?surnom="+Surnom+"&MDP="+MotDePasse);
+        console.log(url);
+        // on envoie la requete
+        xmlhttp.open("GET", url, true);
+        xmlhttp.send();
         $uibModalInstance.close('save');
     };
 });
@@ -32,11 +46,33 @@ app.controller("registerController",function($scope,$uibModalInstance){
     $scope.cancelModal = function(){
         $uibModalInstance.dismiss('close');
     };
-    $scope.connexion = function(){
+    $scope.connection = function(){
+        //creation d'une requete REST
+        api_url="http://35.177.54.53";
+        //    api_url="http://localhost:8080";
+
+        var xmlhttp = new XMLHttpRequest();
+        var url = api_url + "/api/search";
+        Nom = document.getElementById("Nom").value;
+        Prenom= document.getElementById("Prenom").value;
+        Surnom= document.getElementById("Surnom").value;
+        MotDePasse= document.getElementById("Password").value;
+        ConfirmeMDP=document.getElementById("ConfirmPassword").value;
+        //tester si les deux mot de passes sont identiques sinon
+        url=url.concat("?nom="+Nom+"&prenom="+Prenom+"&surnom="+Surnom+"&MDP="+MotDePasse);
+        console.log(url);
+        // on envoie la requete
+        xmlhttp.open("GET", url, true);
+        xmlhttp.send();
+        // une fois qu'on a tout fini on ferme la modale
         $uibModalInstance.close('save');
+
     };
 });
 
+app.controller('ChangeBannerContent', function($scope){
+
+});
 
 app.controller('locationPage', function($scope){
     $scope.bddHouses = [
@@ -122,16 +158,17 @@ app.controller('dateController', function ($scope, uibDateParser) {
 });
 
 
-app.controller('mainController', ['$scope','modalService',function ($scope,modalService, $uibModal,$uibModalStack) {
-    $scope.open = function(url, controller) {console.log(modalService.openModal);
-        $scope.modal=modalService.openModal(url, controller);
+app.controller('mainController', ['$scope','modalService',function ($scope,modalService) {
+    $scope.open = function(url, controller) {
+        modalService.openModal(url, controller);
     };
     //utiliser un rootscope pour recuperer le modale
     //pas le meme scope
-   /* $scope.close = function() {console.log($rootScope.modal);
-        $rootScope.modal.close();
-        console.log("dans close ");
-    };*/
+    //$scope.close = function() {console.log($rootScope.modal);
+    //    $uibModalInstance.close('save');
+    //    console.log("dans close ");
+    //};
+
     $scope.openNav = function() {
         document.getElementById("mySidenav").style.width = "250px";
         document.getElementById("main").style.marginLeft = "250px";

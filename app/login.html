@@ -30,12 +30,12 @@
 
         </div>
 
-        <div class="form-group" ng-controller="connexionController">
+        <div class="form-group">
             <div class="col-sm-offset-3 col-sm-9">
-                <input type="submit" class="btn btn-default" value="S'authentifier" ng-disabled="registerForm.$invalid" />
+                <input type="submit" class="btn btn-default" value="connecter" ng-disabled="registerForm.$invalid" ng-click="connection()" />
 
             </div>
-            <button class="btn btn-primary" class="close" data-dismiss="myModal">Fermer</button>
+            <button class="btn btn-primary" ng-click="cancelModal()">Fermer</button>
 
         </div>
     </form>
