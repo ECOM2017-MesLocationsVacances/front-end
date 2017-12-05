@@ -3,6 +3,8 @@ var app = angular.module('myApp', [
     'ui.bootstrap'
 ]);
 
+serverURL="http://35.177.136.202"
+
 app.service('modalService', function($uibModal,$uibModalStack){
     var modalService = {};
     modalService.openModal = function(url, controller){
@@ -25,7 +27,7 @@ app.controller("connexionController", function($scope, $uibModalInstance){
     };
     $scope.connexion = function(){
         //creation d'une requete REST
-        api_url="http://35.177.54.53";
+        api_url=serverURL;
         //    api_url="http://localhost:8080";
 
         var xmlhttp = new XMLHttpRequest();
@@ -48,7 +50,7 @@ app.controller("registerController",function($scope,$uibModalInstance){
     };
     $scope.connection = function(){
         //creation d'une requete REST
-        api_url="http://35.177.54.53";
+        api_url=serverURL;
         //    api_url="http://localhost:8080";
 
         var xmlhttp = new XMLHttpRequest();
@@ -110,7 +112,7 @@ app.controller('searchPanel', function($scope){
         }
 
 
-        api_url="http://35.177.136.202";
+        api_url=serverURL;
         //    api_url="http://localhost:8080";
 
         var xmlhttp = new XMLHttpRequest();
