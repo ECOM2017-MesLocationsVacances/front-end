@@ -85,25 +85,26 @@ app.controller('searchPanel', function($scope){
 
     $scope.query_search = function() {
 
-        function addRoom(room) {
+        function addEst(est) {
 
-            if (room.photo == undefined) {
-                room.photo = 'pictures/32477145.png';
+            if (est.photo == undefined) {
+                est.photo = 'pictures/32477145.png';
             }
 
             $("#searchRes").append('' +
                 '<div class="jumbotron" ng-controller="locationController" style="height:250px; padding:10px;">\n' +
                 '    <div class="col-md-3" style="height:100%;">\n' +
-                '        <img src="'+room.photo+'" style="height:100%;">\n' +
+                '        <img src="'+est.photo+'" style="height:75%;">\n' +
+                '        <p style="height:25%; margin:0px;">Note de l\'appart</p>\n' +
                 '    </div>\n' +
-                '    <div class="col-md-9 sResultsText" style="height:100%;">\n' +
-                '        <h3>'+room.establishment.name+'</h3>\n' +
-                '        <p>'+room.establishment.place+'</p>\n' +
-                '        <p>'+1+'</p>\n' +
-                '        <p>'+'short description'+'</p>\n' +
+                '    <div class="col-md-6 sResultsText" style="height:100%;">\n' +
+                '        <p style="height:25%; margin:0px; vertical-align: center">'+est.establishment.name+'</p>\n' +
+                '        <p style="height:25%; margin:0px;">'+est.establishment.place+'</p>\n' +
+                '        <p style="height:50%; margin:0px;">'+est.establishment.description+'</p>\n' +
                 '    </div>\n' +
-                '    <div>\n' +
-                '        <a href="#/locationPage" ng-click=loadDetails("'+room.id+'")>Plus de details</a>\n' +
+                '    <div class="col-md-3" style="height:100%;">\n' +
+                '        <p style="height:50%; margin:0px; text-align: center;">placeholder pour nombre de places</p>\n' +
+                '        <a href="#/locationPage" ng-click=loadDetails("'+est.id+'") style="height:50%; margin:0px;">Plus de details</a>\n' +
                 '    </div>\n' +
                 '</div>'
             )
@@ -135,9 +136,9 @@ app.controller('searchPanel', function($scope){
                 $("#searchRes").html("");
 
                 console.log(myArr);
-                for (var room of myArr) {
+                for (var est of myArr) {
 
-                    addRoom(room);
+                    addEst(est);
                 }
             }
         };
@@ -151,16 +152,20 @@ app.controller('searchPanel', function($scope){
 app.controller('locationController', function ($scope){
     $scope.loadDetails = function(id) {
 
+        console.log("hello");
+
         api_url="http://35.177.136.202";
         //    api_url="http://localhost:8080";
 
         var xmlhttp = new XMLHttpRequest();
-        var url = api_url + "/api/search?id="+id;
+        var url = api_url + "/api/establishments/"+id;
 
         //console.log(url);
         xmlhttp.onreadystatechange = function () {
             if (this.readyState == 4 && this.status == 200) {
                 var myObj = JSON.parse(this.responseText);
+
+                console.log("myObj");
 
                 $("#locationDetails").append('' +
                     '<div class="col-md-4" style="height:100%;">' +
