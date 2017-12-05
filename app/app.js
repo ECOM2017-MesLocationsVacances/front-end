@@ -153,7 +153,7 @@ app.controller('searchPanel', function($scope){
                 '    </div>\n' +
                 '    <div class="col-md-3" style="height:100%;">\n' +
                 '        <p style="height:50%; margin:0px; text-align: center;">placeholder pour nombre de places</p>\n' +
-                '        <a href="#/locationPage" ng-click=loadDetails("'+est.id+'") style="height:50%; margin:0px;">Plus de details</a>\n' +
+                '        <a href="#/locationPage" ng-click=loadDetails('+est.id+') style="height:50%; margin:0px;">Plus de details</a>\n' +
                 '    </div>\n' +
                 '</div>'
             )
@@ -218,7 +218,7 @@ app.controller('locationController', function ($scope){
         //    api_url="http://localhost:8080";
 
         var xmlhttp = new XMLHttpRequest();
-        var url = api_url + "/api/establishments/"+id;
+        var url = api_url + "/api/establishments/24";
 
         //console.log(url);
         xmlhttp.onreadystatechange = function () {
