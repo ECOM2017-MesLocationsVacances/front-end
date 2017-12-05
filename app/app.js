@@ -154,7 +154,7 @@ app.controller('searchPanel', function($scope){
                 '    </div>\n' +
                 '    <div class="col-md-3" style="height:100%;">\n' +
                 '        <p style="height:50%; margin:0px; text-align: center;">placeholder pour nombre de places</p>\n' +
-                '        <a href="#/locationPage" ng-click=loadDetails("'+est.id+'") style="height:50%; margin:0px;">Plus de details</a>\n' +
+                '        <a href="#/locationPage" ng-click=loadDetails('+est.id+') style="height:50%; margin:0px;">Plus de details</a>\n' +
                 '    </div>\n' +
                 '</div>'
             )
@@ -167,16 +167,16 @@ app.controller('searchPanel', function($scope){
         var xmlhttp = new XMLHttpRequest();
         var url = api_url + "/api/search";
         place = document.getElementById("queryPlace");
-        from = document.getElementById("datepicker1");
-        to = document.getElementById("datepicker2");
+        from = document.getElementById("query3");
+        to = document.getElementById("query2");
         if (place.value != "") {
             url = url.concat("?city=").concat(place.value);
         }
         if (from.value != "") {
-            url = url.concat("?datepicker1=").concat(from.value);
+            url = url.concat("?from=").concat(from.value);
         }
         if (to.value != "") {
-            url = url.concat("?datepicker2=").concat(to.value);
+            url = url.concat("?to=").concat(to.value);
         }
         //console.log(url);
         xmlhttp.onreadystatechange = function () {
@@ -208,7 +208,7 @@ app.controller('locationController', function ($scope){
         //    api_url="http://localhost:8080";
 
         var xmlhttp = new XMLHttpRequest();
-        var url = api_url + "/api/establishments/"+id;
+        var url = api_url + "/api/establishments/24";
 
         //console.log(url);
         xmlhttp.onreadystatechange = function () {
