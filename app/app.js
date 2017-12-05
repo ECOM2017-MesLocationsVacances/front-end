@@ -182,19 +182,23 @@ app.controller('searchPanel', function($scope){
             charToAdd='&';
         }
 
-        $("searchRes").html("");
-        resItems = [];
-
         //console.log(url);
         xmlhttp.onreadystatechange = function () {
             if (this.readyState == 4 && this.status == 200) {
                 var myArr = JSON.parse(this.responseText);
 
-                console.log(myArr);
-                for (var est of myArr) {
-                    $scope.resItems.push(est);
+                for(i=0;i<=$scope.resItems.length;i++){
+                    $scope.resItems.shift();
                 }
 
+                for (var est of myArr) {
+
+                    if (est.photo == undefined) {
+                        est.photo = 'pictures/32477145.png';
+                    }
+
+                    $scope.resItems.push(est);
+                }
                 $scope.$apply();
             }
         };
