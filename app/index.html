@@ -31,14 +31,20 @@
     <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
     <![endif]-->
 </head>
-
+<style>
+    #main {
+        transition: margin-left .5s;
+        margin-left: 250px;
+        /*padding: 16px;*/
+    }
+</style>
 <body ng-controller="mainController">
 
 <!-- Fixed navbar -->
 <div ng-include="'banner.html'"></div>
 <div ng-include="'searchPanel.html'" ng-controller="searchPanel"></div>
 <div class="container theme-showcase" role="main">
-    <div ng-view autoscroll></div>
+    <div id="main" ng-view autoscroll></div>
 
 
 

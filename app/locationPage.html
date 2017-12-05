@@ -1,4 +1,4 @@
-<div ng-controller="locationPage">
+<div id="locationDetails" ng-controller="locationPage" ng-init="query_details()">
     <div ng-repeat="house in bddHouses" style="height:250px; padding:10px;">
         <div class="col-md-4" style="height:100%;">
             <img src={{house.photo}} style="height:100%;">

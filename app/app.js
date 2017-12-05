@@ -58,11 +58,6 @@ app.controller('locationPage', function($scope){
 
 app.controller('searchPanel', function($scope){
 
-    $scope.closeNav = function() {
-        document.getElementById("mySidenav").style.width = "0";
-        document.getElementById("main").style.marginLeft= "0";
-    };
-
     $scope.query_search = function() {
 
         api_url="http://35.177.136.202";
@@ -70,7 +65,7 @@ app.controller('searchPanel', function($scope){
 
         var xmlhttp = new XMLHttpRequest();
         var url = api_url + "/api/search";
-        city = document.getElementById("query");
+        city = document.getElementById("queryPlace");
         if (city.value != "") {
             url = url.concat("?city=").concat(city.value);
         }
@@ -134,6 +129,80 @@ app.controller('searchPanel', function($scope){
     }
 });
 
+
+app.controller('searchPanel', function($scope){
+
+    $scope.query_search = function() {
+
+        api_url="http://35.177.136.202";
+        //    api_url="http://localhost:8080";
+
+        var xmlhttp = new XMLHttpRequest();
+        var url = api_url + "/api/search";
+        city = document.getElementById("queryPlace");
+        if (city.value != "") {
+            url = url.concat("?city=").concat(city.value);
+        }
+        //console.log(url);
+        xmlhttp.onreadystatechange = function () {
+            if (this.readyState == 4 && this.status == 200) {
+                var myArr = JSON.parse(this.responseText);
+
+                console.log(myArr);
+                for (var room of myArr) {
+                    //  {photo:'pictures/32477145.png',name:'Gite du Brillant',place:'Nice',nbRoom:'5',shortDesc:'LE meilleur gite de la région'},
+
+                    if (room.photo == undefined) {
+                        room.photo = 'pictures/32477145.png';
+                    }
+
+                    $("#searchRes").append('' +
+                        '<div class="jumbotron" style="height:250px; padding:10px;">\n' +
+                        '    <div class="col-md-3" style="height:100%;">\n' +
+                        '        <img src="'+room.photo+'" style="height:100%;">\n' +
+                        '    </div>\n' +
+                        '    <div class="col-md-9 sResultsText" style="height:100%;">\n' +
+                        '        <h3>'+room.establishment.name+'</h3>\n' +
+                        '        <p>'+room.establishment.place+'</p>\n' +
+                        '        <p>'+1+'</p>\n' +
+                        '        <p>'+'short description'+'</p>\n' +
+                        '    </div>\n' +
+                        '    <div>\n' +
+                        '        <a href="#/locationPage">test page</a>\n' +
+                        '    </div>\n' +
+                        '</div>'
+                    )
+
+                    /*
+                    house = {
+                        photo: room.photo,
+                        name: room.establishment.name,
+                        place: room.establishment.place,
+                        nbRoom: '1',
+                        shortDesc: ''
+                    };
+
+                    // a supprimer ?
+                    bddHouses = [];
+                    */
+
+                    //TODO ajouter sous forme d'HTML.
+                }
+            }
+        };
+
+        xmlhttp.open("GET", url, true);
+        xmlhttp.send();
+
+        //valeur en dur pour testing.
+        //[{"id":11,"version":0,"price":42.00,"establishment":{"id":10,"version":0,"name":"Boulitre","place":"Bassin","manager":null},"name":"ThePlace"}]
+        var test = '[{"id":11,"version":0,"price":42.00,"establishment":{"id":10,"version":0,"name":"Boulitre","place":"Bassin","manager":null},"name":"ThePlace"}]';
+
+        var myArr = JSON.parse(test);
+
+    }
+});
+
 app.controller('dateController', function ($scope, uibDateParser) {
     $scope.format = 'yyyy/MM/dd';
     $scope.date = new Date();
@@ -154,6 +223,10 @@ app.controller('mainController', ['$scope','modalService',function ($scope,modal
         document.getElementById("mySidenav").style.width = "250px";
         document.getElementById("main").style.marginLeft = "250px";
     }
+    $scope.closeNav = function() {
+        document.getElementById("mySidenav").style.width = "0";
+        document.getElementById("main").style.marginLeft= "0";
+    };
 }]);
 
 app.config(function($routeProvider) {
