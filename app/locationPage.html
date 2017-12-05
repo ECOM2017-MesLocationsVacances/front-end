@@ -1,11 +1,9 @@
-<div id="locationDetails" ng-controller="locationPage" ng-init="query_details()">
-    <div ng-repeat="house in bddHouses" style="height:250px; padding:10px;">
+<div id="locationDetails" ng-init="init_roomDetails()">
         <div class="col-md-4" style="height:100%;">
-            <img src={{house.photo}} style="height:100%;">
-
+            <img src="pictures/32477145.png" style="height:100%;">
         </div>
         <div class="col-md-8 sResultsText" style="height:100%;">
-            <h3>Nom de l'établissement</h3>
+            <h3>Nom</h3>
             <p>Lieu</p>
             <p>Nombre de chambres</p>
             <p>Nom de la chambre ou numéro :</p>
@@ -24,5 +22,5 @@
                 This is a very good establishment with a nice view of the wall
             </div>
         </div>
-    </div>
+    <div>toast</div>
 </div>
