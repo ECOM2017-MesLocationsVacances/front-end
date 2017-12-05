@@ -133,34 +133,32 @@ app.controller('locationPage', function($scope){
 app.controller('searchPanel', function($scope){
 
     $scope.query_search = function() {
-
-        /*
+      /*
         function addRoom(room) {
 
-            if (room.photo == undefined) {
-                room.photo = 'pictures/32477145.png';
+            if (est.photo == undefined) {
+                est.photo = 'pictures/32477145.png';
             }
 
             $("#searchRes").append('' +
-                '<div class="jumbotron" style="height:250px; padding:10px;">\n' +
+                '<div class="jumbotron" ng-controller="locationController" style="height:250px; padding:10px;">\n' +
                 '    <div class="col-md-3" style="height:100%;">\n' +
-                '        <img src="'+room.photo+'" style="height:100%;">\n' +
+                '        <img src="'+est.photo+'" style="height:75%;">\n' +
+                '        <p style="height:25%; margin:0px;">Note de l\'appart</p>\n' +
                 '    </div>\n' +
-                '    <div class="col-md-9 sResultsText" style="height:100%;">\n' +
-                '        <h3>'+room.establishment.name+'</h3>\n' +
-                '        <p>'+room.establishment.place+'</p>\n' +
-                '        <p>'+1+'</p>\n' +
-                '        <p>'+'short description'+'</p>\n' +
+                '    <div class="col-md-6 sResultsText" style="height:100%;">\n' +
+                '        <p style="height:25%; margin:0px; vertical-align: center">'+est.establishment.name+'</p>\n' +
+                '        <p style="height:25%; margin:0px;">'+est.establishment.place+'</p>\n' +
+                '        <p style="height:50%; margin:0px;">'+est.establishment.description+'</p>\n' +
                 '    </div>\n' +
-                '    <div>\n' +
-                '        <a href="#/locationPage">Plus de details</a>\n' +
+                '    <div class="col-md-3" style="height:100%;">\n' +
+                '        <p style="height:50%; margin:0px; text-align: center;">placeholder pour nombre de places</p>\n' +
+                '        <a href="#/locationPage" ng-click=loadDetails("'+est.id+'") style="height:50%; margin:0px;">Plus de details</a>\n' +
                 '    </div>\n' +
                 '</div>'
             )
         }
         */
-
-        console.log("hello!")
 
         api_url=serverURL;
         //    api_url="http://localhost:8080";
@@ -207,7 +205,56 @@ app.controller('searchPanel', function($scope){
     }
 });
 
+app.controller('locationController', function ($scope){
+    $scope.loadDetails = function(id) {
 
+        console.log("hello");
+
+        api_url="http://35.177.136.202";
+        //    api_url="http://localhost:8080";
+
+        var xmlhttp = new XMLHttpRequest();
+        var url = api_url + "/api/establishments/"+id;
+
+        //console.log(url);
+        xmlhttp.onreadystatechange = function () {
+            if (this.readyState == 4 && this.status == 200) {
+                var myObj = JSON.parse(this.responseText);
+
+                console.log("myObj");
+
+                $("#locationDetails").append('' +
+                    '<div class="col-md-4" style="height:100%;">' +
+                    '   <img src="pictures/32477145.png" style="height:100%;">' +
+                    '</div>' +
+                    '<div class="col-md-8 sResultsText" style="height:100%;">' +
+                    '   <h3>'+ myObj.name+'</h3>' +
+                    '   <p>Lieu</p>' +
+                    '   <p>Nombre de chambres</p>' +
+                    '   <p>Nom de la chambre ou numéro :</p>' +
+                    '   <ul>' +
+                    '       <li>numéro x</li>' +
+                    '       <li>numéro x+1</li>' +
+                    '       <li>numéro (x/2)²+(y/2)²</li>' +
+                    '   </ul>' +
+                    '   <p>Dates de disponibilités :</p>' +
+                    '   <ul>' +
+                    '       <li>JJ/MM/AAAA</li>' +
+                    '       <li>JJ/MM/AAAA</li>' +
+                    '   </ul>' +
+                    '   <p>Description :</p>' +
+                    '   <div class="jumbotron">'+ +'</div>' +
+                    '</div>' +
+                    '<div>toast</div>'
+                )
+                }
+            }
+        ;
+
+        xmlhttp.open("GET", url, true);
+        xmlhttp.send();
+    }
+})
 
 app.controller('dates', function ($scope, uibDateParser) {
   /*  $( function() {
