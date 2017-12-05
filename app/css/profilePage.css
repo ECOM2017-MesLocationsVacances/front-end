@@ -42,14 +42,6 @@ body {
     margin-bottom: 7px;
 }
 
-.profile-usertitle-job {
-    text-transform: uppercase;
-    color: #5b9bd1;
-    font-size: 12px;
-    font-weight: 600;
-    margin-bottom: 15px;
-}
-
 .profile-userbuttons {
     text-align: center;
     margin-top: 10px;
