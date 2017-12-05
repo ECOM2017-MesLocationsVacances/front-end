@@ -12,21 +12,9 @@
         <div class="page-header ng-scope">
             <h1>S'enregistrer </h1>
         </div>
-        <div class="form-group" ng-class="{'has-error': registerForm.$dirty && registerForm.Nom.$invalid, 'has-success': registerForm.Nom.$valid}">
-            <label class="col-sm-3 control-label" for="Nom">Nom</label>
-            <div class="col-sm-9">
-                <input id="Nom" type="nom" class="form-control" required name="Nom" ng-model="Nom" />
-            </div>
-        </div>
-        <div class="form-group" ng-class="{'has-error': registerForm.$dirty && registerForm.Prenom.$invalid, 'has-success': registerForm.Prenom.$valid}">
-            <label class="col-sm-3 control-label" for="Nom">Prenom</label>
-            <div class="col-sm-9">
-                <input id="Prenom" type="prenom" class="form-control" required name="Prenom" ng-model="Prenom" />
-            </div>
-        </div>
 
         <div class="form-group" ng-class="{'has-error': registerForm.$dirty && registerForm.Surnom.$invalid, 'has-success': registerForm.Surnom.$valid}">
-            <label class="col-sm-3 control-label" for="Nom">Surnom</label>
+            <label class="col-sm-3 control-label" for="Surnom">Surnom</label>
             <div class="col-sm-9">
                 <input id="Surnom" type="Surnom" class="form-control" required name="Surnom" ng-model="Surnom" />
             </div>
@@ -34,7 +22,7 @@
 
 
         <div class="form-group " ng-class="{'has-error': registerForm.$dirty && registerForm.Password.$invalid, 'has-success': registerForm.Password.$valid}">
-            <label class="col-sm-3 control-label" for="Password">Password</label>
+            <label class="col-sm-3 control-label" for="Password">Mot de passe : ( au moins 6 lettres) </label>
             <div class="col-sm-9">
                 <input id="Password" type="password" class="form-control" required ng-minlength="6" name="Password" ng-model="Password" />
             </div>
@@ -45,13 +33,20 @@
         </div>
 
         <div class="form-group" ng-class="{'has-error': registerForm.$dirty && registerForm.ConfirmPassword.$invalid, 'has-success': registerForm.ConfirmPassword.$valid}">
-            <label class="col-sm-3 control-label" for="ConfirmPassword">Confirmer Password</label>
+            <label class="col-sm-3 control-label" for="ConfirmPassword">Confirmer Mot de passe : </label>
             <div class="col-sm-9">
                 <input id="ConfirmPassword" type="password" class="form-control" required equals-to="registerForm.Password" name="ConfirmPassword" ng-model="ConfirmPassword" />
             </div> <span class="text-danger col-sm-offset-3" ng-show="!registerForm.ConfirmPassword.$error.required && registerForm.ConfirmPassword.$error.equalsTo">
                     Passwords are differents
                 </span>
 
+        </div>
+
+        <div class="form-group " ng-class="{'has-error': registerForm.$dirty && registerForm.Email.$invalid, 'has-success': registerForm.Email.$valid}">
+            <label class="col-sm-3 control-label" for="Email">E.mail </label>
+            <div class="col-sm-9">
+                <input id="Email" type="Email" class="form-control" name="Email" ng-model="Email" />
+            </div>
         </div>
 
         <div class="form-group">

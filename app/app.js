@@ -2,6 +2,9 @@ var app = angular.module('myApp', [
     'ngRoute',
     'ui.bootstrap'
 ]);
+var changeBannerContent=false;
+
+serverURL="http://35.177.136.202"
 
 app.service('modalService', function($uibModal,$uibModalStack){
     var modalService = {};
@@ -23,22 +26,50 @@ app.controller("connexionController", function($scope, $uibModalInstance){
     $scope.cancelModal = function(){
         $uibModalInstance.dismiss('close');
     };
+    $scope.alerts = [
+        { type: 'danger', msg: 'Oh snap! Change a few things up and try submitting again.' },
+        { type: 'success', msg: 'Well done! You successfully read this important alert message.' }
+    ];
+    $scope.addAlert = function(message) {
+        $scope.alerts.push({msg: message});
+    };
+
+    $scope.closeAlert = function(index) {
+        $scope.alerts.splice(index, 1);
+    };
+
     $scope.connexion = function(){
         //creation d'une requete REST
-        api_url="http://35.177.54.53";
+        api_url=serverURL;
         //    api_url="http://localhost:8080";
 
         var xmlhttp = new XMLHttpRequest();
-        var url = api_url + "/api/search";
+        var url = api_url + "/api/user";
         Surnom= document.getElementById("Username").value;
         MotDePasse= document.getElementById("Password").value;
 
-        url=url.concat("?surnom="+Surnom+"&MDP="+MotDePasse);
+        url=url.concat("/"+Surnom+"?password="+MotDePasse);
         console.log(url);
         // on envoie la requete
+        xmlhttp.onreadystatechange = function () {
+            if (this.readyState == 4 && this.status == 200) {
+                var myArr = JSON.parse(this.responseText);
+                alert("vous etes bien connecté");
+                console.log(myArr);
+                // si tout s'est bien passé on change le contenu du banner
+                changeBannerContent=true;
+                // une fois qu'on a tout fini on ferme la modale
+                $uibModalInstance.close('save');
+                addAlert('successfull: vous etes bien connectés !');
+
+            }
+            else{
+                addAlert('erreur !');
+                //console.log("error "+this.status+"code2="+this.readyState);
+            }
+        };
         xmlhttp.open("GET", url, true);
         xmlhttp.send();
-        $uibModalInstance.close('save');
     };
 });
 
@@ -47,31 +78,50 @@ app.controller("registerController",function($scope,$uibModalInstance){
         $uibModalInstance.dismiss('close');
     };
     $scope.connection = function(){
-        //creation d'une requete REST
-        api_url="http://35.177.54.53";
-        //    api_url="http://localhost:8080";
 
+        //creation d'une requete REST
+        api_url=serverURL;
+        //    api_url="http://localhost:8080";
         var xmlhttp = new XMLHttpRequest();
-        var url = api_url + "/api/search";
-        Nom = document.getElementById("Nom").value;
-        Prenom= document.getElementById("Prenom").value;
+        var url = api_url + "/api/user";
+        Nom= document.getElementById("").value;
+        Prenom= document.getElementById("Surnom").value;
         Surnom= document.getElementById("Surnom").value;
         MotDePasse= document.getElementById("Password").value;
         ConfirmeMDP=document.getElementById("ConfirmPassword").value;
         //tester si les deux mot de passes sont identiques sinon
-        url=url.concat("?nom="+Nom+"&prenom="+Prenom+"&surnom="+Surnom+"&MDP="+MotDePasse);
-        console.log(url);
+        url=url.concat("/"+Surnom+"?password="+MotDePasse);
+        xmlhttp.onreadystatechange = function () {
+            if (this.readyState == 4 && this.status == 200) {
+                var myArr = JSON.parse(this.responseText);
+                alert("vous etes bien connecté");
+                console.log(myArr);
+                // si tout s'est bien passé on change le contenu du banner
+                changeBannerContent=true;
+                // une fois qu'on a tout fini on ferme la modale
+                $uibModalInstance.close('save');
+            }
+            else{
+                alert("error "+this.status);
+            }
+        };
         // on envoie la requete
         xmlhttp.open("GET", url, true);
         xmlhttp.send();
-        // une fois qu'on a tout fini on ferme la modale
-        $uibModalInstance.close('save');
+
 
     };
 });
 
 app.controller('ChangeBannerContent', function($scope){
+   if(changeBannerContent==true){
+       document.getElementById("loginButton").style.visibility = "hidden";
+       document.getElementById("userD").style.visibility = "display";
 
+   }
+   else {
+
+   }
 });
 
 app.controller('locationPage', function($scope){
@@ -111,7 +161,7 @@ app.controller('searchPanel', function($scope){
         }
 
 
-        api_url="http://35.177.136.202";
+        api_url=serverURL;
         //    api_url="http://localhost:8080";
 
         var xmlhttp = new XMLHttpRequest();
@@ -200,7 +250,19 @@ app.controller('locationController', function ($scope){
     }
 })
 
-app.controller('dateController', function ($scope, uibDateParser) {
+app.controller('dates', function ($scope, uibDateParser) {
+  /*  $( function() {
+        document.getElementById("datepicker1").datepicker({
+            format: 'yyyy-mm-dd'
+        });
+
+    });
+    $( function() {
+        document.getElementById("datepicker2").datepicker({
+            format: 'yyyy-mm-dd'
+        });
+
+    });*/
     $scope.format = 'yyyy/MM/dd';
     $scope.date = new Date();
 });
