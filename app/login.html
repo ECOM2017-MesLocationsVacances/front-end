@@ -1,45 +1,58 @@
 <style>
 
-    h:after {display:block; content:"\A0";}
+    h:after {
+        display: block;
+        content: "\A0";
+    }
 
 </style>
 <html>
-    <head>
-        <link rel="stylesheet" href="css/bootstrap.css">
-    </head>
-   <div ng-app="sample" class="myModal" >
+<head>
+    <link rel="stylesheet" href="css/bootstrap.css">
+</head>
+<div ng-app="sample" class="myModal">
     <form class="form-horizontal login" name="login">
         <div class="page-header ng-scope">
             <h1>S'identifier </h1>
         </div>
-        <div class="form-group" ng-class="{'has-error': registerForm.$dirty && registerForm.Email.$invalid, 'has-success': registerForm.Username.$valid}">
-            <label class="col-sm-3 control-label" for="Username">Username</label>
+        <div class="form-group"
+             ng-class="{'has-error': registerForm.$dirty && registerForm.Email.$invalid, 'has-success': registerForm.Username.$valid}">
+            <label class="col-sm-3 control-label" for="Username">Surnom</label>
             <div class="col-sm-9">
-                <input id="Username" type="username" class="form-control" required name="Username" ng-model="Username" />
+                <input id="Username" type="username" class="form-control" required name="Username" ng-model="Username"/>
             </div>
         </div>
 
-        <div class="form-group " ng-class="{'has-error': registerForm.$dirty && registerForm.Password.$invalid, 'has-success': registerForm.Password.$valid}">
-            <label class="col-sm-3 control-label" for="Password">Password</label>
+        <div class="form-group "
+             ng-class="{'has-error': registerForm.$dirty && registerForm.Password.$invalid, 'has-success': registerForm.Password.$valid}">
+            <label class="col-sm-3 control-label" for="Password">mot de passe </label>
             <div class="col-sm-9">
-                <input id="Password" type="password" class="form-control" required ng-minlength="6" name="Password" ng-model="Password" />
+                <input id="Password" type="password" class="form-control" required ng-minlength="6" name="Password"
+                       ng-model="Password"/>
             </div>
             <span class="text-danger col-sm-offset-3" ng-show="registerForm.Password.$error.minlength">
                     Mot de passe trop court
             </span>
 
         </div>
+        <div>
 
+            <p class="Connected" id="Connected">Vous etes bien connecté vous allez etre redirrigé\n" +
+                " vers la page d'accueil dans quelques secondes</p>
+            <p class="ConnectionError" id="ConnectionError">Votre mot de passe ou identifiant est incorrect</p>
+        </div>
         <div class="form-group">
             <div class="col-sm-offset-3 col-sm-9">
-                <input type="submit" class="btn btn-default" value="connecter" ng-disabled="registerForm.$invalid" ng-click="connexion()" />
+                <input type="submit" class="btn btn-default" value="connecter" ng-disabled="registerForm.$invalid"
+                       ng-click="connexion()"/>
 
             </div>
             <button class="btn btn-primary" ng-click="cancelModal()">Fermer</button>
 
         </div>
+
     </form>
 
-   </div>
+</div>
 
 </html>

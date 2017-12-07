@@ -6323,6 +6323,16 @@ button.close {
 .carousel-inner > .active.right {
   left: 100%;
 }
+.ConnectionError{
+  font-family : "Helvetica Neue", Helvetica, Arial, sans-serif;
+  font-style : italic;
+  color:red;
+}
+.Connected{
+  font-family : "Helvetica Neue", Helvetica, Arial, sans-serif;
+  font-style : italic;
+  color:green;
+}
 .carousel-control {
   position: absolute;
   top: 0;

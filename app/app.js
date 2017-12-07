@@ -2,7 +2,7 @@ var app = angular.module('myApp', [
     'ngRoute',
     'ui.bootstrap'
 ]);
-var changeBannerContent=false;
+
 
 serverURL="http://35.177.136.202"
 
@@ -22,26 +22,15 @@ app.service('modalService', function($uibModal,$uibModalStack){
 });
 
 
-app.controller("connexionController", function($scope, $uibModalInstance){
+app.controller("connexionController", function($scope, $uibModalInstance,$rootScope){
+
     $scope.cancelModal = function(){
         $uibModalInstance.dismiss('close');
-    };
-    $scope.alerts = [
-        { type: 'danger', msg: 'Oh snap! Change a few things up and try submitting again.' },
-        { type: 'success', msg: 'Well done! You successfully read this important alert message.' }
-    ];
-    $scope.addAlert = function(message) {
-        $scope.alerts.push({msg: message});
-    };
-
-    $scope.closeAlert = function(index) {
-        $scope.alerts.splice(index, 1);
     };
 
     $scope.connexion = function(){
         //creation d'une requete REST
         api_url=serverURL;
-        //    api_url="http://localhost:8080";
 
         var xmlhttp = new XMLHttpRequest();
         var url = api_url + "/api/user";
@@ -54,18 +43,19 @@ app.controller("connexionController", function($scope, $uibModalInstance){
         xmlhttp.onreadystatechange = function () {
             if (this.readyState == 4 && this.status == 200) {
                 var myArr = JSON.parse(this.responseText);
-                alert("vous etes bien connecté");
                 console.log(myArr);
+
                 // si tout s'est bien passé on change le contenu du banner
-                changeBannerContent=true;
+                $rootScope.rootScopeAuthentified=true;
                 // une fois qu'on a tout fini on ferme la modale
-                $uibModalInstance.close('save');
-                addAlert('successfull: vous etes bien connectés !');
+
+                document.getElementById("Connected").value="Vous etes bien connecté vous allez etre redirrigé\n" +
+                    " vers la page d'accueil dans quelques secondes";
+                //$timeout($uibModalInstance.close('save'),2000);
 
             }
             else{
-                addAlert('erreur !');
-                //console.log("error "+this.status+"code2="+this.readyState);
+                //afficher un span en rouge ! pour erreur
             }
         };
         xmlhttp.open("GET", url, true);
@@ -97,7 +87,6 @@ app.controller("registerController",function($scope,$uibModalInstance){
                 alert("vous etes bien connecté");
                 console.log(myArr);
                 // si tout s'est bien passé on change le contenu du banner
-                changeBannerContent=true;
                 // une fois qu'on a tout fini on ferme la modale
                 $uibModalInstance.close('save');
             }
@@ -113,21 +102,11 @@ app.controller("registerController",function($scope,$uibModalInstance){
     };
 });
 
-app.controller('ChangeBannerContent', function($scope){
-   if(changeBannerContent==true){
-       document.getElementById("loginButton").style.visibility = "hidden";
-       document.getElementById("userD").style.visibility = "display";
-
-   }
-   else {
-
-   }
-});
 
 app.controller('locationPage', function($scope){
     $scope.bddHouses = [
         {photo:'32477145.png',name:'Gite du Brillant',place:'Nice',nbRoom:'5',shortDesc:'LE meilleur gite de la région'},
-        ]
+    ]
 });
 
 
@@ -201,33 +180,25 @@ app.controller('searchPanel', function($scope){
 
 
 app.controller('dates', function ($scope, uibDateParser) {
-  /*  $( function() {
-        document.getElementById("datepicker1").datepicker({
-            format: 'yyyy-mm-dd'
-        });
 
-    });
-    $( function() {
-        document.getElementById("datepicker2").datepicker({
-            format: 'yyyy-mm-dd'
-        });
-
-    });*/
     $scope.format = 'yyyy/MM/dd';
     $scope.date = new Date();
 });
+//ce controlleur permet de modifier le contenu du banner
+app.controller('bannerController',function($scope){
+    $scope.appDetails={
+        //if($rootScope.$rootScopeAuthentified)
 
+    }
+});
 
 app.controller('mainController', ['$scope','modalService',function ($scope,modalService) {
     $scope.open = function(url, controller) {
         modalService.openModal(url, controller);
     };
-    //utiliser un rootscope pour recuperer le modale
-    //pas le meme scope
-    //$scope.close = function() {console.log($rootScope.modal);
-    //    $uibModalInstance.close('save');
-    //    console.log("dans close ");
-    //};
+   /* $scope.TestLogin=function(){
+        return changeBannerContent;
+    }*/
 
     $scope.openNav = function() {
         document.getElementById("mySidenav").style.width = "250px";
