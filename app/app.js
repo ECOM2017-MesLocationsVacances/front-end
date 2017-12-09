@@ -149,7 +149,7 @@ app.controller('searchPanel', function($scope){
         to = document.getElementById("query2");
         charToAdd='?';
         if (place.value != "") {
-            url = url.concat(charToAdd).concat("city=").concat(place.value);
+            url = url.concat(charToAdd).concat("place=").concat(place.value);
             charToAdd='&';
         }
         if (from.value != "") {
@@ -179,6 +179,7 @@ app.controller('searchPanel', function($scope){
                     $scope.resItems.push(est);
                 }
                 $scope.$apply();
+                console.log(myArr);
             }
         };
 
