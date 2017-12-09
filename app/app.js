@@ -185,7 +185,7 @@ app.controller('searchPanel', function($scope){
         $("searchRes").html("");
         resItems = [];
 
-        //console.log(url);
+        console.log(url);
         xmlhttp.onreadystatechange = function () {
             if (this.readyState == 4 && this.status == 200) {
                 var myArr = JSON.parse(this.responseText);
@@ -203,9 +203,7 @@ app.controller('searchPanel', function($scope){
         xmlhttp.send();
 
     }
-});
-
-app.controller('locationController', function ($scope){
+    $scope.myObj=[];
     $scope.loadDetails = function(id) {
 
         console.log("hello");
@@ -214,47 +212,24 @@ app.controller('locationController', function ($scope){
         //    api_url="http://localhost:8080";
 
         var xmlhttp = new XMLHttpRequest();
-        var url = api_url + "/api/establishments/24";
+        var url = api_url + "/api/establishment/"+id;
 
-        //console.log(url);
+        console.log(url);
         xmlhttp.onreadystatechange = function () {
             if (this.readyState == 4 && this.status == 200) {
-                var myObj = JSON.parse(this.responseText);
+                myObj = JSON.parse(this.responseText);
 
                 console.log("myObj");
 
-                $("#locationDetails").append('' +
-                    '<div class="col-md-4" style="height:100%;">' +
-                    '   <img src="pictures/32477145.png" style="height:100%;">' +
-                    '</div>' +
-                    '<div class="col-md-8 sResultsText" style="height:100%;">' +
-                    '   <h3>'+ myObj.name+'</h3>' +
-                    '   <p>Lieu</p>' +
-                    '   <p>Nombre de chambres</p>' +
-                    '   <p>Nom de la chambre ou numéro :</p>' +
-                    '   <ul>' +
-                    '       <li>numéro x</li>' +
-                    '       <li>numéro x+1</li>' +
-                    '       <li>numéro (x/2)²+(y/2)²</li>' +
-                    '   </ul>' +
-                    '   <p>Dates de disponibilités :</p>' +
-                    '   <ul>' +
-                    '       <li>JJ/MM/AAAA</li>' +
-                    '       <li>JJ/MM/AAAA</li>' +
-                    '   </ul>' +
-                    '   <p>Description :</p>' +
-                    '   <div class="jumbotron">'+ +'</div>' +
-                    '</div>' +
-                    '<div>toast</div>'
-                )
-                }
             }
+        }
         ;
 
         xmlhttp.open("GET", url, true);
         xmlhttp.send();
     }
-})
+});
+
 
 app.controller('dates', function ($scope, uibDateParser) {
   /*  $( function() {
