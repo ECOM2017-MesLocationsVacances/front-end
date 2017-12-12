@@ -22,7 +22,7 @@ app.service('modalService', function($uibModal,$uibModalStack){
 });
 
 
-app.controller("connexionController", function($scope, $uibModalInstance,$rootScope){
+app.controller("connexionController", function($scope, $uibModalInstance,$rootScope ,$http){
     $scope.deconnecter=function(){
         $rootScope.rootScopeAuthentified=false;
     }
@@ -65,48 +65,31 @@ app.controller("connexionController", function($scope, $uibModalInstance,$rootSc
         xmlhttp.open("GET", url, true);
         xmlhttp.send();
     };
-});
 
-app.controller("registerController",function($scope,$uibModalInstance){
-    $scope.cancelModal = function(){
-        $uibModalInstance.dismiss('close');
-    };
-    $scope.connection = function(){
+    $scope.register = function(){
 
         //creation d'une requete REST
         api_url=serverURL;
-        //    api_url="http://localhost:8080";
-        var xmlhttp = new XMLHttpRequest();
-        var url = api_url + "/api/user";
+        var url = api_url + "/api/user/register";
 
         Surnom= document.getElementById("Surnom").value;
         MotDePasse= document.getElementById("Password").value;
         ConfirmeMDP=document.getElementById("ConfirmPassword").value;
-        //tester si les deux mot de passes sont identiques sinon
-        url=url.concat("/"+Surnom+"?password="+MotDePasse);
-        xmlhttp.onreadystatechange = function () {
-            if (this.readyState == 4 && this.status == 200) {
-                var myArr = JSON.parse(this.responseText);
-                alert("vous etes bien connecté");
-                console.log(myArr);
-                $scope.username=myArr.Surnom;
-                $scope.email=myArr.email;
-                // si tout s'est bien passé on change le contenu du banner
-                // une fois qu'on a tout fini on ferme la modale
-                $uibModalInstance.close('save');
-            }
-            else{
-                alert("error "+this.status);
-            }
-        };
-        // on envoie la requete
-        xmlhttp.open("GET", url, true);
-        xmlhttp.send();
+        email=document.getElementById("Email").value;
+
+        $http.post(url, {"username" : Surnom,"password":MotDePasse, "email":email})
+            .then(function(response) {
+                console.log(response);
+                if(response.status==200){
+                    $rootScope.rootScopeAuthentified=true;
+                    $uibModalInstance.close('save');
+                }
+            });
+
 
 
     };
 });
-
 
 app.controller('locationPage', function($scope){
     $scope.bddHouses = [
@@ -242,13 +225,7 @@ app.controller('dates', function ($scope, uibDateParser) {
     $scope.date = new Date();
 
 });
-//ce controlleur permet de modifier le contenu du banner
-/*app.controller('bannerController',function($scope,$rootScope){
 
-        $rootScope.$rootScopeNotAuthentified=true;
-
-
-}); */
 
 app.controller('mainController', ['$scope','$rootScope','modalService',function ($scope,$rootScope,modalService) {
     $scope.open = function(url, controller) {

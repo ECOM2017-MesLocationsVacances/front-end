@@ -19,7 +19,7 @@
             <ul class="nav navbar-nav navbar-right " ng-hide="rootScopeAuthentified" id="loginButton"  >
 
                 <button ng-click="open('login.html','connexionController')" class="btn btn-warning">S'identifier</button>
-                <button ng-click="open('registrationForm.html','registerController')" class="btn btn-warning">creer un compte </button>
+                <button ng-click="open('registrationForm.html','connexionController')" class="btn btn-warning">creer un compte </button>
 
             </ul>
             <!-- une fois authentifié l'utilisateur devra voir cette image sur la banner et non les deux boutons login et register-->
@@ -28,6 +28,8 @@
             <ul class="nav navbar-nav navbar-right " ng-show="rootScopeAuthentified" id="userD">
 
                  <a href="#/profilePage" ><img width="50" height="50" id="myProfile" src="pictures/icone-mon-compte.png"></a>
+                 <button ng-click="deconnecter()" class="btn btn-warning">se Deconnecter </button>
+
             </ul>
             <!-- une fois authentifié l'utilisateur devra voir cette image sur la banner et non les deux boutons login et register-->
 
