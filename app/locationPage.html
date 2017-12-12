@@ -6,12 +6,12 @@
         <h3>{{myObj.name}}</h3>
         <p>{{myObj.place}}</p>
         <p>Nombre de chambres</p>
-        <p>Nom de la chambre ou numéro :</p>
-        <ul>
-            <li>numéro x</li>
-            <li>numéro x+1</li>
-            <li>numéro (x/2)²+(y/2)²</li>
-        </ul>
+        <form>
+            <select name="numero" size="1">
+                <option ng-repeat="room in resItems track by $index">room.name
+            </select>
+        </form>
+
         <p>Dates de disponibilités :</p>
         <ul>
             <li>JJ/MM/AAAA</li>
