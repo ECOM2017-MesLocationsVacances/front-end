@@ -166,7 +166,7 @@ app.factory('selectedRoom', function() {
     }
 });
 
-app.controller('searchPanel', function($scope,selectedEst) {
+app.controller('searchPanel', function($scope,selectedEst,selectedDates) {
 
     $scope.query_search = function () {
 
@@ -209,13 +209,18 @@ app.controller('searchPanel', function($scope,selectedEst) {
 
                 //console.log("contenue du tableau après réinitialisation");console.log($scope.resItems);
 
+                idStored = [];
                 for (var est of myArr) {
 
                     if (est.photo == undefined) {
                         est.photo = 'pictures/32477145.png';
                     }
 
-                    $scope.resItems.push(est);
+                    if(!idStored.includes(est.id)){
+                        $scope.resItems.push(est);
+                        idStored.push(est.id);
+                        console.log(idStored);
+                    }
                 }
                 $scope.$apply();
                 //console.log(myArr);
@@ -284,7 +289,7 @@ app.controller('reservationController', function($scope,selectedEst){
         $scope.endDate = selectedDates.getEnd();
         $scope.room = selectedRoom.get();
     }
-}
+});
 
 
 app.controller('dates', function ($scope, uibDateParser) {
