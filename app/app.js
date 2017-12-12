@@ -102,13 +102,6 @@ app.controller("registerController",function($scope,$uibModalInstance){
     };
 });
 
-
-app.controller('locationPage', function($scope){
-    $scope.bddHouses = [
-        {photo:'32477145.png',name:'Gite du Brillant',place:'Nice',nbRoom:'5',shortDesc:'LE meilleur gite de la région'},
-    ]
-});
-
 app.factory('selectedEst', function() {
     var selectedEst;
 
@@ -118,6 +111,53 @@ app.factory('selectedEst', function() {
 
     function get() {
         return selectedEst;
+    }
+
+    return {
+        set: set,
+        get: get
+    }
+});
+
+
+app.factory('selectedDates', function() {
+    var startDate;
+    var endDate;
+
+    function setStart(start) {
+        startDate = start;
+    }
+
+    function setEnd(end) {
+        endDate = end;
+    }
+
+    function getStart() {
+        return startDate;
+    }
+
+    function getEnd(){
+        return endDate
+    }
+
+    return {
+        setStart: setStart,
+        getStart: getStart,
+        setEnd: setEnd,
+        getEnd: getEnd,
+
+    }
+});
+
+app.factory('selectedRoom', function() {
+    var selectedRoom;
+
+    function set(Room) {
+        selectedRoom = Room;
+    }
+
+    function get() {
+        return selectedRoom;
     }
 
     return {
@@ -146,10 +186,13 @@ app.controller('searchPanel', function($scope,selectedEst) {
         if (from.value != "") {
             url = url.concat(charToAdd).concat("?from=").concat(from.value);
             charToAdd = '&';
+            selectedDates.setStart(from.value);
         }
+
         if (to.value != "") {
             url = url.concat(charToAdd).concat("?to=").concat(to.value);
             charToAdd = '&';
+            selectedDates.setEnd(to.value);
         }
 
         //console.log(url);
@@ -197,7 +240,7 @@ app.controller('locationController', function($scope,selectedEst){
 
         $scope.myEst = selectedEst.get();
 
-        //console.log($scope.myEst);
+        console.log($scope.myEst);
 
         api_url=serverURL;
 
@@ -229,6 +272,19 @@ app.controller('locationController', function($scope,selectedEst){
 
     }
 });
+
+app.controller('reservationController', function($scope,selectedEst){
+
+    $scope.startDate;
+    $scope.endDate;
+    $scope.room;
+
+    $scope.startReservation = function(){
+        $scope.startDate = selectedDates.getStart();
+        $scope.endDate = selectedDates.getEnd();
+        $scope.room = selectedRoom.get();
+    }
+}
 
 
 app.controller('dates', function ($scope, uibDateParser) {
