@@ -6,8 +6,8 @@ Licensed under MIT
 <link href="css/profilePage.css" rel="stylesheet">
 
 <div class="container">
-    <div class="row profile">
-        <div class="col-md-3">
+    <div class="row profile" ng-Controller="connexionController">
+
             <div class="profile-sidebar">
                 <!-- SIDEBAR USERPIC -->
                 <div class="profile-userpic">
@@ -22,7 +22,7 @@ Licensed under MIT
                     <ul class="nav">
 
                         <li>
-                            Surnom :
+                            Surnom : {{$scope.Surnom}}
                             <a href="" >Modifier</a>
                         </li>
                         <li>
@@ -30,13 +30,16 @@ Licensed under MIT
                              <a href="" >Modifier</a>
                         </li>
                         <li>
-                            Adresse (optionnel) :
+                            Adresse (optionnel) : {{$scope.email()}}
                             <a href="" >Modifier</a>
                         </li>
 
                     </ul>
+                    <ul>
+                        <button class="btn btn-primary" ng-click="Deconnecter()" > Deconnecter</button>
+                    </ul>
                 </div>
-            </div>
+
         </div>
     </div>
 </div>

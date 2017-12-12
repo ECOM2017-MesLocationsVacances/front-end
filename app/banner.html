@@ -10,26 +10,31 @@
 
         </div>
 
-        <div id="navbar" class="navbar-collapse collapse" ng-controller='bannerController'>
+        <div id="navbar1" class="navbar-collapse collapse" >
             <ul class="nav navbar-nav">
                 <li><a href="#/searchResults">test result</a></li>
                 <li><a href="javascript:void(0)" ng-click="openNav()">SEARCH</a></li>
 
             </ul>
-            <ul class="nav navbar-nav navbar-right " id="loginButton"  >{{appDetails.rightComponent}}
+            <ul class="nav navbar-nav navbar-right " ng-hide="rootScopeAuthentified" id="loginButton"  >
 
                 <button ng-click="open('login.html','connexionController')" class="btn btn-warning">S'identifier</button>
                 <button ng-click="open('registrationForm.html','registerController')" class="btn btn-warning">creer un compte </button>
 
             </ul>
             <!-- une fois authentifié l'utilisateur devra voir cette image sur la banner et non les deux boutons login et register-->
-            <!--TODO : faire une sote de if pour afficher l'une ou l'autre des boutons -->
-            <ul class="nav navbar-nav navbar-right " id="userD">
 
-               <!-- <a href="#/profilePage" ><img src="pictures/32477145.png"></a> -->
 
+            <ul class="nav navbar-nav navbar-right " ng-show="rootScopeAuthentified" id="userD">
+
+                 <a href="#/profilePage" ><img width="50" height="50" id="myProfile" src="pictures/icone-mon-compte.png"></a>
             </ul>
+            <!-- une fois authentifié l'utilisateur devra voir cette image sur la banner et non les deux boutons login et register-->
+
 
         </div><!--/.nav-collapse -->
+
+
+        </ul>
     </div>
 </nav>

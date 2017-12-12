@@ -23,6 +23,9 @@ app.service('modalService', function($uibModal,$uibModalStack){
 
 
 app.controller("connexionController", function($scope, $uibModalInstance,$rootScope){
+    $scope.deconnecter=function(){
+        $rootScope.rootScopeAuthentified=false;
+    }
 
     $scope.cancelModal = function(){
         $uibModalInstance.dismiss('close');
@@ -44,17 +47,18 @@ app.controller("connexionController", function($scope, $uibModalInstance,$rootSc
             if (this.readyState == 4 && this.status == 200) {
                 var myArr = JSON.parse(this.responseText);
                 console.log(myArr);
-
                 // si tout s'est bien passé on change le contenu du banner
                 $rootScope.rootScopeAuthentified=true;
-                // une fois qu'on a tout fini on ferme la modale
+                $rootScope.$rootScopeConnexionErreur=true;
 
-                document.getElementById("Connected").value="Vous etes bien connecté vous allez etre redirrigé\n" +
-                    " vers la page d'accueil dans quelques secondes";
-                //$timeout($uibModalInstance.close('save'),2000);
+                $scope.username=myArr.Surnom;
+                $scope.email=myArr.email;
+                $uibModalInstance.close('save');
 
             }
             else{
+                $rootScope.$rootScopeConnexionErreur=true;
+
                 //afficher un span en rouge ! pour erreur
             }
         };
@@ -74,8 +78,7 @@ app.controller("registerController",function($scope,$uibModalInstance){
         //    api_url="http://localhost:8080";
         var xmlhttp = new XMLHttpRequest();
         var url = api_url + "/api/user";
-        Nom= document.getElementById("").value;
-        Prenom= document.getElementById("Surnom").value;
+
         Surnom= document.getElementById("Surnom").value;
         MotDePasse= document.getElementById("Password").value;
         ConfirmeMDP=document.getElementById("ConfirmPassword").value;
@@ -86,6 +89,8 @@ app.controller("registerController",function($scope,$uibModalInstance){
                 var myArr = JSON.parse(this.responseText);
                 alert("vous etes bien connecté");
                 console.log(myArr);
+                $scope.username=myArr.Surnom;
+                $scope.email=myArr.email;
                 // si tout s'est bien passé on change le contenu du banner
                 // une fois qu'on a tout fini on ferme la modale
                 $uibModalInstance.close('save');
@@ -245,20 +250,21 @@ app.controller('dates', function ($scope, uibDateParser) {
     $scope.date = new Date();
 });
 //ce controlleur permet de modifier le contenu du banner
-app.controller('bannerController',function($scope){
-    $scope.appDetails={
-        //if($rootScope.$rootScopeAuthentified)
+/*app.controller('bannerController',function($scope,$rootScope){
 
-    }
-});
+        $rootScope.$rootScopeNotAuthentified=true;
 
-app.controller('mainController', ['$scope','modalService',function ($scope,modalService) {
+
+}); */
+
+app.controller('mainController', ['$scope','$rootScope','modalService',function ($scope,$rootScope,modalService) {
     $scope.open = function(url, controller) {
         modalService.openModal(url, controller);
     };
    /* $scope.TestLogin=function(){
         return changeBannerContent;
     }*/
+    $rootScope.$rootScopeNotAuthentified=true;
 
     $scope.openNav = function() {
         document.getElementById("mySidenav").style.width = "250px";

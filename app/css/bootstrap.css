@@ -6333,6 +6333,10 @@ button.close {
   font-style : italic;
   color:green;
 }
+.myProfile{
+  width:1%; !important;
+  height:1%; !important;
+}
 .carousel-control {
   position: absolute;
   top: 0;
