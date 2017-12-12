@@ -238,7 +238,10 @@ app.controller('searchPanel', function($scope,selectedEst,selectedDates) {
 
 app.controller('locationController', function($scope,selectedEst){
     $scope.rooms = [];
-
+    $scope.selectedRoomDetails = [];
+    $scope.changeRoom = function() {
+        console.log("hellohello "+ $scope.myRoom.price);
+    }
     $scope.loadDetails = function() {
 
         //console.log("hello");
@@ -276,6 +279,7 @@ app.controller('locationController', function($scope,selectedEst){
 
 
     }
+
 });
 
 app.controller('reservationController', function($scope,selectedEst){
