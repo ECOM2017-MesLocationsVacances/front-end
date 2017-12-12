@@ -1,17 +1,17 @@
 <div id="searchRes">
-    <div class="jumbotron" ng-controller="searchPanel" ng-repeat="house in resItems track by $index" style="height:250px; padding:10px;">
+    <div class="jumbotron" ng-controller="searchPanel" ng-repeat="Est in resItems track by $index" style="height:250px; padding:10px;">
             <div class="col-md-3" style="height:100%;">
-                    <img src={{house.photo}} style="height:75%;">
-                    <p style="height:25%; margin:0px;">Note de l\'appart</p>
+                    <img src={{Est.photo}} style="height:75%;">
+                    <p style="height:25%; margin:0px;">Note de l'appart</p>
                 </div>
             <div class="col-md-6 sResultsText" style="height:100%;">
-                    <p style="height:25%; margin:0px; vertical-align: center">{{house.name}}</p>
-                    <p style="height:25%; margin:0px;">{{house.place}}</p>
-                    <p style="height:50%; margin:0px;">{{house.description}}</p>
+                    <p style="height:25%; margin:0px; vertical-align: center">{{Est.name}}</p>
+                    <p style="height:25%; margin:0px;">{{Est.place}}</p>
+                    <p style="height:50%; margin:0px;">{{Est.description}}</p>
                 </div>
             <div class="col-md-3" style="height:100%;">
-                    <p style="height:50%; margin:0px; text-align: center;">placeholder pour nombre de chambre</p>
-                    <a href="#/locationPage" ng-click="loadDetails(house.id)" style="height:50%; margin:0px;">Plus de details</a>
+                    <!--<p style="height:50%; margin:0px; text-align: center;">placeholder pour nombre de chambre</p>-->
+                    <a ng-href="#/locationPage" ng-click="selectEst(Est)" style="height:50%; margin:0px;">Plus de details</a>
                 </div>
         </div>
 </div>
