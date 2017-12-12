@@ -114,37 +114,28 @@ app.controller('locationPage', function($scope){
     ]
 });
 
-app.controller('searchPanel', function($scope){
+app.factory('selectedEst', function() {
+    var selectedEst;
 
-    $scope.query_search = function() {
-      /*
-        function addRoom(room) {
+    function set(Est) {
+        selectedEst = Est;
+    }
 
-            if (est.photo == undefined) {
-                est.photo = 'pictures/32477145.png';
-            }
+    function get() {
+        return selectedEst;
+    }
 
-            $("#searchRes").append('' +
-                '<div class="jumbotron" ng-controller="locationController" style="height:250px; padding:10px;">\n' +
-                '    <div class="col-md-3" style="height:100%;">\n' +
-                '        <img src="'+est.photo+'" style="height:75%;">\n' +
-                '        <p style="height:25%; margin:0px;">Note de l\'appart</p>\n' +
-                '    </div>\n' +
-                '    <div class="col-md-6 sResultsText" style="height:100%;">\n' +
-                '        <p style="height:25%; margin:0px; vertical-align: center">'+est.establishment.name+'</p>\n' +
-                '        <p style="height:25%; margin:0px;">'+est.establishment.place+'</p>\n' +
-                '        <p style="height:50%; margin:0px;">'+est.establishment.description+'</p>\n' +
-                '    </div>\n' +
-                '    <div class="col-md-3" style="height:100%;">\n' +
-                '        <p style="height:50%; margin:0px; text-align: center;">placeholder pour nombre de places</p>\n' +
-                '        <a href="#/locationPage" ng-click=loadDetails('+est.id+') style="height:50%; margin:0px;">Plus de details</a>\n' +
-                '    </div>\n' +
-                '</div>'
-            )
-        }
-        */
+    return {
+        set: set,
+        get: get
+    }
+});
 
-        api_url=serverURL;
+app.controller('searchPanel', function($scope,selectedEst) {
+
+    $scope.query_search = function () {
+
+        api_url = serverURL;
         //    api_url="http://localhost:8080";
 
         var xmlhttp = new XMLHttpRequest();
@@ -152,18 +143,18 @@ app.controller('searchPanel', function($scope){
         place = document.getElementById("queryPlace");
         from = document.getElementById("query3");
         to = document.getElementById("query2");
-        charToAdd='?';
+        charToAdd = '?';
         if (place.value != "") {
-            url = url.concat(charToAdd).concat("city=").concat(place.value);
-            charToAdd='&';
+            url = url.concat(charToAdd).concat("place=").concat(place.value);
+            charToAdd = '&';
         }
         if (from.value != "") {
             url = url.concat(charToAdd).concat("?from=").concat(from.value);
-            charToAdd='&';
+            charToAdd = '&';
         }
         if (to.value != "") {
             url = url.concat(charToAdd).concat("?to=").concat(to.value);
-            charToAdd='&';
+            charToAdd = '&';
         }
 
         //console.log(url);
@@ -171,9 +162,14 @@ app.controller('searchPanel', function($scope){
             if (this.readyState == 4 && this.status == 200) {
                 var myArr = JSON.parse(this.responseText);
 
-                for(i=0;i<=$scope.resItems.length;i++){
-                    $scope.resItems.shift();
+                //console.log("contenue du tableau");console.log($scope.resItems);
+
+                tabsize = $scope.resItems.length
+                for (i = 0; i < tabsize; i++) {
+                    $scope.resItems.pop();
                 }
+
+                //console.log("contenue du tableau après réinitialisation");console.log($scope.resItems);
 
                 for (var est of myArr) {
 
@@ -184,70 +180,67 @@ app.controller('searchPanel', function($scope){
                     $scope.resItems.push(est);
                 }
                 $scope.$apply();
+                //console.log(myArr);
             }
         };
 
         xmlhttp.open("GET", url, true);
         xmlhttp.send();
+    }
 
+    $scope.selectEst = function(Object) {
+        selectedEst.set(Object);
     }
 });
 
-app.controller('locationController', function ($scope){
-    $scope.loadDetails = function(id) {
+app.controller('locationController', function($scope,selectedEst){
+    $scope.rooms = [];
 
-        console.log("hello");
+    $scope.loadDetails = function() {
 
-        api_url="http://35.177.136.202";
-        //    api_url="http://localhost:8080";
+        //console.log("hello");
+
+        $scope.myEst = selectedEst.get();
+
+        //console.log($scope.myEst);
+
+        api_url=serverURL;
 
         var xmlhttp = new XMLHttpRequest();
-        var url = api_url + "/api/establishments/24";
+        var url = api_url + "/api/rooms/";
+        //http://35.177.136.202/api/establishments/1
 
-        //console.log(url);
+        console.log(url);
         xmlhttp.onreadystatechange = function () {
             if (this.readyState == 4 && this.status == 200) {
-                var myObj = JSON.parse(this.responseText);
+                myObj = JSON.parse(this.responseText);
 
-                console.log("myObj");
-
-                $("#locationDetails").append('' +
-                    '<div class="col-md-4" style="height:100%;">' +
-                    '   <img src="pictures/32477145.png" style="height:100%;">' +
-                    '</div>' +
-                    '<div class="col-md-8 sResultsText" style="height:100%;">' +
-                    '   <h3>'+ myObj.name+'</h3>' +
-                    '   <p>Lieu</p>' +
-                    '   <p>Nombre de chambres</p>' +
-                    '   <p>Nom de la chambre ou numéro :</p>' +
-                    '   <ul>' +
-                    '       <li>numéro x</li>' +
-                    '       <li>numéro x+1</li>' +
-                    '       <li>numéro (x/2)²+(y/2)²</li>' +
-                    '   </ul>' +
-                    '   <p>Dates de disponibilités :</p>' +
-                    '   <ul>' +
-                    '       <li>JJ/MM/AAAA</li>' +
-                    '       <li>JJ/MM/AAAA</li>' +
-                    '   </ul>' +
-                    '   <p>Description :</p>' +
-                    '   <div class="jumbotron">'+ +'</div>' +
-                    '</div>' +
-                    '<div>toast</div>'
-                )
+                for ( room of myObj ){
+                    if (room.establishment.id == $scope.myEst.id){
+                        $scope.rooms.push(room);
+                    }
                 }
+
+                $scope.$apply();
+
+                console.log($scope.rooms);
             }
+        }
         ;
 
         xmlhttp.open("GET", url, true);
         xmlhttp.send();
+
+
     }
-})
+});
+
 
 app.controller('dates', function ($scope, uibDateParser) {
 
     $scope.format = 'yyyy/MM/dd';
     $scope.date = new Date();
+
 });
 //ce controlleur permet de modifier le contenu du banner
 /*app.controller('bannerController',function($scope,$rootScope){
@@ -276,6 +269,7 @@ app.controller('mainController', ['$scope','$rootScope','modalService',function 
     };
 
     $scope.resItems=[];
+
 }]);
 
 app.config(function($routeProvider) {

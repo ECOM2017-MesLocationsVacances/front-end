@@ -1,2 +1,24 @@
-<div id="locationDetails">
+<div id="locationDetails" ng-controller="locationController" ng-init="loadDetails()">
+    <div class="col-md-4" style="height:100%;">
+        <img src="pictures/32477145.png" style="height:100%;">
+    </div>
+    <div class="col-md-8 sResultsText" style="height:100%;">
+        <h3>{{myEst.name}}</h3>
+        <p>{{myEst.place}}</p>
+        <p>Nombre de chambres</p>
+        <form>
+            <select name="numero" size="1">
+                <option ng-options="room in allRooms track by $index" ng-model="roomSelected">room.name
+            </select>
+        </form>
+
+        <p>Dates de disponibilités :</p>
+        <ul>
+            <li>JJ/MM/AAAA</li>
+            <li>JJ/MM/AAAA</li>
+        </ul>
+        <p>{{myEst.description}}</p>
+        <div class="jumbotron"></div>
+    </div>
+    <div>toast</div>
 </div>
