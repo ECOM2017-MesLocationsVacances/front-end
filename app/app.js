@@ -189,20 +189,20 @@ app.controller('searchPanel', function($scope,selectedEst) {
 });
 
 app.controller('locationController', function($scope,selectedEst){
+    $scope.rooms = [];
+
     $scope.loadDetails = function() {
 
-        console.log("hello");
+        //console.log("hello");
 
         $scope.myEst = selectedEst.get();
 
-        console.log($scope.myEst);
+        //console.log($scope.myEst);
 
-        api_url="http://35.177.136.202";
-        //    api_url="http://localhost:8080";
+        api_url=serverURL;
 
-        /*
         var xmlhttp = new XMLHttpRequest();
-        var url = api_url + "/api/establishments/"+id;
+        var url = api_url + "/api/rooms/";
         //http://35.177.136.202/api/establishments/1
 
         console.log(url);
@@ -210,8 +210,15 @@ app.controller('locationController', function($scope,selectedEst){
             if (this.readyState == 4 && this.status == 200) {
                 myObj = JSON.parse(this.responseText);
 
-                console.log(myObj);
+                for ( room of myObj ){
+                    if (room.establishment.id == $scope.myEst.id){
+                        $scope.rooms.push(room);
+                    }
+                }
 
+                $scope.$apply();
+
+                console.log($scope.rooms);
             }
         }
         ;
@@ -219,7 +226,7 @@ app.controller('locationController', function($scope,selectedEst){
         xmlhttp.open("GET", url, true);
         xmlhttp.send();
 
-        */
+
     }
 });
 
