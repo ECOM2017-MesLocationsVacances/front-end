@@ -231,7 +231,7 @@ app.controller('searchPanel', function($scope,selectedEst) {
     }
 });
 
-app.controller('locationController', function($scope,selectedEst){
+app.controller('locationController', function($scope,selectedEst, selectedRoom){
     $scope.rooms = [];
     $scope.selectedRoomDetails = [];
     $scope.changeRoom = function() {
