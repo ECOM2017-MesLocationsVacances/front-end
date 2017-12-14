@@ -12,7 +12,7 @@
             </select>
         </label>
 
-        <div class="jumbotron">
+        <div ng-if="myRoom!=undefined" class="jumbotron">
             <p>Description : {{myRoom.description}}</p>
             <p>Prix : {{myRoom.price}}</p>
             <form>
