@@ -21,20 +21,14 @@
                 <input id="reservationStart"
                        type="date"
                        class="form-control input-query"
-                       ng-controller="dates"
-                       placeholder="{{begin}}"
-                       ng-model="date"
-                       ng-keydown="rechercher($event.keyCode)"
+                       value="{{begin}}"
                 >
 
                 <p>Date de fin</p>
                 <input id="reservationEnd"
-                       ng-controller="dates"
                        type="date"
                        class="form-control input-query"
-                       placeholder="{{end}}"
-                       ng-model="date"
-                       ng-keydown="rechercher($event.keyCode)"
+                       value="{{end}}"
                 >
             </form>
             <a ng-href="#/reservationPage" ng-click="selectRoom(myRoom)" >RESERVER MAINTENANT</a>
