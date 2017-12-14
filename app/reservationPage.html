@@ -1,32 +1,13 @@
 <div ng-controller="reservationController" ng-init="startReservation()">
     <div class="col-md-8 sResultsText" style="height:100%;">
-        <h3>{{room.establishment.name}}</h3>
-        <p>{{room.establishment.place}}</p>
-        <p>{{room.name}}</p>
-        <p>{{room.description}}</p>
+        <h3>Veuillez confirmer les détails de la réservation : </h3>
+        <p>Nom de l'établissement : {{room.establishment.name}}</p>
+        <p>Lieu : {{room.establishment.place}}</p>
+        <p>Nom ou numéro de la chambre :{{room.name}}</p>
+        <p>Description : {{room.description}}</p>
+        <p>Date de début : {{startDate}}</p>
+        <p>Date de fin : {{endDate}}</p>
+        <a href="#"> Paiement </a>
 
-        <form>
-            <a href="#">Date de debut</a>
-
-            <input id="reservationStart"
-                   type="date"
-                   class="form-control input-query"
-                   ng-controller="dates"
-                   placeholder={{startDate}}
-                   ng-model="date"
-                   ng-keydown="rechercher($event.keyCode)"
-            >
-
-            <a href="#">Date de fin</a>
-            <input id="reservationEnd"
-                   ng-controller="dates"
-                   type="date"
-                   class="form-control input-query"
-                   placeholder={{endDate}}
-                   ng-model="date"
-                   ng-keydown="rechercher($event.keyCode)"
-            >
-            <a href="#/searchResults" ng-click="query_search()">Reserver</a>
-        </form>
     </div>
 </div>

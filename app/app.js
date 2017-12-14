@@ -126,10 +126,13 @@ app.factory('selectedDates', function() {
 
     function setStart(start) {
         startDate = start;
+        console.log(startDate + "start")
     }
 
     function setEnd(end) {
         endDate = end;
+        console.log(endDate + "end")
+
     }
 
     function getStart() {
@@ -236,9 +239,12 @@ app.controller('searchPanel', function($scope,selectedEst,selectedDates) {
     }
 });
 
-app.controller('locationController', function($scope,selectedEst, selectedRoom){
+app.controller('locationController', function($scope,selectedEst, selectedRoom, selectedDates){
     $scope.rooms = [];
     $scope.selectedRoomDetails = [];
+    $scope.begin=selectedDates.getStart();
+    $scope.end=selectedDates.getEnd();
+
     $scope.changeRoom = function() {
         console.log("hellohello "+ $scope.myRoom.price);
     }
@@ -279,14 +285,22 @@ app.controller('locationController', function($scope,selectedEst, selectedRoom){
 
 
     }
+    $scope.selectRoom = function(Object) {
+        selectedRoom.set(Object);
+        from = document.getElementById("reservationStart");
+        to = document.getElementById("reservationEnd");
+        selectedDates.setStart(from.value);
+        selectedDates.setEnd(to.value);
+    }
 
 });
 
-app.controller('reservationController', function($scope,selectedEst){
+app.controller('reservationController', function($scope,selectedRoom,selectedDates){
 
     $scope.startDate;
     $scope.endDate;
     $scope.room;
+
 
     $scope.startReservation = function(){
         $scope.startDate = selectedDates.getStart();
@@ -344,6 +358,9 @@ app.config(function($routeProvider) {
         })
         .when('/locationPage', {
             templateUrl : 'locationPage.html'
+        })
+        .when('/reservationPage', {
+            templateUrl : 'reservationPage.html'
         })
         .otherwise({
             templateUrl : '404.html'

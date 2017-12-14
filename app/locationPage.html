@@ -1,11 +1,11 @@
 <div id="locationDetails" ng-controller="locationController" ng-init="loadDetails()">
-    <div class="col-md-4" style="height:100%;">
-        <img src="pictures/32477145.png" style="height:100%;">
+    <div class="col-md-2" style="height:100%;">
+        <img src={{myEst.photo}} style="height:100%;">
     </div>
-    <div class="col-md-8 sResultsText" style="height:100%;">
+    <div class="col-md-10 sResultsText" style="height:100%;">
         <h3>{{myEst.name}}</h3>
         <p>{{myEst.place}}</p>
-        <p>{{myEst.description}}</p>
+        <p style="font-style:italic">{{myEst.description}}</p>
         <label>Choix :
             <select ng-model="myRoom" ng-options="room as room.name for room in rooms" ng-change="changeRoom()">
                 <option>{{room.name}}
@@ -13,10 +13,31 @@
         </label>
 
         <div class="jumbotron">
-            <p>{{myRoom.place}}</p>
-            <p>{{myRoom.description}}</p>
-            <p>{{myRoom.price}}</p>
+            <p>Description : {{myRoom.description}}</p>
+            <p>Prix : {{myRoom.price}}</p>
+            <form>
+                <p>Date de debut</p>
+
+                <input id="reservationStart"
+                       type="date"
+                       class="form-control input-query"
+                       ng-controller="dates"
+                       placeholder="{{begin}}"
+                       ng-model="date"
+                       ng-keydown="rechercher($event.keyCode)"
+                >
+
+                <p>Date de fin</p>
+                <input id="reservationEnd"
+                       ng-controller="dates"
+                       type="date"
+                       class="form-control input-query"
+                       placeholder="{{end}}"
+                       ng-model="date"
+                       ng-keydown="rechercher($event.keyCode)"
+                >
+            </form>
+            <a ng-href="#/reservationPage" ng-click="selectRoom(myRoom)" >RESERVER MAINTENANT</a>
         </div>
     </div>
-    <div>toast</div>
 </div>
