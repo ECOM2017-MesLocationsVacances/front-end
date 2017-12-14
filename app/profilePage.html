@@ -11,7 +11,7 @@ Licensed under MIT
             <div class="profile-sidebar">
                 <!-- SIDEBAR USERPIC -->
                 <div class="profile-userpic">
-                    <img src="pictures/32477145.png" class="img-responsive" alt="">
+                    <img width="50 " height="50"  src="pictures/profile.png" class="img-profile" alt=" image de profile">
                 </div>
 
                 <div class="profile-userbuttons">
@@ -22,7 +22,7 @@ Licensed under MIT
                     <ul class="nav">
 
                         <li>
-                            Surnom : {{$scope.Surnom}}
+                            Surnom : <h1>{{surnom}}</h1>
                             <a href="" >Modifier</a>
                         </li>
                         <li>
@@ -30,14 +30,12 @@ Licensed under MIT
                              <a href="" >Modifier</a>
                         </li>
                         <li>
-                            Adresse (optionnel) : {{$scope.email()}}
+                            Adresse E.mail(optionnel) : <h2>{{email}} </h2>
                             <a href="" >Modifier</a>
                         </li>
 
                     </ul>
-                    <ul>
-                        <button class="btn btn-primary" ng-click="Deconnecter()" > Deconnecter</button>
-                    </ul>
+
                 </div>
 
         </div>

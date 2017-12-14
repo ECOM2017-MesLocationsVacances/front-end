@@ -4,11 +4,11 @@ var app = angular.module('myApp', [
 ]);
 
 
-serverURL="http://35.177.136.202"
+serverURL = "http://35.177.136.202"
 
-app.service('modalService', function($uibModal,$uibModalStack){
+app.service('modalService', function ($uibModal, $uibModalStack) {
     var modalService = {};
-    modalService.openModal = function(url, controller){
+    modalService.openModal = function (url, controller) {
         $uibModalStack.dismissAll('another modal just opened');
         modalService.modalInstance = $uibModal.open({
             ariaLabelledBy: 'modal-title',
@@ -22,25 +22,26 @@ app.service('modalService', function($uibModal,$uibModalStack){
 });
 
 
-app.controller("connexionController", function($scope, $uibModalInstance,$rootScope ,$http){
-    $scope.deconnecter=function(){
-        $rootScope.rootScopeAuthentified=false;
-    }
-
-    $scope.cancelModal = function(){
+app.controller("connexionController", function ($scope, $uibModalInstance, $rootScope, $http) {
+    /* $scope.deconnecter=function(){
+         $rootScope.rootScopeAuthentified=false;
+         console.log("I am here");
+     }
+ */
+    $scope.cancelModal = function () {
         $uibModalInstance.dismiss('close');
     };
 
-    $scope.connexion = function(){
+    $scope.connexion = function () {
         //creation d'une requete REST
-        api_url=serverURL;
+        api_url = serverURL;
 
         var xmlhttp = new XMLHttpRequest();
         var url = api_url + "/api/user";
-        Surnom= document.getElementById("Username").value;
-        MotDePasse= document.getElementById("Password").value;
+        Surnom = document.getElementById("Username").value;
+        MotDePasse = document.getElementById("Password").value;
 
-        url=url.concat("/"+Surnom+"?password="+MotDePasse);
+        url = url.concat("/" + Surnom + "?password=" + MotDePasse);
         console.log(url);
         // on envoie la requete
         xmlhttp.onreadystatechange = function () {
@@ -48,17 +49,14 @@ app.controller("connexionController", function($scope, $uibModalInstance,$rootSc
                 var myArr = JSON.parse(this.responseText);
                 console.log(myArr);
                 // si tout s'est bien passé on change le contenu du banner
-                $rootScope.rootScopeAuthentified=true;
-                $rootScope.$rootScopeConnexionErreur=true;
-
-                $scope.username=myArr.Surnom;
-                $scope.email=myArr.email;
+                $rootScope.rootScopeAuthentified = true;
+                $scope.username = myArr.Surnom;
+                $scope.email = myArr.email;
                 $uibModalInstance.close('save');
 
             }
-            else{
-                $rootScope.$rootScopeConnexionErreur=true;
-
+            else {
+                $rootScope.$rootScopeConnexionErreur = true;
                 //afficher un span en rouge ! pour erreur
             }
         };
@@ -66,38 +64,47 @@ app.controller("connexionController", function($scope, $uibModalInstance,$rootSc
         xmlhttp.send();
     };
 
-    $scope.register = function(){
+    $scope.register = function () {
 
         //creation d'une requete REST
-        api_url=serverURL;
+        api_url = serverURL;
         var url = api_url + "/api/user/register";
 
-        Surnom= document.getElementById("Surnom").value;
-        MotDePasse= document.getElementById("Password").value;
-        ConfirmeMDP=document.getElementById("ConfirmPassword").value;
-        email=document.getElementById("Email").value;
-
-        $http.post(url, {"username" : Surnom,"password":MotDePasse, "email":email})
-            .then(function(response) {
+        Surnom = document.getElementById("Surnom").value;
+        MotDePasse = document.getElementById("Password").value;
+        ConfirmeMDP = document.getElementById("ConfirmPassword").value;
+        email = document.getElementById("Email").value;
+        $scope.surnom = Surnom;
+        $scope.email = email;
+        $scope.mdp = MotDePasse;
+        $http.post(url, {"username": Surnom, "password": MotDePasse, "email": email})
+            .then(function (response) {
                 console.log(response);
-                if(response.status==200){
-                    $rootScope.rootScopeAuthentified=true;
-                    $uibModalInstance.close('save');
+                if (response.status == 200) {
+                    $scope.registrationSuccess = true;
+                   // $uibModalInstance.close('save');
+                }
+                else {
+                    $scope.registrationError = true;
                 }
             });
-
-
 
     };
 });
 
-app.controller('locationPage', function($scope){
+app.controller('locationPage', function ($scope) {
     $scope.bddHouses = [
-        {photo:'32477145.png',name:'Gite du Brillant',place:'Nice',nbRoom:'5',shortDesc:'LE meilleur gite de la région'},
+        {
+            photo: '32477145.png',
+            name: 'Gite du Brillant',
+            place: 'Nice',
+            nbRoom: '5',
+            shortDesc: 'LE meilleur gite de la région'
+        },
     ]
 });
 
-app.factory('selectedEst', function() {
+app.factory('selectedEst', function () {
     var selectedEst;
 
     function set(Est) {
@@ -114,7 +121,7 @@ app.factory('selectedEst', function() {
     }
 });
 
-app.controller('searchPanel', function($scope,selectedEst) {
+app.controller('searchPanel', function ($scope, selectedEst) {
 
     $scope.query_search = function () {
 
@@ -171,15 +178,15 @@ app.controller('searchPanel', function($scope,selectedEst) {
         xmlhttp.send();
     }
 
-    $scope.selectEst = function(Object) {
+    $scope.selectEst = function (Object) {
         selectedEst.set(Object);
     }
 });
 
-app.controller('locationController', function($scope,selectedEst){
+app.controller('locationController', function ($scope, selectedEst) {
     $scope.rooms = [];
 
-    $scope.loadDetails = function() {
+    $scope.loadDetails = function () {
 
         //console.log("hello");
 
@@ -187,7 +194,7 @@ app.controller('locationController', function($scope,selectedEst){
 
         //console.log($scope.myEst);
 
-        api_url=serverURL;
+        api_url = serverURL;
 
         var xmlhttp = new XMLHttpRequest();
         var url = api_url + "/api/rooms/";
@@ -198,8 +205,8 @@ app.controller('locationController', function($scope,selectedEst){
             if (this.readyState == 4 && this.status == 200) {
                 myObj = JSON.parse(this.responseText);
 
-                for ( room of myObj ){
-                    if (room.establishment.id == $scope.myEst.id){
+                for (room of myObj) {
+                    if (room.establishment.id == $scope.myEst.id) {
                         $scope.rooms.push(room);
                     }
                 }
@@ -227,46 +234,46 @@ app.controller('dates', function ($scope, uibDateParser) {
 });
 
 
-app.controller('mainController', ['$scope','$rootScope','modalService',function ($scope,$rootScope,modalService) {
-    $scope.open = function(url, controller) {
+app.controller('mainController', ['$scope', '$rootScope', 'modalService', function ($scope, $rootScope, modalService) {
+    $scope.open = function (url, controller) {
         modalService.openModal(url, controller);
     };
-   /* $scope.TestLogin=function(){
-        return changeBannerContent;
-    }*/
-    $rootScope.$rootScopeNotAuthentified=true;
+    $scope.deconnecter = function () {
+        $rootScope.rootScopeAuthentified = false;
+        console.log("I am here");
+    }
 
-    $scope.openNav = function() {
+    $scope.openNav = function () {
         document.getElementById("mySidenav").style.width = "250px";
         document.getElementById("main").style.marginLeft = "250px";
     }
-    $scope.closeNav = function() {
+    $scope.closeNav = function () {
         document.getElementById("mySidenav").style.width = "0";
-        document.getElementById("main").style.marginLeft= "0";
+        document.getElementById("main").style.marginLeft = "0";
     };
 
-    $scope.resItems=[];
+    $scope.resItems = [];
 
 }]);
 
-app.config(function($routeProvider) {
+app.config(function ($routeProvider) {
     $routeProvider
         .when('/', {
-            templateUrl : 'home.html'
+            templateUrl: 'home.html'
         })
         .when('/searchResults', {
-            templateUrl : 'searchResults.html'
+            templateUrl: 'searchResults.html'
         })
         .when('/profilePage', {
-            templateUrl : 'profilePage.html'
+            templateUrl: 'profilePage.html'
         })
         .when('/locationPage', {
-            templateUrl : 'locationPage.html'
+            templateUrl: 'locationPage.html'
         })
         .otherwise({
-            templateUrl : '404.html'
+            templateUrl: '404.html'
         })
-;
+    ;
 });
 
 // to close thepopups

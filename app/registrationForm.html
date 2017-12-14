@@ -20,38 +20,41 @@
             </div>
         </div>
 
-
-        <div class="form-group " ng-class="{'has-error': registerForm.$dirty && registerForm.Password.$invalid, 'has-success': registerForm.Password.$valid}">
-            <label class="col-sm-3 control-label" for="Password">Mot de passe : ( au moins 6 lettres) </label>
-            <div class="col-sm-9">
-                <input id="Password" type="password" class="form-control" required ng-minlength="6" name="Password" ng-model="Password" />
-            </div>
-            <span class="text-danger col-sm-offset-3" ng-show="registerForm.Password.$error.minlength">
-                    Mot de passe trop court
-            </span>
-
-        </div>
-
-        <div class="form-group" ng-class="{'has-error': registerForm.$dirty && registerForm.ConfirmPassword.$invalid, 'has-success': registerForm.ConfirmPassword.$valid}">
-            <label class="col-sm-3 control-label" for="ConfirmPassword">Confirmer Mot de passe : </label>
-            <div class="col-sm-9">
-                <input id="ConfirmPassword" type="password" class="form-control" required equals-to="registerForm.Password" name="ConfirmPassword" ng-model="ConfirmPassword" />
-            </div> <span class="text-danger col-sm-offset-3" ng-show="!registerForm.ConfirmPassword.$error.required && registerForm.ConfirmPassword.$error.equalsTo(Password)>
-                    Passwords are differents
-                </span>
-        </div>
-         <div class="form-group" ng-class="{'has-error': registerForm.$dirty && registerForm.Email.$invalid, 'has-success': registerForm.Email.$valid}">
+        <div class="form-group" ng-class="{'has-error': registerForm.$dirty && registerForm.Email.$invalid, 'has-success': registerForm.Email.$valid}">
             <label class="col-sm-3 control-label" for="Email">Email</label>
             <div class="col-sm-9">
-                <input id="Email" type="Email" class="form-control" required name="Email" ng-model="Email" />
+                <input id="Email" type="email" class="form-control" required name="Email" ng-model="Email" />
             </div>
         </div>
+        <div class="form-group" ng-class="{'has-error': registerForm.$dirty && registerForm.Password.$invalid, 'has-success': registerForm.Password.$valid}">
+            <label class="col-sm-3 control-label" for="Password">Mot de passe</label>
+            <div class="col-sm-9">
+                <input id="Password" type="password" class="form-control" required ng-minlength="6" name="Password" ng-model="Password" />
+            </div> <span class="text-danger col-sm-offset-3" ng-show="registerForm.Password.$error.minlength">
+                    mot de passe trop court
+                </span>
 
-        <div class="form-group">
+        </div>
+        <div class="form-group" ng-class="{'has-error': registerForm.$dirty && registerForm.ConfirmPassword.$invalid, 'has-success': registerForm.ConfirmPassword.$valid}">
+            <label class="col-sm-3 control-label" for="ConfirmPassword">Confirmer Mot de passe</label>
+            <div class="col-sm-9">
+                <input id="ConfirmPassword" type="password" class="form-control" required equals-to="registerForm.Password" name="ConfirmPassword" ng-model="ConfirmPassword" />
+            </div> <span class="text-danger col-sm-offset-3" ng-show="!registerForm.ConfirmPassword.$error.required && registerForm.ConfirmPassword.$error.equalsTo">
+                    les mots de passe sont differents
+                </span>
+
+        </div>
+            <div class="form-group">
             <div class="col-sm-offset-3 col-sm-9">
                 <input type="submit" class="btn btn-default" value="Enregistrer" ng-disabled="registerForm.$invalid" ng-click="register()" />
 
             </div>
+        </div>
+        <div ng-show="registrationSuccess">
+            <p class="Connected"> Votre enregistrement a bien ete pris en compte vous pouvez maintenant vous connecter</p>
+        </div>
+        <div ng-show="registrationError">
+            <p class="ConnectionError"> Votre enregstrement n'a pas etre pris en compte</p>
         </div>
         <div><button class="btn btn-primary" ng-click="cancelModal()">Fermer</button></div>
     </form>
