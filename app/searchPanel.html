@@ -11,23 +11,20 @@
         z-index: 1;
         top: 50px;
         left: 0;
-        background-color: #111;
         overflow-x: hidden;
         transition: 1.3s;
         padding-top: 60px;
     }
 
     .sidenav a {
-        padding: 8px 8px 8px 32px;
+        padding: 16px 8px 16px 8px;
         text-decoration: none;
         font-size: 25px;
-        color: #818181;
+        color: #122b40;
         display: block;
         transition: 1.0s;
-    }
+        font-style:"bold";
 
-    .sidenav a:hover {
-        color: #f1f1f1;
     }
 
     .sidenav .closebtn {
@@ -43,7 +40,7 @@
         position: fixed;
         z-index: 1;
         left: 0;
-        background-color: #111;
+        background-color: #1b6d85;
         overflow-x: hidden;
         padding-top: 20px;
     }
@@ -89,14 +86,15 @@
 
 <div  id="mySidenav" class="sidenav" ng-controller="dates">
     <a href="javascript:void(0)" class="closebtn" ng-click="closeNav()">&times;</a>
-    <a>Lieu</a>
-    <div class="input-group group_query" style="padding-left: 32px;">
+    <div class="input-group group_query" style="padding-left: 16px;">
+        <a>Lieu</a>
+
         <input id="queryPlace"
                type="text"
                class="form-control input-query"
                placeholder="Lieu"
-               ng-keydown="rechercher($event.keyCode)">
-    </div>
+               ng-keydown="rechercher($event.keyCode)"
+               >
 
    <!-- <a>Date de debut</a>
     <div class="input-group group_query datepicker" style="padding-left: 32px;" >
@@ -113,7 +111,7 @@
     </div> -->
 
         <!-- partie qui faisais la date avant -->
-         <a href="#">Date de debut</a>
+         <a>Date de debut</a>
 
          <input id="query3"
                 type="date"
@@ -124,7 +122,7 @@
                 ng-keydown="rechercher($event.keyCode)"
          >
 
-         <a href="#">Date de fin</a>
+         <a>Date de fin</a>
          <input id="query2"
                 ng-controller="dates"
                 type="date"
@@ -134,6 +132,8 @@
                 ng-keydown="rechercher($event.keyCode)"
          >
         <a href="#/searchResults" ng-click="query_search()">Go</a>
+
+    </div>
     </div>
 
 
