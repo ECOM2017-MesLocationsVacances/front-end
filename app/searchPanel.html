@@ -16,14 +16,23 @@
         padding-top: 60px;
     }
 
-    .sidenav a {
+    .sidenav p {
         padding: 16px 8px 16px 8px;
         text-decoration: none;
         font-size: 25px;
-        color: #122b40;
+        color: white;
+        font-weight: bold;
         display: block;
-        transition: 1.0s;
-        font-style:"bold";
+
+    }
+
+    .sidenav a {
+        padding: 16px 8px 16px 8px;
+        text-decoration: none;
+        font-size: 35px;
+        color: white;
+        font-weight: bolder;
+        display: block;
 
     }
 
@@ -44,7 +53,6 @@
         overflow-x: hidden;
         padding-top: 20px;
     }
-
 
     @media screen and (max-height: 450px) {
         .sidenav {padding-top: 15px;}
@@ -87,13 +95,14 @@
 <div  id="mySidenav" class="sidenav" ng-controller="dates">
     <a href="javascript:void(0)" class="closebtn" ng-click="closeNav()">&times;</a>
     <div class="input-group group_query" style="padding-left: 16px;">
-        <a>Lieu</a>
+        <p>Lieu</p>
 
         <input id="queryPlace"
                type="text"
                class="form-control input-query"
                placeholder="Lieu"
                ng-keydown="rechercher($event.keyCode)"
+               style="margin-bottom: 15px;"
                >
 
    <!-- <a>Date de debut</a>
@@ -111,7 +120,7 @@
     </div> -->
 
         <!-- partie qui faisais la date avant -->
-         <a>Date de debut</a>
+         <p>Date de debut</p>
 
          <input id="query3"
                 type="date"
@@ -120,9 +129,10 @@
                 placeholder="JJ-MM-AAAA"
                 ng-model="date"
                 ng-keydown="rechercher($event.keyCode)"
+                style="margin-bottom: 15px;"
          >
 
-         <a>Date de fin</a>
+         <p>Date de fin</p>
          <input id="query2"
                 ng-controller="dates"
                 type="date"
@@ -130,6 +140,7 @@
                 placeholder="JJ-MM-AAAA"
                 ng-model="date"
                 ng-keydown="rechercher($event.keyCode)"
+                style="margin-bottom: 15px;"
          >
         <a href="#/searchResults" ng-click="query_search()">Go</a>
 
