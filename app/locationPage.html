@@ -22,6 +22,8 @@
                        type="date"
                        class="form-control input-query"
                        value="{{begin}}"
+                       ng-model="beginV"
+                       ng-change="dateContinuity()"
                 >
 
                 <p>Date de fin</p>
@@ -29,9 +31,17 @@
                        type="date"
                        class="form-control input-query"
                        value="{{end}}"
+                       ng-model="endV"
+                       ng-change="dateContinuity()"
+
                 >
             </form>
-            <a ng-href="#/reservationPage" ng-click="selectRoom(myRoom)" >RESERVER MAINTENANT</a>
+            <div ng-if="dateValid" ng-init=dateContinuity()>
+                <a ng-href="#/reservationPage" ng-click="selectRoom(myRoom)" >RESERVER MAINTENANT</a>
+            </div>
+            <div ng-if="!dateValid">
+                <p>Veuillez insérer des dates valides (date de début avant la fin !)</p>
+            </div>
         </div>
     </div>
 </div>

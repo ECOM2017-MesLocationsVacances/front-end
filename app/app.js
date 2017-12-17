@@ -244,9 +244,29 @@ app.controller('locationController', function($scope,selectedEst, selectedRoom, 
     $scope.selectedRoomDetails = [];
     $scope.begin=selectedDates.getStart();
     $scope.end=selectedDates.getEnd();
+    $scope.dateValid=false;
+
+    $scope.dateContinuity = function(){
+        from = document.getElementById("reservationStart");
+        to = document.getElementById("reservationEnd");
+        selectedDates.setStart(from.value);
+        selectedDates.setEnd(to.value);
+        start = new Date(selectedDates.getStart());
+        end = new Date(selectedDates.getEnd());
+        if (start<=end){
+            $scope.dateValid = true;
+            console.log(start + end + $scope.dateValid);
+
+        }
+        else{
+            $scope.dateValid = false;
+            console.log(start + end + $scope.dateValid);
+        }
+
+    };
 
     $scope.changeRoom = function() {
-        console.log("hellohello "+ $scope.myRoom.price);
+
     }
     $scope.loadDetails = function() {
 
@@ -283,8 +303,19 @@ app.controller('locationController', function($scope,selectedEst, selectedRoom, 
         xmlhttp.open("GET", url, true);
         xmlhttp.send();
 
+        start = new Date(selectedDates.getStart());
+        end = new Date(selectedDates.getEnd());
+        if (start<=end){
+            $scope.dateValid = true;
+            console.log(start + end + $scope.dateValid);
 
+        }
+        else{
+            $scope.dateValid = false;
+            console.log(start + end + $scope.dateValid);
+        }
     }
+
     $scope.selectRoom = function(Object) {
         selectedRoom.set(Object);
         from = document.getElementById("reservationStart");
