@@ -21,13 +21,47 @@ app.service('modalService', function ($uibModal, $uibModalStack) {
     return modalService;
 });
 
+app.controller("RegisterController", function ($scope, $uibModalInstance, $rootScope, $http) {
 
+    $scope.cancelModal = function () {
+        $uibModalInstance.dismiss('close');
+    };
+
+    $scope.register = function () {
+
+        //creation d'une requete REST
+        api_url = serverURL;
+        var url = api_url + "/api/user/register";
+
+        Surnom = document.getElementById("Surnom").value;
+        MotDePasse = document.getElementById("Password").value;
+        ConfirmeMDP = document.getElementById("ConfirmPassword").value;
+        email = document.getElementById("Email").value;
+        $scope.surnom = Surnom;
+        $scope.email = email;
+        $scope.mdp = MotDePasse;
+
+        if(MotDePasse!=ConfirmeMDP){
+            $scope.ErrorMDP=true;
+        }
+        else {
+            $scope.ErrorMDP=false;
+            $http.post(url, {"username": Surnom, "password": MotDePasse, "email": email})
+                .then(function (response) {
+                    console.log(response);
+                    if (response.status == 200) {
+                        $scope.registrationSuccess = true;
+                    }
+                    else {
+                        $scope.registrationError = true;
+                        console.log("error");
+                    }
+                });
+        }
+    };
+});
 app.controller("connexionController", function ($scope, $uibModalInstance, $rootScope, $http) {
-    /* $scope.deconnecter=function(){
-         $rootScope.rootScopeAuthentified=false;
-         console.log("I am here");
-     }
- */
+
     $scope.cancelModal = function () {
         $uibModalInstance.dismiss('close');
     };
@@ -86,25 +120,14 @@ app.controller("connexionController", function ($scope, $uibModalInstance, $root
                 }
                 else {
                     $scope.registrationError = true;
+                    console.log("error");
                 }
             });
 
     };
 });
 
-app.controller('locationPage', function ($scope) {
-    $scope.bddHouses = [
-        {
-            photo: '32477145.png',
-            name: 'Gite du Brillant',
-            place: 'Nice',
-            nbRoom: '5',
-            shortDesc: 'LE meilleur gite de la région'
-        },
-    ]
-});
-
-app.factory('selectedEst', function () {
+app.factory('selectedEst', function() {
     var selectedEst;
 
     function set(Est) {
@@ -121,8 +144,54 @@ app.factory('selectedEst', function () {
     }
 });
 
-app.controller('searchPanel', function ($scope, selectedEst) {
 
+app.factory('selectedDates', function() {
+    var startDate;
+    var endDate;
+
+    function setStart(start) {
+        startDate = start;
+    }
+
+    function setEnd(end) {
+        endDate = end;
+    }
+
+    function getStart() {
+        return startDate;
+    }
+
+    function getEnd(){
+        return endDate
+    }
+
+    return {
+        setStart: setStart,
+        getStart: getStart,
+        setEnd: setEnd,
+        getEnd: getEnd,
+
+    }
+});
+
+app.factory('selectedRoom', function() {
+    var selectedRoom;
+
+    function set(Room) {
+        selectedRoom = Room;
+    }
+
+    function get() {
+        return selectedRoom;
+    }
+
+    return {
+        set: set,
+        get: get
+    }
+});
+
+app.controller('searchPanel', function($scope,selectedEst,selectedDates) {
     $scope.query_search = function () {
 
         api_url = serverURL;
@@ -141,10 +210,13 @@ app.controller('searchPanel', function ($scope, selectedEst) {
         if (from.value != "") {
             url = url.concat(charToAdd).concat("?from=").concat(from.value);
             charToAdd = '&';
+            selectedDates.setStart(from.value);
         }
+
         if (to.value != "") {
             url = url.concat(charToAdd).concat("?to=").concat(to.value);
             charToAdd = '&';
+            selectedDates.setEnd(to.value);
         }
 
         //console.log(url);
@@ -161,13 +233,18 @@ app.controller('searchPanel', function ($scope, selectedEst) {
 
                 //console.log("contenue du tableau après réinitialisation");console.log($scope.resItems);
 
+                idStored = [];
                 for (var est of myArr) {
 
                     if (est.photo == undefined) {
                         est.photo = 'pictures/32477145.png';
                     }
 
-                    $scope.resItems.push(est);
+                    if(!idStored.includes(est.id)){
+                        $scope.resItems.push(est);
+                        idStored.push(est.id);
+                        console.log(idStored);
+                    }
                 }
                 $scope.$apply();
                 //console.log(myArr);
@@ -183,16 +260,18 @@ app.controller('searchPanel', function ($scope, selectedEst) {
     }
 });
 
-app.controller('locationController', function ($scope, selectedEst) {
+app.controller('locationController', function($scope,selectedEst, selectedRoom){
     $scope.rooms = [];
-
-    $scope.loadDetails = function () {
-
+    $scope.selectedRoomDetails = [];
+    $scope.changeRoom = function() {
+        console.log("hellohello "+ $scope.myRoom.price);
+    }
+    $scope.loadDetails = function() {
         //console.log("hello");
 
         $scope.myEst = selectedEst.get();
 
-        //console.log($scope.myEst);
+        console.log($scope.myEst);
 
         api_url = serverURL;
 
@@ -223,6 +302,20 @@ app.controller('locationController', function ($scope, selectedEst) {
 
 
     }
+
+});
+
+app.controller('reservationController', function($scope,selectedEst){
+
+    $scope.startDate;
+    $scope.endDate;
+    $scope.room;
+
+    $scope.startReservation = function(){
+        $scope.startDate = selectedDates.getStart();
+        $scope.endDate = selectedDates.getEnd();
+        $scope.room = selectedRoom.get();
+    }
 });
 
 
@@ -234,12 +327,13 @@ app.controller('dates', function ($scope, uibDateParser) {
 });
 
 
-app.controller('mainController', ['$scope', '$rootScope', 'modalService', function ($scope, $rootScope, modalService) {
+app.controller('mainController', ['$scope', '$rootScope', 'modalService', function ($scope, $rootScope, modalService ,$location) {
     $scope.open = function (url, controller) {
         modalService.openModal(url, controller);
     };
     $scope.deconnecter = function () {
         $rootScope.rootScopeAuthentified = false;
+        $location.path('/home.html');
         console.log("I am here");
     }
 

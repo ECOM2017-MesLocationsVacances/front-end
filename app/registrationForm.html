@@ -29,7 +29,7 @@
         <div class="form-group" ng-class="{'has-error': registerForm.$dirty && registerForm.Password.$invalid, 'has-success': registerForm.Password.$valid}">
             <label class="col-sm-3 control-label" for="Password">Mot de passe</label>
             <div class="col-sm-9">
-                <input id="Password" type="password" class="form-control" required ng-minlength="6" name="Password" ng-model="Password" />
+                <input id="Password" type="password" class="form-control" required ng-minlength="" name="Password" ng-model="Password" />
             </div> <span class="text-danger col-sm-offset-3" ng-show="registerForm.Password.$error.minlength">
                     mot de passe trop court
                 </span>
@@ -50,11 +50,12 @@
 
             </div>
         </div>
+        <div ng-show="ErrorMDP" ng-hide="registrationSuccess"><p class="ConnectionError"> vos mots de passe sont differents</p></div>
         <div ng-show="registrationSuccess">
             <p class="Connected"> Votre enregistrement a bien ete pris en compte vous pouvez maintenant vous connecter</p>
         </div>
         <div ng-show="registrationError">
-            <p class="ConnectionError"> Votre enregstrement n'a pas etre pris en compte</p>
+            <p class="ConnectionError"> Votre enregistrement n'a pas etre pris en compte</p>
         </div>
         <div><button class="btn btn-primary" ng-click="cancelModal()">Fermer</button></div>
     </form>

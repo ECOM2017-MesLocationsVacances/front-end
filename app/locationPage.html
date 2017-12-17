@@ -5,20 +5,18 @@
     <div class="col-md-8 sResultsText" style="height:100%;">
         <h3>{{myEst.name}}</h3>
         <p>{{myEst.place}}</p>
-        <p>Nombre de chambres</p>
-        <form>
-            <select name="numero" size="1">
-                <option ng-options="room in allRooms track by $index" ng-model="roomSelected">room.name
-            </select>
-        </form>
-
-        <p>Dates de disponibilités :</p>
-        <ul>
-            <li>JJ/MM/AAAA</li>
-            <li>JJ/MM/AAAA</li>
-        </ul>
         <p>{{myEst.description}}</p>
-        <div class="jumbotron"></div>
+        <label>Choix :
+            <select ng-model="myRoom" ng-options="room as room.name for room in rooms" ng-change="changeRoom()">
+                <option>{{room.name}}
+            </select>
+        </label>
+
+        <div class="jumbotron">
+            <p>{{myRoom.place}}</p>
+            <p>{{myRoom.description}}</p>
+            <p>{{myRoom.price}}</p>
+        </div>
     </div>
     <div>toast</div>
 </div>

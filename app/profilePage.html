@@ -6,7 +6,7 @@ Licensed under MIT
 <link href="css/profilePage.css" rel="stylesheet">
 
 <div class="container">
-    <div class="row profile" ng-Controller="connexionController">
+    <div class="row profile"  ng-Controller="connexionController">
 
             <div class="profile-sidebar">
                 <!-- SIDEBAR USERPIC -->
@@ -22,7 +22,7 @@ Licensed under MIT
                     <ul class="nav">
 
                         <li>
-                            Surnom : <h1>{{surnom}}</h1>
+                            Surnom : <h1>{{$scope.surnom}}</h1>
                             <a href="" >Modifier</a>
                         </li>
                         <li>
@@ -30,7 +30,7 @@ Licensed under MIT
                              <a href="" >Modifier</a>
                         </li>
                         <li>
-                            Adresse E.mail(optionnel) : <h2>{{email}} </h2>
+                            Adresse E.mail(optionnel) : <h2>{{$scope.email}} </h2>
                             <a href="" >Modifier</a>
                         </li>
 
