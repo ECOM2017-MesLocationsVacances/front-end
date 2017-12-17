@@ -183,17 +183,21 @@ app.controller('searchPanel', function($scope,selectedEst,selectedDates) {
         to = document.getElementById("query2");
         charToAdd = '?';
         if (place.value != "") {
-            url = url.concat(charToAdd).concat("place=").concat(place.value);
+            url = url.concat(charToAdd).concat("place=").concat(encodeURIComponent(place.value));
             charToAdd = '&';
         }
         if (from.value != "") {
-            url = url.concat(charToAdd).concat("?from=").concat(from.value);
+            var date = new Date(from.value)
+            var utc = Date.UTC(date.getUTCFullYear(),date.getUTCMonth()+1,date.getUTCDate());
+            url = url.concat(charToAdd).concat("from=").concat(utc);
             charToAdd = '&';
             selectedDates.setStart(from.value);
         }
 
         if (to.value != "") {
-            url = url.concat(charToAdd).concat("?to=").concat(to.value);
+            var date = new Date(to.value)
+            var utc = Date.UTC(date.getUTCFullYear(),date.getUTCMonth()+1,date.getUTCDate());
+            url = url.concat(charToAdd).concat("to=").concat(utc);
             charToAdd = '&';
             selectedDates.setEnd(to.value);
         }
