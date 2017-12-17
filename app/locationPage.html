@@ -1,20 +1,20 @@
 <div id="locationDetails" ng-controller="locationController" ng-init="loadDetails()">
-    <div class="col-md-2" style="height:100%;">
-        <img src={{myEst.photo}} style="height:100%;">
+    <div class="col-md-3" style="height:100%;">
+        <img src={{myEst.photo}} style="height:100%; width:100%">
     </div>
-    <div class="col-md-10 sResultsText" style="height:100%;">
-        <h3>{{myEst.name}}</h3>
+    <div class="col-md-9 sResultsText" style="height:100%;">
+        <h3 style="font-weight:bold">{{myEst.name}}</h3>
         <p>{{myEst.place}}</p>
         <p style="font-style:italic">{{myEst.description}}</p>
-        <label>Choix :
-            <select ng-model="myRoom" ng-options="room as room.name for room in rooms" ng-change="changeRoom()">
+        <label>Choix de la chambre :
+            <select ng-model="myRoom" ng-options="room as room.name for room in rooms">
                 <option>{{room.name}}
             </select>
         </label>
 
         <div ng-if="myRoom!=undefined" class="jumbotron">
             <p>Description : {{myRoom.description}}</p>
-            <p>Prix : {{myRoom.price}}</p>
+            <p>Prix : {{myRoom.price}} €</p>
             <form>
                 <p>Date de debut</p>
 
@@ -36,11 +36,12 @@
 
                 >
             </form>
-            <div ng-if="dateValid" ng-init=dateContinuity()>
-                <a ng-href="#/reservationPage" ng-click="selectRoom(myRoom)" >RESERVER MAINTENANT</a>
+            <div ng-if="dateValid" ng-init=dateContinuity() style="padding-top:32px">
+                <a ng-href="#/reservationPage" ng-click="selectRoom(myRoom)" style="text-decoration: none;font-size: 30px;">RESERVER MAINTENANT</a>
             </div>
-            <div ng-if="!dateValid">
-                <p>Veuillez insérer des dates valides (date de début avant la fin !)</p>
+            <div ng-if="!dateValid" style="padding-top:32px;">
+                <a style="text-decoration: line-through;font-size: 30px; color:grey;">RESERVER MAINTENANT</a>
+                <p style="color:darkred">Veuillez insérer des dates valides (date de début avant la fin !)</p>
             </div>
         </div>
     </div>
