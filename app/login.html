@@ -11,12 +11,12 @@
     <link rel="stylesheet" href="css/bootstrap.css">
 </head>
 <div ng-app="sample" class="myModal">
-    <form class="form-horizontal login" name="loginForm">
+    <form class="form-horizontal login" name="registerForm">
         <div class="page-header ng-scope">
             <h1>S'identifier </h1>
         </div>
         <div class="form-group"
-             ng-class="{'has-error': loginForm.$dirty && name=loginForm.Username.$invalid, 'has-success': loginForm.Username.$valid}">
+             ng-class="{'has-error': registerForm.$dirty && registerForm.Username.$invalid, 'has-success': registerForm.Username.$valid}">
             <label class="col-sm-3 control-label" for="Username">Surnom</label>
             <div class="col-sm-9">
                 <input id="Username" type="Username" class="form-control" required name="Username" ng-model="Username"/>
@@ -24,13 +24,13 @@
         </div>
 
         <div class="form-group "
-             ng-class="{'has-error': loginForm.$dirty && loginForm.Password.$invalid, 'has-success': loginForm.Password.$valid}">
+             ng-class="{'has-error': registerForm.$dirty && registerForm.Password.$invalid, 'has-success': registerForm.Password.$valid}">
             <label class="col-sm-3 control-label" for="Password">mot de passe </label>
             <div class="col-sm-9">
                 <input id="Password" type="password" class="form-control" required ng-minlength="5" name="Password"
                        ng-model="Password"/>
             </div>
-            <span class="text-danger col-sm-offset-3" ng-show="loginForm.Password.$error.minlength">
+            <span class="text-danger col-sm-offset-3" ng-show="registerForm.Password.$error.minlength">
                     Mot de passe trop court
             </span>
 

@@ -29,7 +29,7 @@
         <div class="form-group" ng-class="{'has-error': registerForm.$dirty && registerForm.Password.$invalid, 'has-success': registerForm.Password.$valid}">
             <label class="col-sm-3 control-label" for="Password">Mot de passe</label>
             <div class="col-sm-9">
-                <input id="Password" type="password" class="form-control" required ng-minlength="" name="Password" ng-model="Password" />
+                <input id="Password" type="password" class="form-control" required ng-minlength="5" name="Password" ng-model="Password" />
             </div> <span class="text-danger col-sm-offset-3" ng-show="registerForm.Password.$error.minlength">
                     mot de passe trop court
                 </span>
