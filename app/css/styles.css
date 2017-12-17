@@ -3,6 +3,17 @@ body {
     padding-bottom: 30px;
 }
 
+h3 {
+    font-family: Helvetica;
+}
+p {
+    font-family: Helvetica;
+    color: #3c3c3c;
+}
+
+.jumbotron {
+    background-color: #c4e3f3 !important;
+}
 .theme-dropdown .dropdown-menu {
     position: static;
     display: block;

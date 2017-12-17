@@ -21,6 +21,10 @@ app.service('modalService', function ($uibModal, $uibModalStack) {
     return modalService;
 });
 
+$scope.$watch('location.path()', function(path){//Fonction qui surveille l'adresse et lance un event
+    console.log(path);
+});
+
 app.controller("RegisterController", function ($scope, $uibModalInstance, $rootScope, $http) {
 
     $scope.cancelModal = function () {
@@ -151,10 +155,13 @@ app.factory('selectedDates', function() {
 
     function setStart(start) {
         startDate = start;
+        console.log(startDate + "start")
     }
 
     function setEnd(end) {
         endDate = end;
+        console.log(endDate + "end")
+
     }
 
     function getStart() {
@@ -204,17 +211,21 @@ app.controller('searchPanel', function($scope,selectedEst,selectedDates) {
         to = document.getElementById("query2");
         charToAdd = '?';
         if (place.value != "") {
-            url = url.concat(charToAdd).concat("place=").concat(place.value);
+            url = url.concat(charToAdd).concat("place=").concat(encodeURIComponent(place.value));
             charToAdd = '&';
         }
         if (from.value != "") {
-            url = url.concat(charToAdd).concat("?from=").concat(from.value);
+            var date = new Date(from.value)
+            var utc = Date.UTC(date.getUTCFullYear(),date.getUTCMonth()+1,date.getUTCDate());
+            url = url.concat(charToAdd).concat("from=").concat(utc);
             charToAdd = '&';
             selectedDates.setStart(from.value);
         }
 
         if (to.value != "") {
-            url = url.concat(charToAdd).concat("?to=").concat(to.value);
+            var date = new Date(to.value)
+            var utc = Date.UTC(date.getUTCFullYear(),date.getUTCMonth()+1,date.getUTCDate());
+            url = url.concat(charToAdd).concat("to=").concat(utc);
             charToAdd = '&';
             selectedDates.setEnd(to.value);
         }
@@ -260,11 +271,34 @@ app.controller('searchPanel', function($scope,selectedEst,selectedDates) {
     }
 });
 
-app.controller('locationController', function($scope,selectedEst, selectedRoom){
+app.controller('locationController', function($scope,selectedEst, selectedRoom, selectedDates){
     $scope.rooms = [];
     $scope.selectedRoomDetails = [];
+    $scope.begin=selectedDates.getStart();
+    $scope.end=selectedDates.getEnd();
+    $scope.dateValid=false;
+
+    $scope.dateContinuity = function(){
+        from = document.getElementById("reservationStart");
+        to = document.getElementById("reservationEnd");
+        selectedDates.setStart(from.value);
+        selectedDates.setEnd(to.value);
+        start = new Date(selectedDates.getStart());
+        end = new Date(selectedDates.getEnd());
+        if (start<=end){
+            $scope.dateValid = true;
+            console.log(start + end + $scope.dateValid);
+
+        }
+        else{
+            $scope.dateValid = false;
+            console.log(start + end + $scope.dateValid);
+        }
+
+    };
+
     $scope.changeRoom = function() {
-        console.log("hellohello "+ $scope.myRoom.price);
+
     }
     $scope.loadDetails = function() {
         //console.log("hello");
@@ -300,22 +334,92 @@ app.controller('locationController', function($scope,selectedEst, selectedRoom){
         xmlhttp.open("GET", url, true);
         xmlhttp.send();
 
+        start = new Date(selectedDates.getStart());
+        end = new Date(selectedDates.getEnd());
+        if (start<=end){
+            $scope.dateValid = true;
+            console.log(start + end + $scope.dateValid);
 
+        }
+        else{
+            $scope.dateValid = false;
+            console.log(start + end + $scope.dateValid);
+        }
+    }
+
+    $scope.selectRoom = function(Object) {
+        selectedRoom.set(Object);
+        from = document.getElementById("reservationStart");
+        to = document.getElementById("reservationEnd");
+        selectedDates.setStart(from.value);
+        selectedDates.setEnd(to.value);
     }
 
 });
 
-app.controller('reservationController', function($scope,selectedEst){
+app.controller('reservationController', function($scope,selectedRoom,selectedDates){
 
     $scope.startDate;
     $scope.endDate;
     $scope.room;
 
+
     $scope.startReservation = function(){
         $scope.startDate = selectedDates.getStart();
         $scope.endDate = selectedDates.getEnd();
         $scope.room = selectedRoom.get();
+
+        // Render the PayPal button
+        $('https://www.paypalobjects.com/api/checkout.js',function() {
+            paypal.Button.render({
+
+                // Set your environment
+
+                env: 'sandbox', // sandbox | production
+
+                // Specify the style of the button
+
+                style: {
+                    label: 'paypal',
+                    fundingicons: true, // optional
+                    branding: true, // optional
+                    size:  'medium', // small | medium | large | responsive
+                    shape: 'pill',   // pill | rect
+                    color: 'silver'   // gold | blue | silver | black
+                },
+
+                // PayPal Client IDs - replace with your own
+                // Create a PayPal app: https://developer.paypal.com/developer/applications/create
+
+                client: {
+                    sandbox:    'AZDxjDScFpQtjWTOUtWKbyN_bDt4OgqaF4eYXlewfBP4-8aqX3PiV8e1GWU6liB2CUXlkA59kJXE7M6R',
+                    production: '<insert production client id>'
+                },
+
+                // Wait for the PayPal button to be clicked
+
+                payment: function(data, actions) {
+                    return actions.payment.create({
+                        transactions: [
+                            {
+                                amount: { total: '0.01', currency: 'USD' }
+                            }
+                        ]
+                    });
+                },
+
+                // Wait for the payment to be authorized by the customer
+
+                onAuthorize: function(data, actions) {
+                    return actions.payment.execute().then(function() {
+                        window.alert('Payment Complete!');
+                    });
+                }
+
+            }, '#paypal-button-container');
+        })
     }
+
 });
 
 
@@ -361,8 +465,14 @@ app.config(function ($routeProvider) {
         .when('/profilePage', {
             templateUrl: 'profilePage.html'
         })
+        .when('/home', {
+            templateUrl: 'home.html'
+        })
         .when('/locationPage', {
             templateUrl: 'locationPage.html'
+        })
+        .when('/reservationPage', {
+            templateUrl : 'reservationPage.html'
         })
         .otherwise({
             templateUrl: '404.html'

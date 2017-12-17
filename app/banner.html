@@ -1,10 +1,43 @@
+<style>
+    #mainLogo{
+        background-color: #2b669a;
+    }
+    #mainLogo a{
+        color: white;
+        font-family: Helvetica;
+        font-size: 25px;
+        font-weight: bold;
+        padding: 1px 10px 0px 10px;
+        margin-left : 0px;
+    }
+    #navbar{
+        background-color: #2b669a;
+
+    }
+    #navbar a{
+        background-color: darkblue;
+        color: white;
+        font-family: Helvetica;
+        font-size: 15px;
+        font-weight: bold;
+        border: 1px solid black;
+    }
+
+    #loginButton{
+        display: flex;
+        justify-content: center;
+        height : 50px;
+
+    }
+</style>
+
 <nav class="navbar navbar-inverse navbar-fixed-top">
-    <div class="container-fluid">
-        <div class="navbar-header">
+    <div class="container-fluid" style="background-color: #2b669a;">
+        <div id="mainLogo" class="navbar-header">
 
             <a class="navbar-brand" href="#/">
 
-                <img class="img-responsive" style="display:inline-block; height:100% ; margin-top:-5px" src="pictures/32477145.png" alt="logo" />
+                <img class="img-responsive" style="display:inline-block; height:100% ;" src="pictures/32477145.png" alt="logo" />
                 Mes Locations Vacances
             </a>
 
@@ -12,23 +45,21 @@
 
         <div id="navbar1" class="navbar-collapse collapse" >
             <ul class="nav navbar-nav">
-                <li><a href="#/searchResults">test result</a></li>
                 <li><a href="javascript:void(0)" ng-click="openNav()">SEARCH</a></li>
 
             </ul>
             <ul class="nav navbar-nav navbar-right " ng-hide="rootScopeAuthentified" id="loginButton"  >
 
-                <button ng-click="open('login.html','connexionController')" class="btn btn-warning">S'identifier</button>
-                <button ng-click="open('registrationForm.html','RegisterController')" class="btn btn-warning">creer un compte </button>
+                <button ng-click="open('login.html','connexionController')" class="btn btn-warning" style="margin-left:10px;margin-right:5px;align-self:center;">S'identifier</button>
+                <button ng-click="open('registrationForm.html','RegisterController')" class="btn btn-warning" style="margin-left:10px;margin-right:5px;align-self:center;">creer un compte </button>
 
-            </ul>
-            <!-- une fois authentifié l'utilisateur devra voir cette image sur la banner et non les deux boutons login et register-->
+            </li>
 
 
             <ul class="nav navbar-nav navbar-right " ng-show="rootScopeAuthentified" id="userD">
 
                  <a href="#/profilePage" ><img width="50" height="50" id="myProfile" src="pictures/icone-mon-compte.png"></a>
-                 <button ng-click="deconnecter('connexionController')" class="btn btn-warning" >se Deconnecter </button>
+                 <button href="#/home" ng-click="deconnecter('connexionController')" class="btn btn-warning" >se Deconnecter </button>
 
             </ul>
             <!-- une fois authentifié l'utilisateur devra voir cette image sur la banner et non les deux boutons login et register-->
