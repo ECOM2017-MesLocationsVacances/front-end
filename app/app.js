@@ -21,9 +21,6 @@ app.service('modalService', function ($uibModal, $uibModalStack) {
     return modalService;
 });
 
-$scope.$watch('location.path()', function(path){//Fonction qui surveille l'adresse et lance un event
-    console.log(path);
-});
 
 app.controller("RegisterController", function ($scope, $uibModalInstance, $rootScope, $http) {
 
@@ -45,11 +42,10 @@ app.controller("RegisterController", function ($scope, $uibModalInstance, $rootS
         $scope.email = email;
         $scope.mdp = MotDePasse;
 
-        if(MotDePasse!=ConfirmeMDP){
-            $scope.ErrorMDP=true;
+        if (MotDePasse != ConfirmeMDP) {
+            $scope.ErrorMDP = true;
         }
         else {
-            $scope.ErrorMDP=false;
             $http.post(url, {"username": Surnom, "password": MotDePasse, "email": email})
                 .then(function (response) {
                     console.log(response);
@@ -120,7 +116,7 @@ app.controller("connexionController", function ($scope, $uibModalInstance, $root
                 console.log(response);
                 if (response.status == 200) {
                     $scope.registrationSuccess = true;
-                   // $uibModalInstance.close('save');
+                    // $uibModalInstance.close('save');
                 }
                 else {
                     $scope.registrationError = true;
@@ -131,7 +127,7 @@ app.controller("connexionController", function ($scope, $uibModalInstance, $root
     };
 });
 
-app.factory('selectedEst', function() {
+app.factory('selectedEst', function () {
     var selectedEst;
 
     function set(Est) {
@@ -149,7 +145,7 @@ app.factory('selectedEst', function() {
 });
 
 
-app.factory('selectedDates', function() {
+app.factory('selectedDates', function () {
     var startDate;
     var endDate;
 
@@ -168,7 +164,7 @@ app.factory('selectedDates', function() {
         return startDate;
     }
 
-    function getEnd(){
+    function getEnd() {
         return endDate
     }
 
@@ -181,7 +177,7 @@ app.factory('selectedDates', function() {
     }
 });
 
-app.factory('selectedRoom', function() {
+app.factory('selectedRoom', function () {
     var selectedRoom;
 
     function set(Room) {
@@ -198,7 +194,7 @@ app.factory('selectedRoom', function() {
     }
 });
 
-app.controller('searchPanel', function($scope,selectedEst,selectedDates) {
+app.controller('searchPanel', function ($scope, selectedEst, selectedDates) {
     $scope.query_search = function () {
 
         api_url = serverURL;
@@ -216,7 +212,7 @@ app.controller('searchPanel', function($scope,selectedEst,selectedDates) {
         }
         if (from.value != "") {
             var date = new Date(from.value)
-            var utc = Date.UTC(date.getUTCFullYear(),date.getUTCMonth()+1,date.getUTCDate());
+            var utc = Date.UTC(date.getUTCFullYear(), date.getUTCMonth() + 1, date.getUTCDate());
             url = url.concat(charToAdd).concat("from=").concat(utc);
             charToAdd = '&';
             selectedDates.setStart(from.value);
@@ -224,7 +220,7 @@ app.controller('searchPanel', function($scope,selectedEst,selectedDates) {
 
         if (to.value != "") {
             var date = new Date(to.value)
-            var utc = Date.UTC(date.getUTCFullYear(),date.getUTCMonth()+1,date.getUTCDate());
+            var utc = Date.UTC(date.getUTCFullYear(), date.getUTCMonth() + 1, date.getUTCDate());
             url = url.concat(charToAdd).concat("to=").concat(utc);
             charToAdd = '&';
             selectedDates.setEnd(to.value);
@@ -251,7 +247,7 @@ app.controller('searchPanel', function($scope,selectedEst,selectedDates) {
                         est.photo = 'pictures/32477145.png';
                     }
 
-                    if(!idStored.includes(est.id)){
+                    if (!idStored.includes(est.id)) {
                         $scope.resItems.push(est);
                         idStored.push(est.id);
                         console.log(idStored);
@@ -271,36 +267,36 @@ app.controller('searchPanel', function($scope,selectedEst,selectedDates) {
     }
 });
 
-app.controller('locationController', function($scope,selectedEst, selectedRoom, selectedDates){
+app.controller('locationController', function ($scope, selectedEst, selectedRoom, selectedDates) {
     $scope.rooms = [];
     $scope.selectedRoomDetails = [];
-    $scope.begin=selectedDates.getStart();
-    $scope.end=selectedDates.getEnd();
-    $scope.dateValid=false;
+    $scope.begin = selectedDates.getStart();
+    $scope.end = selectedDates.getEnd();
+    $scope.dateValid = false;
 
-    $scope.dateContinuity = function(){
+    $scope.dateContinuity = function () {
         from = document.getElementById("reservationStart");
         to = document.getElementById("reservationEnd");
         selectedDates.setStart(from.value);
         selectedDates.setEnd(to.value);
         start = new Date(selectedDates.getStart());
         end = new Date(selectedDates.getEnd());
-        if (start<=end){
+        if (start <= end) {
             $scope.dateValid = true;
             console.log(start + end + $scope.dateValid);
 
         }
-        else{
+        else {
             $scope.dateValid = false;
             console.log(start + end + $scope.dateValid);
         }
 
     };
 
-    $scope.changeRoom = function() {
+    $scope.changeRoom = function () {
 
     }
-    $scope.loadDetails = function() {
+    $scope.loadDetails = function () {
         //console.log("hello");
 
         $scope.myEst = selectedEst.get();
@@ -336,18 +332,18 @@ app.controller('locationController', function($scope,selectedEst, selectedRoom, 
 
         start = new Date(selectedDates.getStart());
         end = new Date(selectedDates.getEnd());
-        if (start<=end){
+        if (start <= end) {
             $scope.dateValid = true;
             console.log(start + end + $scope.dateValid);
 
         }
-        else{
+        else {
             $scope.dateValid = false;
             console.log(start + end + $scope.dateValid);
         }
     }
 
-    $scope.selectRoom = function(Object) {
+    $scope.selectRoom = function (Object) {
         selectedRoom.set(Object);
         from = document.getElementById("reservationStart");
         to = document.getElementById("reservationEnd");
@@ -357,20 +353,20 @@ app.controller('locationController', function($scope,selectedEst, selectedRoom, 
 
 });
 
-app.controller('reservationController', function($scope,selectedRoom,selectedDates){
+app.controller('reservationController', function ($scope, selectedRoom, selectedDates) {
 
     $scope.startDate;
     $scope.endDate;
     $scope.room;
 
 
-    $scope.startReservation = function(){
+    $scope.startReservation = function () {
         $scope.startDate = selectedDates.getStart();
         $scope.endDate = selectedDates.getEnd();
         $scope.room = selectedRoom.get();
 
         // Render the PayPal button
-        $('https://www.paypalobjects.com/api/checkout.js',function() {
+        $('https://www.paypalobjects.com/api/checkout.js', function () {
             paypal.Button.render({
 
                 // Set your environment
@@ -383,7 +379,7 @@ app.controller('reservationController', function($scope,selectedRoom,selectedDat
                     label: 'paypal',
                     fundingicons: true, // optional
                     branding: true, // optional
-                    size:  'medium', // small | medium | large | responsive
+                    size: 'medium', // small | medium | large | responsive
                     shape: 'pill',   // pill | rect
                     color: 'silver'   // gold | blue | silver | black
                 },
@@ -392,17 +388,17 @@ app.controller('reservationController', function($scope,selectedRoom,selectedDat
                 // Create a PayPal app: https://developer.paypal.com/developer/applications/create
 
                 client: {
-                    sandbox:    'AZDxjDScFpQtjWTOUtWKbyN_bDt4OgqaF4eYXlewfBP4-8aqX3PiV8e1GWU6liB2CUXlkA59kJXE7M6R',
+                    sandbox: 'AZDxjDScFpQtjWTOUtWKbyN_bDt4OgqaF4eYXlewfBP4-8aqX3PiV8e1GWU6liB2CUXlkA59kJXE7M6R',
                     production: '<insert production client id>'
                 },
 
                 // Wait for the PayPal button to be clicked
 
-                payment: function(data, actions) {
+                payment: function (data, actions) {
                     return actions.payment.create({
                         transactions: [
                             {
-                                amount: { total: '0.01', currency: 'USD' }
+                                amount: {total: '0.01', currency: 'USD'}
                             }
                         ]
                     });
@@ -410,8 +406,8 @@ app.controller('reservationController', function($scope,selectedRoom,selectedDat
 
                 // Wait for the payment to be authorized by the customer
 
-                onAuthorize: function(data, actions) {
-                    return actions.payment.execute().then(function() {
+                onAuthorize: function (data, actions) {
+                    return actions.payment.execute().then(function () {
                         window.alert('Payment Complete!');
                     });
                 }
@@ -431,7 +427,7 @@ app.controller('dates', function ($scope, uibDateParser) {
 });
 
 
-app.controller('mainController', ['$scope', '$rootScope', 'modalService', function ($scope, $rootScope, modalService ,$location) {
+app.controller('mainController', ['$scope', '$rootScope', 'modalService', function ($scope, $rootScope, modalService, $location) {
     $scope.open = function (url, controller) {
         modalService.openModal(url, controller);
     };
@@ -472,7 +468,7 @@ app.config(function ($routeProvider) {
             templateUrl: 'locationPage.html'
         })
         .when('/reservationPage', {
-            templateUrl : 'reservationPage.html'
+            templateUrl: 'reservationPage.html'
         })
         .otherwise({
             templateUrl: '404.html'
