@@ -8,13 +8,10 @@ html {
   font-family: sans-serif;
   -webkit-text-size-adjust: 100%;
       -ms-text-size-adjust: 100%;
+  height: 100%;
 }
 body {
   margin: 0;
-}
-mainPage{
-  background-image: "pictures/background.jpg";
-
 }
 article,
 aside,

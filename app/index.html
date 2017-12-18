@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="fr" ng-app="myApp">
+<html lang="fr" ng-app="myApp" >
 <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -41,7 +41,10 @@
 
     }
 </style>
-<body class="mainPage"  ng-controller="mainController">
+<body class="mainPage" style="background-image: url(pictures/images_paris.jpg); height: 100%;  background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;"  ng-controller="mainController">
+
 
 <!-- Fixed navbar -->
 <div ng-include="'banner.html'"></div>
@@ -49,10 +52,7 @@
 <div class="container theme-showcase" role="main">
     <div id="main" ng-view autoscroll></div>
 
-
-
-
-</div> <!-- /container -->
+</div>
 
 
 <!-- Bootstrap core JavaScript
@@ -65,4 +65,5 @@
 <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
 <script src="js/ie10-viewport-bug-workaround.js"></script>
 </body>
+
 </html>
