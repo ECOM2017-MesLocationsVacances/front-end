@@ -12,6 +12,10 @@ html {
 body {
   margin: 0;
 }
+mainPage{
+  background-image: "pictures/background.jpg";
+
+}
 article,
 aside,
 details,
