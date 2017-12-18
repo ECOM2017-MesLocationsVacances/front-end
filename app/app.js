@@ -187,17 +187,49 @@ app.factory('selectedRoom', function () {
         get: get
     }
 });
+app.factory('sizeA', function () {
+    var sizeA;
 
-app.controller('searchPanel', function ($scope, selectedEst, selectedDates, duration) {
+    function set(sizeAdult) {
+        sizeA = sizeAdult;
+    }
+
+    function get() {
+        return sizeA;
+    }
+
+    return {
+        set: set,
+        get: get
+    }
+});
+app.factory('sizeC', function () {
+    var sizeC;
+
+    function set(sizeChildren) {
+        sizeC = sizeChildren;
+    }
+
+    function get() {
+        return sizeC;
+    }
+
+    return {
+        set: set,
+        get: get
+    }
+});
+
+app.controller('searchPanel', function ($scope, selectedEst, selectedDates, sizeA, sizeC, duration) {
     $scope.searchLength="";
     $scope.searchValid=true;
     $scope.searchValidation=function (){
         length = document.getElementById("queryLength");
-        sizeA = document.getElementById("querySizeA");
-        sizeC = document.getElementById("querySizeC");
-        console.log(length.value + " " + sizeA.value+" " + sizeC.value);
+        sizeAdult = document.getElementById("querySizeA");
+        sizeChildren = document.getElementById("querySizeC");
+        console.log(length.value + " " + sizeAdult.value+" " + sizeChildren.value);
 
-        if((parseInt(length.value, 10)>0 || length.value==="")&&(parseInt(sizeA.value, 10)>0 || sizeA.value==="")&&(parseInt(sizeC.value, 10)>0 || sizeC.value==="")){
+        if((parseInt(length.value, 10)>0 || length.value==="")&&(parseInt(sizeAdult.value, 10)>0 || sizeAdult.value==="")&&(parseInt(sizeChildren.value, 10)>0 || sizeChildren.value==="")){
             console.log("cool");
 
             $scope.searchValid=true;
@@ -219,8 +251,8 @@ app.controller('searchPanel', function ($scope, selectedEst, selectedDates, dura
         from = document.getElementById("query3");
         to = document.getElementById("query2");
         length = document.getElementById("queryLength");
-        sizeA = document.getElementById("querySizeA");
-        sizeC = document.getElementById("querySizeC");
+        sizeAdult = document.getElementById("querySizeA");
+        sizeChildren = document.getElementById("querySizeC");
 
         charToAdd = '?';
         if (place.value != "") {
@@ -242,26 +274,29 @@ app.controller('searchPanel', function ($scope, selectedEst, selectedDates, dura
             charToAdd = '&';
             selectedDates.setEnd(to.value);
         }
+
         if (length.value != "") {
             lengthN = parseInt(length.value, 10);
             if(lengthN!=NaN && lengthN>0) {
-                url = url.concat(charToAdd).concat("duration=").concat(lengthN);
-                charToAdd = '&';
+                //url = url.concat(charToAdd).concat("duration=").concat(lengthN);
+                //charToAdd = '&';
                 duration.set(lengthN);
             }
         }
         if (sizeA.value != "") {
-            sizeAN = parseInt(sizeA.value, 10);
+            sizeAN = parseInt(sizeAdult.value, 10);
             if(sizeAN!=NaN && sizeAN>0) {
                 url = url.concat(charToAdd).concat("sizeA=").concat(sizeAN);
                 charToAdd = '&';
+                sizeA.set(sizeAN);
             }
         }
         if (sizeC.value != "") {
-            sizeCN = parseInt(sizeC.value, 10);
+            sizeCN = parseInt(sizeChildren.value, 10);
             if(sizeCN!=NaN && sizeCN>0){
                 url = url.concat(charToAdd).concat("sizeC=").concat(sizeCN);
                 charToAdd = '&';
+                sizeC.set(sizeCN);
 
             }
         }
@@ -307,41 +342,43 @@ app.controller('searchPanel', function ($scope, selectedEst, selectedDates, dura
     }
 });
 
-app.controller('locationController', function ($scope, selectedEst, selectedRoom, selectedDates, duration) {
+app.controller('locationController', function ($scope, selectedEst, selectedRoom, selectedDates, duration, sizeA, sizeC) {
     $scope.rooms = [];
     $scope.selectedRoomDetails = [];
     $scope.begin = selectedDates.getStart();
     $scope.end = selectedDates.getEnd();
     $scope.dateValid = false;
-    $scope.duration = duration.get();
+    $scope.durationR;
 
 
     $scope.dateContinuity = function () {
         from = document.getElementById("reservationStart");
         to = document.getElementById("reservationEnd");
-        length = document.getElementById("queryLength");
+        length = document.getElementById("reservationLength");
+        console.log(duration.get() + " lol "+ $scope.durationR);
         selectedDates.setStart(from.value);
         selectedDates.setEnd(to.value);
-        duration.set(length.value);
-        console.log(duration.get() +" "+ length.value);
+
 
         start = new Date(selectedDates.getStart());
         end = new Date(selectedDates.getEnd());
-        if (start <= end && duration.get()>0) {
+        if ((start <= end)&&(parseInt(length.value, 10)>0 || length.value==="")) {
             $scope.dateValid = true;
-            console.log(start + end + $scope.dateValid);
+            $scope.durationR = parseInt(length.value, 10);
+            console.log($scope.dateValid);
 
         }
         else {
-            duration.set(0);
             $scope.dateValid = false;
-            console.log(start + end + $scope.dateValid);
+            console.log($scope.dateValid);
         }
 
     };
 
     $scope.loadDetails = function () {
         //console.log("hello");
+
+        $scope.durationR = duration.get();
 
         $scope.myEst = selectedEst.get();
 
@@ -350,8 +387,29 @@ app.controller('locationController', function ($scope, selectedEst, selectedRoom
         api_url = serverURL;
 
         var xmlhttp = new XMLHttpRequest();
-        var url = api_url + "/api/rooms/";
+        var url = api_url + "/api/search/"+$scope.myEst.id;
         //http://35.177.136.202/api/establishments/1
+        charToAdd = '?';
+        if ($scope.begin != "") {
+            var date = new Date($scope.begin)
+            var utc = Date.UTC(date.getUTCFullYear(), date.getUTCMonth() + 1, date.getUTCDate());
+            url = url.concat(charToAdd).concat("from=").concat(utc);
+            charToAdd = '&';
+        }
+        if ($scope.end != "") {
+            var date = new Date($scope.end)
+            var utc = Date.UTC(date.getUTCFullYear(), date.getUTCMonth() + 1, date.getUTCDate());
+            url = url.concat(charToAdd).concat("to=").concat(utc);
+            charToAdd = '&';
+        }
+        if (sizeA.get()!= undefined) {
+                url = url.concat(charToAdd).concat("sizeA=").concat(sizeA.get());
+                charToAdd = '&';
+        }
+        if (sizeC.get()!= undefined) {
+                url = url.concat(charToAdd).concat("sizeC=").concat(sizeC.get());
+                charToAdd = '&';
+        }
 
         console.log(url);
         xmlhttp.onreadystatechange = function () {
@@ -376,14 +434,14 @@ app.controller('locationController', function ($scope, selectedEst, selectedRoom
 
         start = new Date(selectedDates.getStart());
         end = new Date(selectedDates.getEnd());
-        if (start <= end) {
+        if ((start <= end)&&($scope.durationR>0)) {
             $scope.dateValid = true;
-            console.log(start + end + $scope.dateValid);
+            console.log($scope.dateValid);
 
         }
         else {
             $scope.dateValid = false;
-            console.log(start + end + $scope.dateValid);
+            console.log($scope.dateValid);
         }
     }
 
@@ -393,6 +451,8 @@ app.controller('locationController', function ($scope, selectedEst, selectedRoom
         to = document.getElementById("reservationEnd");
         selectedDates.setStart(from.value);
         selectedDates.setEnd(to.value);
+        duration.set($scope.duration);
+
     }
 
 });
