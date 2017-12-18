@@ -69,7 +69,7 @@ app.controller("connexionController", function ($scope, $uibModalInstance, $root
     $scope.connexion = function () {
         //creation d'une requete REST
         api_url = serverURL;
-
+        $scope.connexionErreur = false;
         var xmlhttp = new XMLHttpRequest();
         var url = api_url + "/api/user";
         $rootScope.surnom = document.getElementById("Username").value;
@@ -78,6 +78,7 @@ app.controller("connexionController", function ($scope, $uibModalInstance, $root
         url = url.concat("/" + $rootScope.surnom + "?password=" + MotDePasse);
         console.log(url);
         // on envoie la requete
+
         xmlhttp.onreadystatechange = function () {
             if (this.readyState == 4 && this.status == 200) {
                 var myArr = JSON.parse(this.responseText);
@@ -90,12 +91,14 @@ app.controller("connexionController", function ($scope, $uibModalInstance, $root
 
             }
             else {
-                $rootScope.$rootScopeConnexionErreur = true;
+                $scope.connexionErreur = true;
+                console.log("error_connexion");
                 //afficher un span en rouge ! pour erreur
             }
         };
         xmlhttp.open("GET", url, true);
         xmlhttp.send();
+
     };
 
     $scope.register = function () {
