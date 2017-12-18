@@ -432,8 +432,9 @@ app.controller('mainController', ['$scope', '$rootScope', 'modalService', functi
         modalService.openModal(url, controller);
     };
     $scope.deconnecter = function () {
+        console.log("coucou t es la?");
         $rootScope.rootScopeAuthentified = false;
-        $location.path('/home.html');
+
         console.log("I am here");
     }
 
