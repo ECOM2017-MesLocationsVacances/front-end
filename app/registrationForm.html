@@ -52,10 +52,14 @@
         </div>
         <div ng-show="ErrorMDP" ><p class="ConnectionError"> vos mots de passe sont differents</p></div>
         <div ng-show="registrationSuccess">
-            <p class="Connected"> Votre enregistrement a bien ete pris en compte vous pouvez maintenant vous connecter</p>
+            <p class="Connected"> Votre enregistrement a bien ete pris en compte vous pouvez
+                maintenant valider votre inscription depuis votre adresse e.mail et vous connecter</p>
         </div>
         <div ng-show="registrationError">
-            <p class="ConnectionError"> Votre enregistrement n'a pas etre pris en compte</p>
+            <p class="ConnectionError"> Votre surnom ou e.mail existe deja</p>
+        </div>
+        <div ng-show="ServerError">
+            <p class="ConnectionError"> Le serveur a rencontré une erreur</p>
         </div>
         <div><button class="btn btn-primary" ng-click="cancelModal()">Fermer</button></div>
     </form>

@@ -1,28 +1,19 @@
-<!--
-User Profile Sidebar by @keenthemes
-A component of Metronic Theme - #1 Selling Bootstrap 3 Admin Theme in Themeforest: http://j.mp/metronictheme
-Licensed under MIT
--->
+
 <link href="css/profilePage.css" rel="stylesheet">
 
 <div class="container">
     <div class="row profile"  ng-Controller="connexionController">
 
             <div class="profile-sidebar">
-                <!-- SIDEBAR USERPIC -->
-                <div class="profile-userpic">
-                    <img width="50 " height="50"  src="pictures/profile.png" class="img-profile" alt=" image de profile">
-                </div>
-
-                <div class="profile-userbuttons">
-                    <button type="button" class="btn btn-success btn-sm">Historique de mes reservations</button>
+                <div >
+                    <img width="200 " height="200"  src="pictures/profile.png"  alt=" image de profile">
                 </div>
 
                 <div class="profile-usermenu">
                     <ul class="nav">
 
                         <li>
-                            Surnom : <h1>{{$scope.surnom}}</h1>
+                            Surnom : <h1>{{surnom}}</h1>
                             <a href="" >Modifier</a>
                         </li>
                         <li>
