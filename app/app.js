@@ -33,29 +33,30 @@ app.controller("RegisterController", function ($scope, $uibModalInstance, $rootS
         //creation d'une requete REST
         api_url = serverURL;
         var url = api_url + "/api/user/register";
-
+        $scope.ErrorMDP = false;
+        $scope.registrationError=false;
+        $scope.ServerError=false;
         Surnom = document.getElementById("Surnom").value;
         MotDePasse = document.getElementById("Password").value;
         ConfirmeMDP = document.getElementById("ConfirmPassword").value;
         email = document.getElementById("Email").value;
         $scope.surnom = Surnom;
-        $scope.email = email;
-        $scope.mdp = MotDePasse;
-
         if (MotDePasse != ConfirmeMDP) {
             $scope.ErrorMDP = true;
         }
         else {
             $http.post(url, {"username": Surnom, "password": MotDePasse, "email": email})
                 .then(function (response) {
-                    console.log(response);
-                    if (response.status == 200) {
-                        $scope.registrationSuccess = true;
+                    $scope.registrationSuccess = true;
+                })
+                .catch(function (err) {
+                    if(err.status<200){
+                        $scope.ServerError=true;
                     }
-                    else {
-                        $scope.registrationError = true;
-                        console.log("error");
+                    if(err.status>300){
+                        $scope.registrationError=true;
                     }
+
                 });
         }
     };
@@ -65,37 +66,39 @@ app.controller("connexionController", function ($scope, $uibModalInstance, $root
     $scope.cancelModal = function () {
         $uibModalInstance.dismiss('close');
     };
-
     $scope.connexion = function () {
         //creation d'une requete REST
         api_url = serverURL;
-
+        $scope.connexionErreur = false;
         var xmlhttp = new XMLHttpRequest();
         var url = api_url + "/api/user";
-        Surnom = document.getElementById("Username").value;
+        $rootScope.surnom = document.getElementById("Username").value;
         MotDePasse = document.getElementById("Password").value;
 
-        url = url.concat("/" + Surnom + "?password=" + MotDePasse);
+        url = url.concat("/" + $rootScope.surnom + "?password=" + MotDePasse);
         console.log(url);
         // on envoie la requete
+
         xmlhttp.onreadystatechange = function () {
             if (this.readyState == 4 && this.status == 200) {
                 var myArr = JSON.parse(this.responseText);
                 console.log(myArr);
                 // si tout s'est bien passé on change le contenu du banner
                 $rootScope.rootScopeAuthentified = true;
-                $scope.username = myArr.Surnom;
+                $scope.username = myArr.surnom;
                 $scope.email = myArr.email;
                 $uibModalInstance.close('save');
 
             }
             else {
-                $rootScope.$rootScopeConnexionErreur = true;
+                $scope.connexionErreur = true;
+                console.log("error_connexion");
                 //afficher un span en rouge ! pour erreur
             }
         };
         xmlhttp.open("GET", url, true);
         xmlhttp.send();
+
     };
 
     $scope.register = function () {
