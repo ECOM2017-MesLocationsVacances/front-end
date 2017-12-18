@@ -150,8 +150,6 @@
                class="form-control input-query"
                placeholder="Durée"
                ng-keydown="rechercher($event.keyCode)"
-               ng-model="qLength"
-               ng-change="numberInputValid()"
                style="margin-bottom: 10px; margin-top:-10px;"
         >
         <p>Nombre d'adultes</p>
@@ -163,8 +161,6 @@
                class="form-control input-query"
                placeholder="Nombre adultes"
                ng-keydown="rechercher($event.keyCode)"
-               ng-model="qSizeA"
-               ng-change="numberInputValid()"
                style="margin-bottom: 10px; margin-top:-10px;"
         >
         <p>Nombre d'enfants</p>
@@ -176,8 +172,6 @@
                class="form-control input-query"
                placeholder="Nombre enfants"
                ng-keydown="rechercher($event.keyCode)"
-               ng-model="qSizeC"
-               ng-change="numberInputValid()"
                style="margin-bottom: 10px; margin-top:-10px;"
         >
         <a href="#/searchResults" ng-click="query_search()">Go</a>
