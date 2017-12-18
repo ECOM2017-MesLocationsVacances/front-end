@@ -1,8 +1,7 @@
 <div id="searchRes">
     <div class="jumbotron" ng-controller="searchPanel" ng-repeat="Est in resItems track by $index" style="height:250px; padding:10px;">
             <div class="col-md-3" style="height:100%;border: 2px double darkblue;">
-                    <img src={{Est.photo}} style="height:75%;">
-                    <p style="height:25%; margin:0;">Note de l'appart</p>
+                    <img src={{Est.photo}} style="width:100%;">
                 </div>
             <div class="col-md-6 sResultsText" style="height:100%;border: 2px double darkblue;">
                     <p style="height:25%; margin:0; font-weight:bold; vertical-align: center">{{Est.name}}</p>

@@ -198,6 +198,25 @@ app.factory('selectedRoom', function () {
 });
 
 app.controller('searchPanel', function ($scope, selectedEst, selectedDates) {
+
+    $scope.numberInputValid = function () {
+        length = document.getElementById("queryLength");
+        if(length.value!=null){
+            if(parseInt(length.value, 10)==NaN){
+                
+            }
+        }
+        sizeA = document.getElementById("querySizeA");
+        if(sizeA.value!=null) {
+
+            console.log(parseInt(sizeA.value, 10));
+        }
+        sizeC = document.getElementById("querySizeC");
+        if(sizeC.value!=null) {
+
+            console.log(parseInt(sizeC.value, 10));
+        }
+    }
     $scope.query_search = function () {
 
         api_url = serverURL;
@@ -208,6 +227,10 @@ app.controller('searchPanel', function ($scope, selectedEst, selectedDates) {
         place = document.getElementById("queryPlace");
         from = document.getElementById("query3");
         to = document.getElementById("query2");
+        length = document.getElementById("queryLength");
+        sizeA = document.getElementById("querySizeA");
+        sizeC = document.getElementById("querySizeC");
+
         charToAdd = '?';
         if (place.value != "") {
             url = url.concat(charToAdd).concat("place=").concat(encodeURIComponent(place.value));
@@ -229,7 +252,7 @@ app.controller('searchPanel', function ($scope, selectedEst, selectedDates) {
             selectedDates.setEnd(to.value);
         }
 
-        //console.log(url);
+        console.log(url);
         xmlhttp.onreadystatechange = function () {
             if (this.readyState == 4 && this.status == 200) {
                 var myArr = JSON.parse(this.responseText);
