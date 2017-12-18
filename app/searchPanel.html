@@ -17,9 +17,9 @@
     }
 
     .sidenav p {
-        padding: 16px 8px 16px 8px;
+        padding: 16px 8px 8px 8px;
         text-decoration: none;
-        font-size: 25px;
+        font-size: 20px;
         color: white;
         font-weight: bold;
         display: block;
@@ -29,7 +29,7 @@
     .sidenav a {
         padding: 16px 8px 16px 8px;
         text-decoration: none;
-        font-size: 35px;
+        font-size: 30px;
         color: white;
         font-weight: bolder;
         display: block;
@@ -38,8 +38,8 @@
 
     .sidenav .closebtn {
         position: absolute;
-        top: 0;
-        right: 25px;
+        top: -10px;
+        right: 10px;
     }
     .sidenav {
         font-size: 36px;
@@ -54,10 +54,6 @@
         padding-top: 20px;
     }
 
-    @media screen and (max-height: 450px) {
-        .sidenav {padding-top: 15px;}
-        .sidenav a {font-size: 18px;}
-    }
 </style>
 <head>
     <link rel="stylesheet" href="//code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css">
@@ -95,15 +91,17 @@
 <div  id="mySidenav" class="sidenav" ng-controller="dates">
     <a href="javascript:void(0)" class="closebtn" ng-click="closeNav()">&times;</a>
     <div class="input-group group_query" style="padding-left: 16px;">
-        <p>Lieu</p>
+        <div class="row-md-2">
+        <p style="margin-top:-20px;">Lieu</p>
 
         <input id="queryPlace"
                type="text"
                class="form-control input-query"
                placeholder="Lieu"
                ng-keydown="rechercher($event.keyCode)"
-               style="margin-bottom: 15px;"
+               style="margin-bottom: 10px; margin-top: -10px;"
                >
+        </div>
 
    <!-- <a>Date de debut</a>
     <div class="input-group group_query datepicker" style="padding-left: 32px;" >
@@ -120,7 +118,7 @@
     </div> -->
 
         <!-- partie qui faisais la date avant -->
-         <p>Date de debut</p>
+         <p>Date de début</p>
 
          <input id="query3"
                 type="date"
@@ -129,7 +127,7 @@
                 placeholder="JJ-MM-AAAA"
                 ng-model="date"
                 ng-keydown="rechercher($event.keyCode)"
-                style="margin-bottom: 15px;"
+                style="margin-bottom: 10px; margin-top:-10px;"
          >
 
          <p>Date de fin</p>
@@ -140,8 +138,48 @@
                 placeholder="JJ-MM-AAAA"
                 ng-model="date"
                 ng-keydown="rechercher($event.keyCode)"
-                style="margin-bottom: 15px;"
+                style="margin-bottom: 10px; margin-top:-10px;"
          >
+
+        <p>Durée (en jours)</p>
+
+        <input id="queryLength"
+               type="number"
+               min="0"
+               step="1"
+               class="form-control input-query"
+               placeholder="Durée"
+               ng-keydown="rechercher($event.keyCode)"
+               ng-model="qLength"
+               ng-change="numberInputValid()"
+               style="margin-bottom: 10px; margin-top:-10px;"
+        >
+        <p>Nombre d'adultes</p>
+
+        <input id="querySizeA"
+               type="number"
+               min="0"
+               step="1"
+               class="form-control input-query"
+               placeholder="Nombre adultes"
+               ng-keydown="rechercher($event.keyCode)"
+               ng-model="qSizeA"
+               ng-change="numberInputValid()"
+               style="margin-bottom: 10px; margin-top:-10px;"
+        >
+        <p>Nombre d'enfants</p>
+
+        <input id="querySizeC"
+               type="number"
+               min="0"
+               step="1"
+               class="form-control input-query"
+               placeholder="Nombre enfants"
+               ng-keydown="rechercher($event.keyCode)"
+               ng-model="qSizeC"
+               ng-change="numberInputValid()"
+               style="margin-bottom: 10px; margin-top:-10px;"
+        >
         <a href="#/searchResults" ng-click="query_search()">Go</a>
 
     </div>
