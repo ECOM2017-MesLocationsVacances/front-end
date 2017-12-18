@@ -215,8 +215,25 @@ app.factory('selectedRoom', function () {
 });
 
 app.controller('searchPanel', function ($scope, selectedEst, selectedDates, duration) {
+    $scope.searchLength="";
+    $scope.searchValid=true;
+    $scope.searchValidation=function (){
+        length = document.getElementById("queryLength");
+        sizeA = document.getElementById("querySizeA");
+        sizeC = document.getElementById("querySizeC");
+        console.log(length.value + " " + sizeA.value+" " + sizeC.value);
 
+        if((parseInt(length.value, 10)>0 || length.value==="")&&(parseInt(sizeA.value, 10)>0 || sizeA.value==="")&&(parseInt(sizeC.value, 10)>0 || sizeC.value==="")){
+            console.log("cool");
 
+            $scope.searchValid=true;
+        }
+        else{
+            console.log("nul");
+            $scope.searchValid=false;
+
+        }
+    }
     $scope.query_search = function () {
 
         api_url = serverURL;
@@ -254,7 +271,7 @@ app.controller('searchPanel', function ($scope, selectedEst, selectedDates, dura
         if (length.value != "") {
             lengthN = parseInt(length.value, 10);
             if(lengthN!=NaN && lengthN>0) {
-                url = url.concat(charToAdd).concat("duration=").concat(length.value);
+                url = url.concat(charToAdd).concat("duration=").concat(lengthN);
                 charToAdd = '&';
                 duration.set(lengthN);
             }
@@ -262,14 +279,14 @@ app.controller('searchPanel', function ($scope, selectedEst, selectedDates, dura
         if (sizeA.value != "") {
             sizeAN = parseInt(sizeA.value, 10);
             if(sizeAN!=NaN && sizeAN>0) {
-                url = url.concat(charToAdd).concat("sizeA=").concat(sizeA.value);
+                url = url.concat(charToAdd).concat("sizeA=").concat(sizeAN);
                 charToAdd = '&';
             }
         }
         if (sizeC.value != "") {
             sizeCN = parseInt(sizeC.value, 10);
             if(sizeCN!=NaN && sizeCN>0){
-                url = url.concat(charToAdd).concat("sizeC=").concat(sizeC.value);
+                url = url.concat(charToAdd).concat("sizeC=").concat(sizeCN);
                 charToAdd = '&';
 
             }
@@ -323,8 +340,6 @@ app.controller('locationController', function ($scope, selectedEst, selectedRoom
     $scope.end = selectedDates.getEnd();
     $scope.dateValid = false;
     $scope.duration = duration.get();
-
-
 
 
     $scope.dateContinuity = function () {
