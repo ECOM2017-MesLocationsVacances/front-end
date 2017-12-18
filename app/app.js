@@ -261,16 +261,16 @@ app.controller('searchPanel', function ($scope, selectedEst, selectedDates, size
         }
         if (from.value != "") {
             var date = new Date(from.value)
-            var utc = Date.UTC(date.getUTCFullYear(), date.getUTCMonth() + 1, date.getUTCDate());
-            url = url.concat(charToAdd).concat("from=").concat(utc);
+            //var utc = Date.UTC(date.getUTCFullYear(), date.getUTCMonth(), date.getUTCDate());
+            url = url.concat(charToAdd).concat("from=").concat(date.getTime());
             charToAdd = '&';
             selectedDates.setStart(from.value);
         }
 
         if (to.value != "") {
             var date = new Date(to.value)
-            var utc = Date.UTC(date.getUTCFullYear(), date.getUTCMonth() + 1, date.getUTCDate());
-            url = url.concat(charToAdd).concat("to=").concat(utc);
+            //var utc = Date.UTC(date.getUTCFullYear(), date.getUTCMonth(), date.getUTCDate());
+            url = url.concat(charToAdd).concat("to=").concat(date.getTime());
             charToAdd = '&';
             selectedDates.setEnd(to.value);
         }
