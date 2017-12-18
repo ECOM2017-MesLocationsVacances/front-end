@@ -1,22 +1,11 @@
-/***
-User Profile Sidebar by @keenthemes
-A component of Metronic Theme - #1 Selling Bootstrap 3 Admin Theme in Themeforest: http://j.mp/metronictheme
-Licensed under MIT
-***/
-
 body {
     background: #2b669a;
 }
 
-/* Profile container */
-.profile {
-    margin: 50px 0;
-}
 
 /* Profile sidebar */
 .profile-sidebar {
-    padding: 20px 0 10px 0;
-    background: #fff;
+    background-color: transparent;
 }
 
 .profile-userpic img {
@@ -28,18 +17,6 @@ body {
     -webkit-border-radius: 50% !important;
     -moz-border-radius: 50% !important;
     border-radius: 50% !important;
-}
-
-.profile-usertitle {
-    text-align: center;
-    margin-top: 20px;
-}
-
-.profile-usertitle-name {
-    color: #5a7391;
-    font-size: 16px;
-    font-weight: 600;
-    margin-bottom: 7px;
 }
 
 .profile-userbuttons {
@@ -98,9 +75,7 @@ body {
     margin-left: -2px;
 }
 
-/* Profile Content */
 .profile-content {
     padding: 20px;
-    background: #fff;
     min-height: 460px;
 }

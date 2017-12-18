@@ -85,14 +85,15 @@ app.controller("connexionController", function ($scope, $uibModalInstance, $root
                 console.log(myArr);
                 // si tout s'est bien passé on change le contenu du banner
                 $rootScope.rootScopeAuthentified = true;
-                $scope.username = myArr.surnom;
-                $scope.email = myArr.email;
+                $rootScope.email = myArr.email;
                 $uibModalInstance.close('save');
 
             }
             else {
-                $scope.connexionErreur = true;
-                console.log("error_connexion");
+                if(this.status!=200){
+                    $scope.connexionErreur = true;
+                    console.log("error_connexion");
+                }
                 //afficher un span en rouge ! pour erreur
             }
         };
@@ -101,33 +102,6 @@ app.controller("connexionController", function ($scope, $uibModalInstance, $root
 
     };
 
-    $scope.register = function () {
-
-        //creation d'une requete REST
-        api_url = serverURL;
-        var url = api_url + "/api/user/register";
-
-        Surnom = document.getElementById("Surnom").value;
-        MotDePasse = document.getElementById("Password").value;
-        ConfirmeMDP = document.getElementById("ConfirmPassword").value;
-        email = document.getElementById("Email").value;
-        $scope.surnom = Surnom;
-        $scope.email = email;
-        $scope.mdp = MotDePasse;
-        $http.post(url, {"username": Surnom, "password": MotDePasse, "email": email})
-            .then(function (response) {
-                console.log(response);
-                if (response.status == 200) {
-                    $scope.registrationSuccess = true;
-                    // $uibModalInstance.close('save');
-                }
-                else {
-                    $scope.registrationError = true;
-                    console.log("error");
-                }
-            });
-
-    };
 });
 
 app.factory('selectedEst', function () {

@@ -2,7 +2,7 @@
 <link href="css/profilePage.css" rel="stylesheet">
 
 <div class="container">
-    <div class="row profile"  ng-Controller="connexionController">
+    <div class="row profile"  ng-Controller="mainController">
 
             <div class="profile-sidebar">
                 <div >
@@ -13,16 +13,13 @@
                     <ul class="nav">
 
                         <li>
-                            Surnom : <h1>{{surnom}}</h1>
-                            <a href="" >Modifier</a>
+                            <h1 > Surnom : {{surnom}}</h1>
                         </li>
                         <li>
                              Age (Optionnel) :
-                             <a href="" >Modifier</a>
                         </li>
                         <li>
-                            Adresse E.mail(optionnel) :
-                            <a href="" >Modifier</a>
+                            Adresse E.mail(optionnel) : {{email}}
                         </li>
 
                     </ul>
