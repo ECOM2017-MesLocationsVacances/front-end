@@ -1,16 +1,4 @@
-<style>
-    h3{
-        font-size: 25px;
-        font-weight:bold;
-    }
-
-    p{
-        padding-top:12px;
-        padding-bottom: 12px;
-        font-size: 15px;
-    }
-</style>
-<div ng-controller="reservationController" ng-init="startReservation()">
+<div id="reservationPage" ng-controller="reservationController" ng-init="startReservation()">
     <div class="sResultsText" style="height:100%;">
         <h3>Veuillez confirmer les détails de la réservation : </h3>
         <p>Nom de l'établissement : {{room.establishment.name}}</p>
@@ -22,7 +10,7 @@
         <p>Prix : {{totalPrice}} €</p>
         <p>Durée : {{duration}} jours</p>
 
-        <br>
+        <br/>
         <p>Paiement : </p>
         <div id="paypal-button-container"></div>
 

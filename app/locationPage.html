@@ -1,18 +1,6 @@
-<style>
-    h3{
-        font-size: 25px;
-        font-weight:bold;
-    }
-
-    p{
-        padding-top:12px;
-        padding-bottom: 12px;
-        font-size: 15px;
-    }
-</style>
 <div id="locationDetails" ng-controller="locationController" ng-init="loadDetails()">
     <div class="col-md-3" style="height:100%;">
-        <img src={{myEst.photo}} style="height:100%; width:100%">
+        <img ng-src="{{myEst.photo}}" style="height:100%; width:100%"/>
     </div>
     <div class="col-md-9 sResultsText" style="height:100%;">
         <h3 style="font-weight:bold">{{myEst.name}}</h3>
@@ -20,7 +8,7 @@
         <p style="font-style:italic">{{myEst.description}}</p>
         <label>Choix de la chambre :
             <select ng-model="myRoom" ng-options="room as room.name for room in rooms">
-                <option>{{room.name}}
+                <option>{{room.name}}</option>
             </select>
         </label>
 
@@ -40,7 +28,7 @@
                        ng-model="searchL"
                        ng-change="dateContinuity()"
                        style="margin-bottom: 10px; margin-top:-10px;"
-                >
+                />
                 <p>Date de debut</p>
 
                 <input id="reservationStart"
@@ -49,7 +37,7 @@
                        value="{{begin}}"
                        ng-model="beginV"
                        ng-change="dateContinuity()"
-                >
+                />
 
                 <p>Date de fin</p>
                 <input id="reservationEnd"
@@ -59,9 +47,9 @@
                        ng-model="endV"
                        ng-change="dateContinuity()"
 
-                >
+                />
             </form>
-            <div ng-if="dateValid" ng-init=dateContinuity() style="padding-top:32px">
+            <div ng-if="dateValid" ng-init="dateContinuity()" style="padding-top:32px">
                 <a ng-href="#/reservationPage" ng-click="selectRoom(myRoom)" style="text-decoration: none;font-size: 30px;">RESERVER MAINTENANT</a>
             </div>
             <div ng-if="!dateValid" style="padding-top:32px;">
