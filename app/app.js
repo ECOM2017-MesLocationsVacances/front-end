@@ -72,9 +72,9 @@ app.controller("connexionController", function ($scope, $uibModalInstance, $root
         var xmlhttp = new XMLHttpRequest();
         var url = api_url + "/api/user";
         $rootScope.surnom = document.getElementById("Username").value;
-        MotDePasse = document.getElementById("Password").value;
+        $rootScope.MotDePasse = document.getElementById("Password").value;
 
-        url = url.concat("/" + $rootScope.surnom + "?password=" + MotDePasse);
+        url = url.concat("/" + $rootScope.surnom + "?password=" + $rootScope.MotDePasse);
         console.log(url);
         // on envoie la requete
 
@@ -481,27 +481,33 @@ app.controller('reservationController', function ($scope, selectedRoom, selected
 
     $scope.pushReservation = function (){
         api_url = serverURL;
-        var url = api_url + "/api/paypal/create";
+        var url = api_url + "/api/reserve/"+$rootScope.surnom+"/";
         $scope.reservationSuccess=false;
         $scope.reservationError=false;
         $scope.ServerError=false;
         $scope.reservationID;
-        $http.post(url, {
+        $http.post(url,
+            {
                 "startdate": $scope.startDate,
                 "enddate": $scope.endDate,
                 "room": {
                 "id": $scope.room.id
-            },
+                 },
                 "user": {
-                "id": $scope.idUser
-            }
-            })
+                "id": $rootScope.idUser
+                 }
+            },{
+             headers:{"password":$rootScope.MotDePasse}
+        })
+
                 .then(function (response) {
                     myObj = JSON.parse(response);
+                    console.log(response + " et " + myObj);
                     $scope.reservationID = myObj.res;
                     $http.post(api_url + "/api/paypal/"+ $scope.reservationID + "/execute","")
                         .then(function (response) {
                             myObj = JSON.parse(response);
+
                             $scope.reservationSuccess = true;
                         })
                         .catch(function (err) {
@@ -515,6 +521,7 @@ app.controller('reservationController', function ($scope, selectedRoom, selected
                         });
                 })
                 .catch(function (err) {
+                    console.log(err);
                     if(err.status<200){
                         $scope.ServerError=true;
                     }
