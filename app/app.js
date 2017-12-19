@@ -3,7 +3,7 @@ var app = angular.module('myApp', [
     'ui.bootstrap'
 ]);
 
-serverURL = "http://35.177.136.202"
+serverURL = "http://35.177.78.4"
 
 app.service('modalService', function ($uibModal, $uibModalStack) {
     var modalService = {};
