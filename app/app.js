@@ -3,7 +3,7 @@ var app = angular.module('myApp', [
     'ui.bootstrap'
 ]);
 
-serverURL = "http://35.177.136.202"
+serverURL = "http://35.177.78.4"
 
 app.service('modalService', function ($uibModal, $uibModalStack) {
     var modalService = {};
@@ -85,6 +85,7 @@ app.controller("connexionController", function ($scope, $uibModalInstance, $root
                 // si tout s'est bien passé on change le contenu du banner
                 $rootScope.rootScopeAuthentified = true;
                 $rootScope.email = myArr.email;
+                $rootScope.idUser = myArr.id;
                 $uibModalInstance.close('save');
 
             }
@@ -469,13 +470,45 @@ app.controller('locationController', function ($scope, selectedEst, selectedRoom
 
 });
 
-app.controller('reservationController', function ($scope, selectedRoom, selectedDates, duration) {
+app.controller('reservationController', function ($scope, selectedRoom, selectedDates, duration, $rootScope, $http) {
 
     $scope.startDate;
     $scope.endDate;
     $scope.room;
     $scope.duration;
     $scope.totalPrice;
+
+
+    $scope.pushReservation = function (){
+        api_url = serverURL;
+        var url = api_url + "/api/paypal/create";
+        $scope.reservationSuccess=false;
+        $scope.reservationError=false;
+        $scope.ServerError=false;
+        $http.post(url, {
+                "startdate": $scope.startDate,
+                "enddate": $scope.endDate,
+                "room": {
+                "id": $scope.room.id
+            },
+                "user": {
+                "id": $scope.idUser
+            }
+            })
+                .then(function (response) {
+                    $scope.reservationSuccess = true;
+                })
+                .catch(function (err) {
+                    if(err.status<200){
+                        $scope.ServerError=true;
+                    }
+                    if(err.status>300){
+                        $scope.reservationError=true;
+                    }
+
+                });
+            console.log("success : "+$scope.reservationSuccess + " server error : "+ $scope.ServerError+ " reservation error :"+$scope.reservationSuccess);
+        }
 
 
     $scope.startReservation = function () {
