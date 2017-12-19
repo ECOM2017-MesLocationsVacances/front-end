@@ -1,4 +1,7 @@
 <div id="searchRes">
+    <div ng-controller="searchPanel" ng-if="resItems.length==0">
+            <p style="color: red;">  Nous n'avons pas de location a vous proposer</p>
+    </div>
     <div class="jumbotron" ng-controller="searchPanel" ng-repeat="Est in resItems track by $index" style="height:250px; padding:10px;">
             <div class="col-md-3" style="height:100%;border: 2px double darkblue;">
                     <img ng-src="{{Est.photo}}" style="width:100%;"/>
