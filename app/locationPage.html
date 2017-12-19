@@ -61,12 +61,17 @@
 
                 >
             </form>
-            <div ng-if="dateValid" ng-init=dateContinuity() style="padding-top:32px">
+            <div ng-if="dateValid&&rootScopeAuthentified" ng-init=dateContinuity() style="padding-top:32px">
                 <a ng-href="#/reservationPage" ng-click="selectRoom(myRoom)" style="text-decoration: none;font-size: 30px;">RESERVER MAINTENANT</a>
             </div>
-            <div ng-if="!dateValid" style="padding-top:32px;">
+            <div ng-if="!dateValid||!rootScopeAuthentified" style="padding-top:32px;">
                 <a style="text-decoration: line-through;font-size: 30px; color:grey;">RESERVER MAINTENANT</a>
+            </div>
+            <div ng-if="!dateValid" style="padding-top:32px;">
                 <p style="color:darkred">Veuillez insérer des dates valides (date de début avant la fin !) et une durée valide (minimum 1 jour!)</p>
+            </div>
+            <div ng-if="!rootScopeAuthentified" style="padding-top:32px;">
+                <p style="color:darkred">Veuillez vous connecter</p>
             </div>
         </div>
     </div>
