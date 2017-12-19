@@ -3,7 +3,6 @@ var app = angular.module('myApp', [
     'ui.bootstrap'
 ]);
 
-
 serverURL = "http://35.177.136.202"
 
 app.service('modalService', function ($uibModal, $uibModalStack) {
@@ -359,14 +358,23 @@ app.controller('locationController', function ($scope, selectedEst, selectedRoom
         selectedDates.setStart(from.value);
         selectedDates.setEnd(to.value);
 
-
         start = new Date(selectedDates.getStart());
         end = new Date(selectedDates.getEnd());
-        if ((start <= end)&&(parseInt(length.value, 10)>0 || length.value==="")) {
+        if ((start <= end)&&(parseInt(length.value, 10)>0 || (start < end)&&length.value==="")) {
+            console.log(length.value==="");
+            if(length.value===""){
+                $scope.durationR = (end.getTime() - start.getTime())/86400000;
+                console.log("durée calculée : "+$scope.durationR);
+                //length.value=$scope.durationR;
+            }else{
+                $scope.durationR = parseInt(length.value, 10);
+                //tentative pour modifier automatiquement la date de fin d'après la durée, problème car cela déclanche le "ng-change" lié
+                //end.setDate(start.getDate()+$scope.durationR);
+                //to.value=end.toISOString().substring(0,10);
+                //console.log("date fin calculée :"+end.toISOString().substring(0,10));
+            }
             $scope.dateValid = true;
-            $scope.durationR = parseInt(length.value, 10);
             console.log($scope.dateValid);
-
         }
         else {
             $scope.dateValid = false;
@@ -392,14 +400,12 @@ app.controller('locationController', function ($scope, selectedEst, selectedRoom
         charToAdd = '?';
         if ($scope.begin != "") {
             var date = new Date($scope.begin)
-            var utc = Date.UTC(date.getUTCFullYear(), date.getUTCMonth() + 1, date.getUTCDate());
-            url = url.concat(charToAdd).concat("from=").concat(utc);
+            url = url.concat(charToAdd).concat("from=").concat(date.getTime());
             charToAdd = '&';
         }
         if ($scope.end != "") {
             var date = new Date($scope.end)
-            var utc = Date.UTC(date.getUTCFullYear(), date.getUTCMonth() + 1, date.getUTCDate());
-            url = url.concat(charToAdd).concat("to=").concat(utc);
+            url = url.concat(charToAdd).concat("to=").concat(date.getTime());
             charToAdd = '&';
         }
         if (sizeA.get()!= undefined) {
@@ -434,7 +440,7 @@ app.controller('locationController', function ($scope, selectedEst, selectedRoom
 
         start = new Date(selectedDates.getStart());
         end = new Date(selectedDates.getEnd());
-        if ((start <= end)&&($scope.durationR>0)) {
+        if ((start <= end)&&(parseInt(length.value, 10)>0 || (start < end)&&length.value==="")) {
             $scope.dateValid = true;
             console.log($scope.dateValid);
 
@@ -443,6 +449,7 @@ app.controller('locationController', function ($scope, selectedEst, selectedRoom
             $scope.dateValid = false;
             console.log($scope.dateValid);
         }
+
     }
 
     $scope.selectRoom = function (Object) {
@@ -450,8 +457,13 @@ app.controller('locationController', function ($scope, selectedEst, selectedRoom
         from = document.getElementById("reservationStart");
         to = document.getElementById("reservationEnd");
         selectedDates.setStart(from.value);
-        selectedDates.setEnd(to.value);
-        duration.set($scope.duration);
+
+        start=new Date(selectedDates.getStart());
+        end=new Date(selectedDates.getStart());
+        end.setDate(start.getDate()+$scope.durationR);
+        selectedDates.setEnd(end.toISOString().substring(0,10));
+        //selectedDates.setEnd(to.value);
+        duration.set($scope.durationR);
 
     }
 
@@ -463,6 +475,7 @@ app.controller('reservationController', function ($scope, selectedRoom, selected
     $scope.endDate;
     $scope.room;
     $scope.duration;
+    $scope.totalPrice;
 
 
     $scope.startReservation = function () {
@@ -471,55 +484,61 @@ app.controller('reservationController', function ($scope, selectedRoom, selected
         $scope.room = selectedRoom.get();
         $scope.duration = duration.get();
 
+        console.log("duration : "+$scope.duration);
+        console.log("price by night : "+$scope.room.price);
+
+        $scope.totalPrice = $scope.room.price * $scope.duration;
+
+        console.log("total price : "+$scope.totalPrice);
+
+
         // Render the PayPal button
-        $('https://www.paypalobjects.com/api/checkout.js', function () {
-            paypal.Button.render({
+        paypal.Button.render({
 
-                // Set your environment
+            // Set your environment
 
-                env: 'sandbox', // sandbox | production
+            env: 'sandbox', // sandbox | production
 
-                // Specify the style of the button
+            // Specify the style of the button
 
-                style: {
-                    label: 'paypal',
-                    fundingicons: true, // optional
-                    branding: true, // optional
-                    size: 'medium', // small | medium | large | responsive
-                    shape: 'pill',   // pill | rect
-                    color: 'silver'   // gold | blue | silver | black
-                },
+            style: {
+                label: 'paypal',
+                fundingicons: true, // optional
+                branding: true, // optional
+                size: 'medium', // small | medium | large | responsive
+                shape: 'pill',   // pill | rect
+                color: 'silver'   // gold | blue | silver | black
+            },
 
-                // PayPal Client IDs - replace with your own
-                // Create a PayPal app: https://developer.paypal.com/developer/applications/create
+            // PayPal Client IDs - replace with your own
+            // Create a PayPal app: https://developer.paypal.com/developer/applications/create
 
-                client: {
-                    sandbox: 'AZDxjDScFpQtjWTOUtWKbyN_bDt4OgqaF4eYXlewfBP4-8aqX3PiV8e1GWU6liB2CUXlkA59kJXE7M6R',
-                    production: '<insert production client id>'
-                },
+            client: {
+                sandbox: 'AZDxjDScFpQtjWTOUtWKbyN_bDt4OgqaF4eYXlewfBP4-8aqX3PiV8e1GWU6liB2CUXlkA59kJXE7M6R',
+                production: '<insert production client id>'
+            },
 
-                // Wait for the PayPal button to be clicked
+            // Wait for the PayPal button to be clicked
 
-                payment: function (data, actions) {
-                    return actions.payment.create({
-                        transactions: [
-                            {
-                                amount: {total: '0.01', currency: 'USD'}
-                            }
-                        ]
-                    });
-                },
+            payment: function (data, actions) {
+                return actions.payment.create({
+                    transactions: [
+                        {
+                            amount: {total: '0.01', currency: 'USD'}
+                        }
+                    ]
+                });
+            },
 
-                // Wait for the payment to be authorized by the customer
+            // Wait for the payment to be authorized by the customer
 
-                onAuthorize: function (data, actions) {
-                    return actions.payment.execute().then(function () {
-                        window.alert('Payment Complete!');
-                    });
-                }
+            onAuthorize: function (data, actions) {
+                return actions.payment.execute().then(function () {
+                    window.alert('Payment Complete!');
+                });
+            }
 
-            }, '#paypal-button-container');
-        })
+        }, '#paypal-button-container');
     }
 
 });
