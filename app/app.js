@@ -381,7 +381,6 @@ app.controller('locationController', function ($scope, selectedEst, selectedRoom
             $scope.dateValid = false;
             console.log($scope.dateValid);
         }
-
     };
 
     $scope.loadDetails = function () {
@@ -528,50 +527,47 @@ app.controller('reservationController', function ($scope, selectedRoom, selected
         // Render the PayPal button
         paypal.Button.render({
 
-            // Set your environment
-
             env: 'sandbox', // sandbox | production
 
-            // Specify the style of the button
+            // Show the buyer a 'Pay Now' button in the checkout flow
+            commit: true,
 
-            style: {
-                label: 'paypal',
-                fundingicons: true, // optional
-                branding: true, // optional
-                size: 'medium', // small | medium | large | responsive
-                shape: 'pill',   // pill | rect
-                color: 'silver'   // gold | blue | silver | black
+            // payment() is called when the button is clicked
+            payment: function() {
+
+                // Set up a url on your server to create the payment
+                var CREATE_URL = '/demo/checkout/api/paypal/payment/create/';
+
+                // Make a call to your server to set up the payment
+                return paypal.request.post(CREATE_URL)
+                    .then(function(res) {
+                        return res.paymentID;
+                    });
             },
 
-            // PayPal Client IDs - replace with your own
-            // Create a PayPal app: https://developer.paypal.com/developer/applications/create
+            // onAuthorize() is called when the buyer approves the payment
+            onAuthorize: function(data, actions) {
 
-            client: {
-                sandbox: 'AZDxjDScFpQtjWTOUtWKbyN_bDt4OgqaF4eYXlewfBP4-8aqX3PiV8e1GWU6liB2CUXlkA59kJXE7M6R',
-                production: '<insert production client id>'
-            },
+                // Set up a url on your server to execute the payment
+                var EXECUTE_URL = '/demo/checkout/api/paypal/payment/execute/';
 
-            // Wait for the PayPal button to be clicked
+                // Set up the data you need to pass to your server
+                var data = {
+                    paymentID: data.paymentID,
+                    payerID: data.payerID
+                };
 
-            payment: function (data, actions) {
-                return actions.payment.create({
-                    transactions: [
-                        {
-                            amount: {total: '0.01', currency: 'USD'}
-                        }
-                    ]
-                });
-            },
-
-            // Wait for the payment to be authorized by the customer
-
-            onAuthorize: function (data, actions) {
-                return actions.payment.execute().then(function () {
-                    window.alert('Payment Complete!');
-                });
+                // Make a call to your server to execute the payment
+                return paypal.request.post(EXECUTE_URL, data)
+                    .then(function (res) {
+                        window.alert('Payment Complete!');
+                    });
             }
 
         }, '#paypal-button-container');
+
+        //sandbox: 'AZDxjDScFpQtjWTOUtWKbyN_bDt4OgqaF4eYXlewfBP4-8aqX3PiV8e1GWU6liB2CUXlkA59kJXE7M6R',
+
     }
 
 });
