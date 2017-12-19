@@ -470,7 +470,7 @@ app.controller('locationController', function ($scope, selectedEst, selectedRoom
 
 });
 
-app.controller('reservationController', function ($scope, selectedRoom, selectedDates, duration, $rootScope, $http) {
+app.controller('reservationController', function ($scope, selectedRoom, selectedDates, duration, $rootScope, $http, $location) {
 
     $scope.startDate;
     $scope.endDate;
@@ -503,12 +503,14 @@ app.controller('reservationController', function ($scope, selectedRoom, selected
                 .then(function (response) {
                     myObj = JSON.parse(response);
                     console.log(response + " et " + myObj);
+                    $scope.reservationSuccess = true;
+
+
                     $scope.reservationID = myObj.res;
                     $http.post(api_url + "/api/paypal/"+ $scope.reservationID + "/execute","")
                         .then(function (response) {
                             myObj = JSON.parse(response);
 
-                            $scope.reservationSuccess = true;
                         })
                         .catch(function (err) {
                             if(err.status<200){
@@ -517,11 +519,11 @@ app.controller('reservationController', function ($scope, selectedRoom, selected
                             if(err.status>300){
                                 $scope.reservationError=true;
                             }
-
+                            
+                            
                         });
-                })
-                .catch(function (err) {
-                    console.log(err);
+                    })
+                    .catch(function (err) {
                     if(err.status<200){
                         $scope.ServerError=true;
                     }
@@ -529,6 +531,10 @@ app.controller('reservationController', function ($scope, selectedRoom, selected
                         $scope.reservationError=true;
                     }
 
+                })
+                .finally(function(){
+                    $location.path("/");
+                    alert("Reservation confirmée, veuillez vérifier vos email.");
                 });
             console.log("success : "+$scope.reservationSuccess + " server error : "+ $scope.ServerError+ " reservation error :"+$scope.reservationSuccess);
         }
