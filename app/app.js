@@ -90,7 +90,7 @@ app.controller("connexionController", function ($scope, $uibModalInstance, $root
 
             }
             else {
-                if(this.status!=200){
+                if(this.status>200){
                     $scope.connexionErreur = true;
                     console.log("error_connexion");
                 }
