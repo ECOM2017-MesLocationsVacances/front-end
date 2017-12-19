@@ -44,7 +44,6 @@
     .sidenav {
         font-size: 36px;
         margin-left: 0px;
-        height: 100%;
         width: 250px;
         position: fixed;
         z-index: 1;
@@ -144,37 +143,43 @@
         <p>Durée (en jours)</p>
 
         <input id="queryLength"
-               type="number"
-               min="0"
-               step="1"
+               type="text"
                class="form-control input-query"
                placeholder="Durée"
                ng-keydown="rechercher($event.keyCode)"
+               ng-model="searchL"
+               ng-change="searchValidation()"
                style="margin-bottom: 10px; margin-top:-10px;"
         >
         <p>Nombre d'adultes</p>
 
         <input id="querySizeA"
-               type="number"
-               min="0"
-               step="1"
+               type="text"
                class="form-control input-query"
                placeholder="Nombre adultes"
+               ng-model="searchSA"
+               ng-change="searchValidation()"
                ng-keydown="rechercher($event.keyCode)"
                style="margin-bottom: 10px; margin-top:-10px;"
         >
         <p>Nombre d'enfants</p>
 
         <input id="querySizeC"
-               type="number"
-               min="0"
-               step="1"
+               type="text"
                class="form-control input-query"
                placeholder="Nombre enfants"
+               ng-model="searchSC"
+               ng-change="searchValidation()"
                ng-keydown="rechercher($event.keyCode)"
                style="margin-bottom: 10px; margin-top:-10px;"
         >
-        <a href="#/searchResults" ng-click="query_search()">Go</a>
+        <div ng-if="searchValid">
+            <a href="#/searchResults" ng-click="query_search()" style="margin-bottom:50px;">Go</a>
+        </div>
+        <div ng-if="!searchValid">
+            <a style="text-decoration: line-through; padding-bottom:0px">Go</a>
+            <p style="font-size:15px; color:darkred; margin-bottom:50px; padding-top:5px">Durée, nombre Adulte ou nombre Enfant non valide (doit être vide ou supérieur à zéro)</p>
+        </div>
 
     </div>
     </div>

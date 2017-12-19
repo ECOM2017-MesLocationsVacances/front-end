@@ -29,20 +29,18 @@
             <p>Prix : {{myRoom.price}} €</p>
             <p>Nombre de lits Adulte : {{myRoom.sizeA}}</p>
             <p>Nombre de lits Enfant : {{myRoom.sizeC}}</p>
-            <p>Durée en jours : </p><input id="queryLength"
-                   type="number"
-                   min="0"
-                   step="1"
-                   class="form-control input-query"
-                   placeholder="Durée"
-                   value="{{duration}}"
-                   ng-keydown="rechercher($event.keyCode)"
-                   ng-model="durationV"
-                   ng-change="dateContinuity()"
-                   style="margin-bottom: 10px; margin-top:-10px;"
-        >
+
 
             <form>
+                <p>Durée en jours : </p>
+                <input id="reservationLength"
+                       type="text"
+                       class="form-control input-query"
+                       value="{{duration}}"
+                       ng-model="searchL"
+                       ng-change="dateContinuity()"
+                       style="margin-bottom: 10px; margin-top:-10px;"
+                >
                 <p>Date de debut</p>
 
                 <input id="reservationStart"

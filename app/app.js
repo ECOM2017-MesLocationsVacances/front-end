@@ -3,7 +3,6 @@ var app = angular.module('myApp', [
     'ui.bootstrap'
 ]);
 
-
 serverURL = "http://35.177.136.202"
 
 app.service('modalService', function ($uibModal, $uibModalStack) {
@@ -187,10 +186,59 @@ app.factory('selectedRoom', function () {
         get: get
     }
 });
+app.factory('sizeA', function () {
+    var sizeA;
 
-app.controller('searchPanel', function ($scope, selectedEst, selectedDates, duration) {
+    function set(sizeAdult) {
+        sizeA = sizeAdult;
+    }
 
+    function get() {
+        return sizeA;
+    }
 
+    return {
+        set: set,
+        get: get
+    }
+});
+app.factory('sizeC', function () {
+    var sizeC;
+
+    function set(sizeChildren) {
+        sizeC = sizeChildren;
+    }
+
+    function get() {
+        return sizeC;
+    }
+
+    return {
+        set: set,
+        get: get
+    }
+});
+
+app.controller('searchPanel', function ($scope, selectedEst, selectedDates, sizeA, sizeC, duration) {
+    $scope.searchLength="";
+    $scope.searchValid=true;
+    $scope.searchValidation=function (){
+        length = document.getElementById("queryLength");
+        sizeAdult = document.getElementById("querySizeA");
+        sizeChildren = document.getElementById("querySizeC");
+        console.log(length.value + " " + sizeAdult.value+" " + sizeChildren.value);
+
+        if((parseInt(length.value, 10)>0 || length.value==="")&&(parseInt(sizeAdult.value, 10)>0 || sizeAdult.value==="")&&(parseInt(sizeChildren.value, 10)>0 || sizeChildren.value==="")){
+            console.log("cool");
+
+            $scope.searchValid=true;
+        }
+        else{
+            console.log("nul");
+            $scope.searchValid=false;
+
+        }
+    }
     $scope.query_search = function () {
 
         api_url = serverURL;
@@ -202,8 +250,8 @@ app.controller('searchPanel', function ($scope, selectedEst, selectedDates, dura
         from = document.getElementById("query3");
         to = document.getElementById("query2");
         length = document.getElementById("queryLength");
-        sizeA = document.getElementById("querySizeA");
-        sizeC = document.getElementById("querySizeC");
+        sizeAdult = document.getElementById("querySizeA");
+        sizeChildren = document.getElementById("querySizeC");
 
         charToAdd = '?';
         if (place.value != "") {
@@ -212,39 +260,42 @@ app.controller('searchPanel', function ($scope, selectedEst, selectedDates, dura
         }
         if (from.value != "") {
             var date = new Date(from.value)
-            var utc = Date.UTC(date.getUTCFullYear(), date.getUTCMonth() + 1, date.getUTCDate());
-            url = url.concat(charToAdd).concat("from=").concat(utc);
+            //var utc = Date.UTC(date.getUTCFullYear(), date.getUTCMonth(), date.getUTCDate());
+            url = url.concat(charToAdd).concat("from=").concat(date.getTime());
             charToAdd = '&';
             selectedDates.setStart(from.value);
         }
 
         if (to.value != "") {
             var date = new Date(to.value)
-            var utc = Date.UTC(date.getUTCFullYear(), date.getUTCMonth() + 1, date.getUTCDate());
-            url = url.concat(charToAdd).concat("to=").concat(utc);
+            //var utc = Date.UTC(date.getUTCFullYear(), date.getUTCMonth(), date.getUTCDate());
+            url = url.concat(charToAdd).concat("to=").concat(date.getTime());
             charToAdd = '&';
             selectedDates.setEnd(to.value);
         }
+
         if (length.value != "") {
             lengthN = parseInt(length.value, 10);
             if(lengthN!=NaN && lengthN>0) {
-                url = url.concat(charToAdd).concat("duration=").concat(length.value);
-                charToAdd = '&';
+                //url = url.concat(charToAdd).concat("duration=").concat(lengthN);
+                //charToAdd = '&';
                 duration.set(lengthN);
             }
         }
         if (sizeA.value != "") {
-            sizeAN = parseInt(sizeA.value, 10);
+            sizeAN = parseInt(sizeAdult.value, 10);
             if(sizeAN!=NaN && sizeAN>0) {
-                url = url.concat(charToAdd).concat("sizeA=").concat(sizeA.value);
+                url = url.concat(charToAdd).concat("sizeA=").concat(sizeAN);
                 charToAdd = '&';
+                sizeA.set(sizeAN);
             }
         }
         if (sizeC.value != "") {
-            sizeCN = parseInt(sizeC.value, 10);
+            sizeCN = parseInt(sizeChildren.value, 10);
             if(sizeCN!=NaN && sizeCN>0){
-                url = url.concat(charToAdd).concat("sizeC=").concat(sizeC.value);
+                url = url.concat(charToAdd).concat("sizeC=").concat(sizeCN);
                 charToAdd = '&';
+                sizeC.set(sizeCN);
 
             }
         }
@@ -290,43 +341,52 @@ app.controller('searchPanel', function ($scope, selectedEst, selectedDates, dura
     }
 });
 
-app.controller('locationController', function ($scope, selectedEst, selectedRoom, selectedDates, duration) {
+app.controller('locationController', function ($scope, selectedEst, selectedRoom, selectedDates, duration, sizeA, sizeC) {
     $scope.rooms = [];
     $scope.selectedRoomDetails = [];
     $scope.begin = selectedDates.getStart();
     $scope.end = selectedDates.getEnd();
     $scope.dateValid = false;
-    $scope.duration = duration.get();
-
-
+    $scope.durationR;
 
 
     $scope.dateContinuity = function () {
         from = document.getElementById("reservationStart");
         to = document.getElementById("reservationEnd");
-        length = document.getElementById("queryLength");
+        length = document.getElementById("reservationLength");
+        console.log(duration.get() + " lol "+ $scope.durationR);
         selectedDates.setStart(from.value);
         selectedDates.setEnd(to.value);
-        duration.set(length.value);
-        console.log(duration.get() +" "+ length.value);
 
         start = new Date(selectedDates.getStart());
         end = new Date(selectedDates.getEnd());
-        if (start <= end && duration.get()>0) {
+        if ((start <= end)&&(parseInt(length.value, 10)>0 || (start < end)&&length.value==="")) {
+            console.log(length.value==="");
+            if(length.value===""){
+                $scope.durationR = (end.getTime() - start.getTime())/86400000;
+                console.log("durée calculée : "+$scope.durationR);
+                //length.value=$scope.durationR;
+            }else{
+                $scope.durationR = parseInt(length.value, 10);
+                //tentative pour modifier automatiquement la date de fin d'après la durée, problème car cela déclanche le "ng-change" lié
+                //end.setDate(start.getDate()+$scope.durationR);
+                //to.value=end.toISOString().substring(0,10);
+                //console.log("date fin calculée :"+end.toISOString().substring(0,10));
+            }
             $scope.dateValid = true;
-            console.log(start + end + $scope.dateValid);
-
+            console.log($scope.dateValid);
         }
         else {
-            duration.set(0);
             $scope.dateValid = false;
-            console.log(start + end + $scope.dateValid);
+            console.log($scope.dateValid);
         }
 
     };
 
     $scope.loadDetails = function () {
         //console.log("hello");
+
+        $scope.durationR = duration.get();
 
         $scope.myEst = selectedEst.get();
 
@@ -335,8 +395,27 @@ app.controller('locationController', function ($scope, selectedEst, selectedRoom
         api_url = serverURL;
 
         var xmlhttp = new XMLHttpRequest();
-        var url = api_url + "/api/rooms/";
+        var url = api_url + "/api/search/"+$scope.myEst.id;
         //http://35.177.136.202/api/establishments/1
+        charToAdd = '?';
+        if ($scope.begin != "") {
+            var date = new Date($scope.begin)
+            url = url.concat(charToAdd).concat("from=").concat(date.getTime());
+            charToAdd = '&';
+        }
+        if ($scope.end != "") {
+            var date = new Date($scope.end)
+            url = url.concat(charToAdd).concat("to=").concat(date.getTime());
+            charToAdd = '&';
+        }
+        if (sizeA.get()!= undefined) {
+                url = url.concat(charToAdd).concat("sizeA=").concat(sizeA.get());
+                charToAdd = '&';
+        }
+        if (sizeC.get()!= undefined) {
+                url = url.concat(charToAdd).concat("sizeC=").concat(sizeC.get());
+                charToAdd = '&';
+        }
 
         console.log(url);
         xmlhttp.onreadystatechange = function () {
@@ -361,15 +440,16 @@ app.controller('locationController', function ($scope, selectedEst, selectedRoom
 
         start = new Date(selectedDates.getStart());
         end = new Date(selectedDates.getEnd());
-        if (start <= end) {
+        if ((start <= end)&&(parseInt(length.value, 10)>0 || (start < end)&&length.value==="")) {
             $scope.dateValid = true;
-            console.log(start + end + $scope.dateValid);
+            console.log($scope.dateValid);
 
         }
         else {
             $scope.dateValid = false;
-            console.log(start + end + $scope.dateValid);
+            console.log($scope.dateValid);
         }
+
     }
 
     $scope.selectRoom = function (Object) {
@@ -377,7 +457,14 @@ app.controller('locationController', function ($scope, selectedEst, selectedRoom
         from = document.getElementById("reservationStart");
         to = document.getElementById("reservationEnd");
         selectedDates.setStart(from.value);
-        selectedDates.setEnd(to.value);
+
+        start=new Date(selectedDates.getStart());
+        end=new Date(selectedDates.getStart());
+        end.setDate(start.getDate()+$scope.durationR);
+        selectedDates.setEnd(end.toISOString().substring(0,10));
+        //selectedDates.setEnd(to.value);
+        duration.set($scope.durationR);
+
     }
 
 });
@@ -388,6 +475,7 @@ app.controller('reservationController', function ($scope, selectedRoom, selected
     $scope.endDate;
     $scope.room;
     $scope.duration;
+    $scope.totalPrice;
 
 
     $scope.startReservation = function () {
@@ -396,55 +484,61 @@ app.controller('reservationController', function ($scope, selectedRoom, selected
         $scope.room = selectedRoom.get();
         $scope.duration = duration.get();
 
+        console.log("duration : "+$scope.duration);
+        console.log("price by night : "+$scope.room.price);
+
+        $scope.totalPrice = $scope.room.price * $scope.duration;
+
+        console.log("total price : "+$scope.totalPrice);
+
+
         // Render the PayPal button
-        $('https://www.paypalobjects.com/api/checkout.js', function () {
-            paypal.Button.render({
+        paypal.Button.render({
 
-                // Set your environment
+            // Set your environment
 
-                env: 'sandbox', // sandbox | production
+            env: 'sandbox', // sandbox | production
 
-                // Specify the style of the button
+            // Specify the style of the button
 
-                style: {
-                    label: 'paypal',
-                    fundingicons: true, // optional
-                    branding: true, // optional
-                    size: 'medium', // small | medium | large | responsive
-                    shape: 'pill',   // pill | rect
-                    color: 'silver'   // gold | blue | silver | black
-                },
+            style: {
+                label: 'paypal',
+                fundingicons: true, // optional
+                branding: true, // optional
+                size: 'medium', // small | medium | large | responsive
+                shape: 'pill',   // pill | rect
+                color: 'silver'   // gold | blue | silver | black
+            },
 
-                // PayPal Client IDs - replace with your own
-                // Create a PayPal app: https://developer.paypal.com/developer/applications/create
+            // PayPal Client IDs - replace with your own
+            // Create a PayPal app: https://developer.paypal.com/developer/applications/create
 
-                client: {
-                    sandbox: 'AZDxjDScFpQtjWTOUtWKbyN_bDt4OgqaF4eYXlewfBP4-8aqX3PiV8e1GWU6liB2CUXlkA59kJXE7M6R',
-                    production: '<insert production client id>'
-                },
+            client: {
+                sandbox: 'AZDxjDScFpQtjWTOUtWKbyN_bDt4OgqaF4eYXlewfBP4-8aqX3PiV8e1GWU6liB2CUXlkA59kJXE7M6R',
+                production: '<insert production client id>'
+            },
 
-                // Wait for the PayPal button to be clicked
+            // Wait for the PayPal button to be clicked
 
-                payment: function (data, actions) {
-                    return actions.payment.create({
-                        transactions: [
-                            {
-                                amount: {total: '0.01', currency: 'USD'}
-                            }
-                        ]
-                    });
-                },
+            payment: function (data, actions) {
+                return actions.payment.create({
+                    transactions: [
+                        {
+                            amount: {total: '0.01', currency: 'USD'}
+                        }
+                    ]
+                });
+            },
 
-                // Wait for the payment to be authorized by the customer
+            // Wait for the payment to be authorized by the customer
 
-                onAuthorize: function (data, actions) {
-                    return actions.payment.execute().then(function () {
-                        window.alert('Payment Complete!');
-                    });
-                }
+            onAuthorize: function (data, actions) {
+                return actions.payment.execute().then(function () {
+                    window.alert('Payment Complete!');
+                });
+            }
 
-            }, '#paypal-button-container');
-        })
+        }, '#paypal-button-container');
     }
 
 });
